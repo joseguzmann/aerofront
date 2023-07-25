@@ -1,24 +1,24 @@
 {
   "company": {
-    "name": "React landing page 2021",
+    "name": "Aerofront",
     "logo": "/assets/images/logo.png"
   },
   "navigation": [
     {
-      "name": "Product",
+      "name": "Home",
       "href": "product"
     },
     {
-      "name": "Features",
+      "name": "Help",
       "href": "features"
     },
 
     {
-      "name": "Pricing",
+      "name": "Log In",
       "href": "pricing"
     },
     {
-      "name": "About",
+      "name": "Sign Up",
       "href": "about"
     }
   ],
@@ -27,12 +27,12 @@
     "href": "#"
   },
   "mainHero": {
-    "title": "Use me as your",
-    "subtitle": "landing page.",
-    "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-    "img": "/assets/images/happyTeam.jpeg",
+    "title": "Let's fly with",
+    "subtitle": "AeroFly",
+    "description": "Whether you're a frequent traveler or planning your dream vacation, our user-friendly platform offers a seamless and convenient experience to purchase flight tickets.",
+    "img": "/assets/images/avion.jpg",
     "primaryAction": {
-      "text": "Get started",
+      "text": "Let's book a flight",
       "href": "#"
     },
     "secondaryAction": {

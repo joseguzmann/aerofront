@@ -1,12 +1,13 @@
 import React from 'react';
 
-import About from '../components/About';
-import Canvas from '../components/Canvas';
-import Header from '../components/Header';
-import LazyShow from '../components/LazyShow';
-import MainHero from '../components/MainHero';
-import MainHeroImage from '../components/MainHeroImage';
-import Divider from "../components/Divider";
+import About from '../components/other/About';
+import Canvas from '../components/other/Canvas';
+import Header from '../components/other/Header';
+import LazyShow from '../components/other/LazyShow';
+import MainHero from '../components/other/MainHero';
+import MainHeroImage from '../components/other/MainHeroImage';
+import Divider from "../components/other/Divider";
+import Dashboard from "../components/dashboard/Dashboard";
 
 const App = () => {
   return (
@@ -25,8 +26,7 @@ const App = () => {
         <Divider />
       <LazyShow>
         <>
-          {/*<Product />*/}
-          {/*<Canvas />*/}
+          <Dashboard />
         </>
       </LazyShow>
       <LazyShow>

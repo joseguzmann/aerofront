@@ -9,6 +9,7 @@ import MainHeroImage from '../components/other/MainHeroImage';
 import Divider from "../components/other/Divider";
 import Dashboard from "../components/dashboard/Dashboard";
 
+
 const App = () => {
   return (
     <div className={`bg-background grid gap-y-16 overflow-hidden`}>

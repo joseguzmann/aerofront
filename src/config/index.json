@@ -178,6 +178,78 @@
       ]
     },
     "recomendations": "Recomendations",
-    "explore": "Explore destinations"
+    "explore": "Explore destinations",
+    "content": [
+      {
+        "origin": "London",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/London.png"
+      },
+      {
+        "origin": "Rome",
+        "date": "Oct-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Rome.png"
+      },
+      {
+        "origin": "Madrid",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Madrid.png"
+      },
+      {
+        "origin": "Paris",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Paris.png"
+      }
+    ],
+    "discover": "Discover",
+    "discoverContent": [
+      {
+        "title": "Lates travel restrictions",
+        "desc": "We provide information on the entry requirements for all countries so you can plan your flight smoothly",
+        "img": "/assets/images/Discover1.png"
+      },
+      {
+        "title": "Install our mobile app",
+        "desc": "Our mobile app provides real-time information when you are at the airport",
+        "img": "/assets/images/Discover2.png"
+      },
+      {
+        "title": "The most beautiful destinations",
+        "desc": "Have you ever considered visiting Easter Island or Alaska? These are the most unique destinations in 2022",
+        "img": "/assets/images/Discover3.png"
+      }
+    ]
+  },
+  "footer": {
+    "section1": [
+      "Passangers",
+      "Flights",
+      "Passangers",
+      "Airlines",
+      "Park",
+      "Security Wait Times",
+      "Map",
+      "Shop & Dine"
+    ],
+    "section2": ["Business and Community", "About us", "Career"],
+    "section3": ["Report Property", "Sing Up", "Contact us", "Newsroom"]
+  },
+  "search":{
+    "title": "Availability",
+    "desc": "Choose your best option"
+
   }
+
 }

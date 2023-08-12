@@ -28,42 +28,41 @@ const DateBooking = ({ pLabel, valueRadio }: Iprops) => {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className="flex row justify-around">
-        <div>
-          <p className=" text-lg ">{pLabel.items[0].element4}</p>
-          <div className="flex flex-col">
-            <div className="my-5 mx">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
-              </LocalizationProvider>
-            </div>
-            <div className="my-5 mx">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <TimePicker />
-              </LocalizationProvider>
-            </div>
+  }
+  return (
+    <div className="flex row justify-around">
+      <div>
+        <p className=" text-lg ">{pLabel.items[0].element4}</p>
+        <div className="flex flex-col">
+          <div className="my-5 mx">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker />
+            </LocalizationProvider>
           </div>
-        </div>
-        <div>
-          <p className=" text-lg ">{pLabel.items[1].element1}</p>
-          <div className="flex flex-col">
-            <div className="my-5 mx">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
-              </LocalizationProvider>
-            </div>
-            <div className="my-5 mx">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <TimePicker />
-              </LocalizationProvider>
-            </div>
+          <div className="my-5 mx">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker />
+            </LocalizationProvider>
           </div>
         </div>
       </div>
-    );
-  }
+      <div>
+        <p className=" text-lg ">{pLabel.items[1].element1}</p>
+        <div className="flex flex-col">
+          <div className="my-5 mx">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker />
+            </LocalizationProvider>
+          </div>
+          <div className="my-5 mx">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker />
+            </LocalizationProvider>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default DateBooking;

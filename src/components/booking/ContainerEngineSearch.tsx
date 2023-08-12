@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import AutoCompleteBooking from "./AutoCompleteBooking";
 import DateBooking from "./DateBooking";
 import Button from "@mui/material/Button";
+import Link from "next/link";
 
 const ContainerEngineSearch = () => {
   const [valueRadio, setValueRadio] = useState("oneWay");
@@ -58,13 +59,15 @@ const ContainerEngineSearch = () => {
         </div>
 
         <div className="flex justify-center">
-          <Button
-            style={{ backgroundColor: "#ED6C02", color: "white" }}
-            variant="contained"
-            size="large"
-          >
-            {sections.items[2]?.title}
-          </Button>
+          <Link href={"/flight-search"}>
+            <Button
+              style={{ backgroundColor: "#ED6C02", color: "white" }}
+              variant="contained"
+              size="large"
+            >
+              {sections.items[2]?.title}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -246,10 +246,13 @@
     "section2": ["Business and Community", "About us", "Career"],
     "section3": ["Report Property", "Sing Up", "Contact us", "Newsroom"]
   },
-  "search":{
+  "search": {
     "title": "Availability",
     "desc": "Choose your best option"
-
+  },
+  "other": {
+    "imgArrow": "/assets/images/ArrowLarge.png",
+    "imgArrow2": "/assets/images/ArrowLarge2.png",
+    "imgAirplane": "/assets/images/AirplaneIcon.png"
   }
-
 }

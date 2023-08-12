@@ -149,5 +149,35 @@
       "twitter": "https://twitter.com/issaafkattan",
       "linkedin": "https://www.linkedin.com/in/issaaf-kattan/"
     }
+  },
+  "booking": {
+    "title": "Book your fly",
+    "subtitle": "We are here for you.",
+    "description": "WorldWide",
+    "img": "/assets/images/bookingBack.png",
+    "sections": {
+      "title": "Flight Search",
+      "items": [
+        {
+          "title": "One-Way",
+          "value": "oneWay",
+          "element1": "From",
+          "element2": "To",
+          "element3": "Passangers",
+          "element4": "Departure Date",
+          "element5": "Time"
+        },
+        {
+          "title": "Rounded-way",
+          "value": "roundedWay",
+          "element1": "Return Date"
+        },
+        {
+          "title": "Search"
+        }
+      ]
+    },
+    "recomendations": "Recomendations",
+    "explore": "Explore destinations"
   }
 }

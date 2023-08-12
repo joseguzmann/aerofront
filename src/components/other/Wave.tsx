@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-import { useCanvasContext } from '../../hooks/useCanvas';
-import useResponsiveSize from '../../hooks/useResponsiveSize';
-import WaveObj from '../../utils/wave';
+import { useCanvasContext } from "../../hooks/useCanvas";
+import useResponsiveSize from "../../hooks/useResponsiveSize";
+import WaveObj from "../../utils/wave";
 
 const Wave: FC = () => {
   const { context } = useCanvasContext();
@@ -10,18 +10,20 @@ const Wave: FC = () => {
   const height = 600;
   let frequency = 0.013;
   const waves = {
-    frontWave: new WaveObj([0.0211, 0.028, 0.015], 'rgb(139, 69, 19, 0.1)'),
-    backWave: new WaveObj([0.0122, 0.018, 0.005], 'rgb(160, 82, 45, 0.1)'),
+    frontWave: new WaveObj([0.0211, 0.028, 0.015], "rgb(139, 69, 19, 0.1)"),
+    backWave: new WaveObj([0.0122, 0.018, 0.005], "rgb(160, 82, 45, 0.1)"),
   };
 
   const render = () => {
     context?.clearRect(0, 0, width, height);
-    Object.entries(waves).forEach(([, wave]) => {
+    Object.entries(waves).forEach((entry) => {
+      const [, wave] = entry; // Desestructurar el valor 'wave'
       wave.draw(context!, width, height, frequency);
     });
     frequency += 0.013;
     requestAnimationFrame(render);
   };
+
   if (context) render();
   return null;
 };

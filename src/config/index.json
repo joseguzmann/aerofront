@@ -149,5 +149,146 @@
       "twitter": "https://twitter.com/issaafkattan",
       "linkedin": "https://www.linkedin.com/in/issaaf-kattan/"
     }
+  },
+  "booking": {
+    "title": "Book your fly",
+    "subtitle": "We are here for you.",
+    "description": "WorldWide",
+    "img": "/assets/images/bookingBack.png",
+    "sections": {
+      "title": "Flight Search",
+      "items": [
+        {
+          "title": "One-Way",
+          "value": "oneWay",
+          "element1": "From",
+          "element2": "To",
+          "element3": "Passangers",
+          "element4": "Departure Date",
+          "element5": "Time"
+        },
+        {
+          "title": "Rounded-way",
+          "value": "roundedWay",
+          "element1": "Return Date"
+        },
+        {
+          "title": "Search"
+        }
+      ]
+    },
+    "recomendations": "Recomendations",
+    "explore": "Explore destinations",
+    "content": [
+      {
+        "origin": "London",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/London.png"
+      },
+      {
+        "origin": "Rome",
+        "date": "Oct-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Rome.png"
+      },
+      {
+        "origin": "Madrid",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Madrid.png"
+      },
+      {
+        "origin": "Paris",
+        "date": "Apr-5-8",
+        "status": "Direct flight",
+        "duration": "3h 15min",
+        "price": "$ 1500",
+        "img": "/assets/images/Paris.png"
+      }
+    ],
+    "discover": "Discover",
+    "discoverContent": [
+      {
+        "title": "Lates travel restrictions",
+        "desc": "We provide information on the entry requirements for all countries so you can plan your flight smoothly",
+        "img": "/assets/images/Discover1.png"
+      },
+      {
+        "title": "Install our mobile app",
+        "desc": "Our mobile app provides real-time information when you are at the airport",
+        "img": "/assets/images/Discover2.png"
+      },
+      {
+        "title": "The most beautiful destinations",
+        "desc": "Have you ever considered visiting Easter Island or Alaska? These are the most unique destinations in 2022",
+        "img": "/assets/images/Discover3.png"
+      }
+    ],
+    "passengers": {
+      "title": "Passengers",
+      "sections": [
+        {
+          "title": "Senior Citizens",
+          "desc": "Over 65 years",
+          "n": 0
+        },
+        {
+          "title": "Adult",
+          "desc": "12 - 65 years",
+          "n": 1
+        },
+        {
+          "title": "Childrens",
+          "desc": "2 - 11 years",
+          "n": 0
+        },
+        {
+          "title": "Infants",
+          "desc": "Under 2 years",
+          "n": 0
+        }
+      ],
+      "continue": "Continue"
+    }
+  },
+  "footer": {
+    "section1": [
+      "Passangers",
+      "Flights",
+      "Passangers",
+      "Airlines",
+      "Park",
+      "Security Wait Times",
+      "Map",
+      "Shop & Dine"
+    ],
+    "section2": ["Business and Community", "About us", "Career"],
+    "section3": ["Report Property", "Sing Up", "Contact us", "Newsroom"]
+  },
+  "search": {
+    "title": "Availability",
+    "desc": "Choose your best option"
+  },
+  "other": {
+    "imgArrow": "/assets/images/ArrowLarge.png",
+    "imgArrow2": "/assets/images/ArrowLarge2.png",
+    "imgAirplane": "/assets/images/AirplaneIcon.png",
+    "svgPlus": "/assets/images/Plus.svg",
+    "svgLess": "/assets/images/Less.svg",
+    "svgCheck": "/assets/images/Check.svg",
+    "imgNoFligh": "/assets/images/NoFlights.jpg"
+  },
+  "flight_details": {
+    "title": "Flight Details",
+    "label1": "No Surprises",
+    "label2": "All taxes are included in the final price",
+    "labelTotal": "TOTAL of your booking:"
   }
 }

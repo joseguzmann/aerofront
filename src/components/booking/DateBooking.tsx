@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 
+interface initialDate {
+  date: dayjs.Dayjs | null;
+  time: dayjs.Dayjs | null;
+}
 interface Iprops {
   pLabel: any;
   valueRadio: string;
+  setInitialDate: React.Dispatch<React.SetStateAction<initialDate | undefined>>;
+  initialDateValue: initialDate | undefined;
+  setFinalDate: React.Dispatch<React.SetStateAction<initialDate | undefined>>;
+  finalDateValue: initialDate | undefined;
 }
-const DateBooking = ({ pLabel, valueRadio }: Iprops) => {
+const DateBooking = ({
+  pLabel,
+  valueRadio,
+  setInitialDate,
+  initialDateValue,
+  setFinalDate,
+  finalDateValue,
+}: Iprops) => {
+  const [selectedDateFinal, setSelectedDateFinal] =
+    useState<dayjs.Dayjs | null>(null);
+  const [selectedTimeFinal, setSelectedTimeFinal] =
+    useState<dayjs.Dayjs | null>(null);
+
   if (valueRadio === pLabel.items[0].value) {
     return (
       <div className="mx-20">
@@ -17,12 +38,28 @@ const DateBooking = ({ pLabel, valueRadio }: Iprops) => {
         <div className="flex flex-col">
           <div className="my-5">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker />
+              <DatePicker
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (initialDateValue) {
+                    setInitialDate({ ...initialDateValue, date: value });
+                  } else {
+                    setInitialDate({ date: value, time: null });
+                  }
+                }}
+              />
             </LocalizationProvider>
           </div>
           <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker />
+              <TimePicker
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (initialDateValue) {
+                    setInitialDate({ ...initialDateValue, time: value });
+                  } else {
+                    setInitialDate({ date: null, time: value });
+                  }
+                }}
+              />
             </LocalizationProvider>
           </div>
         </div>
@@ -36,12 +73,12 @@ const DateBooking = ({ pLabel, valueRadio }: Iprops) => {
         <div className="flex flex-col">
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker />
+              <DatePicker onChange={(date: dayjs.Dayjs | null) => {}} />
             </LocalizationProvider>
           </div>
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker />
+              <TimePicker onChange={(time: dayjs.Dayjs | null) => {}} />
             </LocalizationProvider>
           </div>
         </div>
@@ -51,12 +88,20 @@ const DateBooking = ({ pLabel, valueRadio }: Iprops) => {
         <div className="flex flex-col">
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker />
+              <DatePicker
+                onChange={(date: dayjs.Dayjs | null) => {
+                  setSelectedDateFinal(date);
+                }}
+              />
             </LocalizationProvider>
           </div>
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker />
+              <TimePicker
+                onChange={(time: dayjs.Dayjs | null) => {
+                  setSelectedTimeFinal(time);
+                }}
+              />
             </LocalizationProvider>
           </div>
         </div>

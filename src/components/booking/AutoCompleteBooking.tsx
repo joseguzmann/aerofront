@@ -12,8 +12,12 @@ interface CountryType {
   phone: string;
   suggested?: boolean;
 }
+interface IProps {
+  origin: any;
+  destination: any;
+}
 
-const AutoCompleteBooking = () => {
+const AutoCompleteBooking = ({ origin, destination }: IProps) => {
   const oneWay = config.booking.sections.items[0];
   // const roundedWay = config.booking.sections.items[1];
   const widthStyle = 200;
@@ -26,7 +30,14 @@ const AutoCompleteBooking = () => {
         sx={{ width: widthStyle, marginRight: "6rem" }}
         options={countries}
         blurOnSelect
-        getOptionLabel={(option) => option.label}
+        // getOptionLabel={(option) => {
+        //   console.log("GETOPTION?=", option);
+        //   return option.label;
+        // }}
+        onChange={(event: any, newValue: any) => {
+          console.log("NEW VALUE", newValue);
+          origin(newValue);
+        }}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -59,7 +70,10 @@ const AutoCompleteBooking = () => {
         sx={{ width: widthStyle }}
         options={countries}
         autoHighlight
-        getOptionLabel={(option) => option.label}
+        onChange={(event: any, newValue: any) => {
+          console.log("NEW VALUE", newValue);
+          destination(newValue);
+        }}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -93,7 +107,7 @@ const AutoCompleteBooking = () => {
 
 export default AutoCompleteBooking;
 
-const countries:  CountryType[] = [
+const countries: CountryType[] = [
   { code: "AD", label: "Andorra", phone: "376" },
   {
     code: "AE",

@@ -7,7 +7,6 @@ import config from "../../config/index.json";
 
 const { passengers } = config.booking;
 
-const emails = ["Senior Citizens", "Adult", "Children", "Infants"];
 export interface SimpleDialogProps {
   open: boolean;
   selectedValue: string;
@@ -108,10 +107,13 @@ function SimpleDialog(props: SimpleDialogProps) {
     </Dialog>
   );
 }
+interface PassengersBookingProps {
+  setPassengerNumber: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const PassengersBooking = () => {
+const PassengersBooking = ({ setPassengerNumber }: PassengersBookingProps) => {
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<any>(emails[1]);
+  const [selectedValue, setSelectedValue] = React.useState<any>("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -120,6 +122,7 @@ const PassengersBooking = () => {
   const handleClose = (value: string) => {
     setOpen(false);
     setSelectedValue(value);
+    setPassengerNumber(value);
   };
 
   return (

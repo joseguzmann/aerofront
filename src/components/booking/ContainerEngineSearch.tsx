@@ -10,9 +10,20 @@ import DateBooking from "./DateBooking";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import PassengersBooking from "./PassengersBooking";
+import dayjs from "dayjs";
+interface initialDate {
+  date: dayjs.Dayjs | null;
+  time: dayjs.Dayjs | null;
+}
 
 const ContainerEngineSearch = () => {
   const [valueRadio, setValueRadio] = useState("oneWay");
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
+  const [initialDate, setInitialDate] = useState<initialDate>();
+  const [finallDate, setFinalDate] = useState<initialDate>();
+  const [passengerNumber, setPassengerNumber] = useState<string>("");
+
   const { booking } = config;
   const { sections } = booking;
 
@@ -23,6 +34,33 @@ const ContainerEngineSearch = () => {
     valueRadio === oneWay?.value
       ? "flex row px-20 py-5"
       : "flex flex-col px-20 py-5";
+
+  const formatDateTime = () => {
+    if (initialDate !== undefined && initialDate.time !== null) {
+      const combinedDataTime = initialDate.date
+        ?.set("hour", initialDate.time?.hour())
+        .set("minute", initialDate.time?.minute());
+      return combinedDataTime;
+    }
+    return;
+  };
+
+  //Format data to send to services to search
+  const handleSearch = () => {
+    let dateAux = formatDateTime();
+    let fromAux = origin;
+    let toAux = destination;
+    let numberAux = passengerNumber;
+
+    const searchParams = {
+      date: dateAux,
+      origin: fromAux,
+      destination: toAux,
+      passenger: numberAux,
+    };
+
+    console.log("PArams", searchParams);
+  };
 
   return (
     <div className="flex justify-center items-center py-20">
@@ -59,11 +97,21 @@ const ContainerEngineSearch = () => {
                 valueRadio !== oneWay?.value ? "flex row justify-around " : ""
               }
             >
-              <AutoCompleteBooking />
-              <PassengersBooking />
+              <AutoCompleteBooking
+                origin={setOrigin}
+                destination={setDestination}
+              />
+              <PassengersBooking setPassengerNumber={setPassengerNumber} />
             </div>
           </div>
-          <DateBooking pLabel={sections} valueRadio={valueRadio} />
+          <DateBooking
+            pLabel={sections}
+            valueRadio={valueRadio}
+            setInitialDate={setInitialDate}
+            initialDateValue={initialDate}
+            setFinalDate={setFinalDate}
+            finalDateValue={finallDate}
+          />
         </div>
 
         <div className="flex justify-center">
@@ -72,6 +120,7 @@ const ContainerEngineSearch = () => {
               style={{ backgroundColor: "#ED6C02", color: "white" }}
               variant="contained"
               size="large"
+              onClick={handleSearch}
             >
               {sections.items[2]?.title}
             </Button>

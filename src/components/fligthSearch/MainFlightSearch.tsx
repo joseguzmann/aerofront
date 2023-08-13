@@ -2,7 +2,19 @@ import React from "react";
 import config from "../../config/index.json";
 import CardFligth from "./CardFligth";
 
-const MainFlightSearch = () => {
+interface FlightsProps {
+  asientos: any;
+  destino: string;
+  fecha_regreso: any;
+  fecha_salida: any;
+  id: number;
+  origen: string;
+}
+interface IProps {
+  flights: FlightsProps[];
+}
+
+const MainFlightSearch = ({ flights }: IProps) => {
   const { desc } = config.search;
 
   return (

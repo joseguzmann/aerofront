@@ -11,12 +11,18 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import PassengersBooking from "./PassengersBooking";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import { DocumentData } from "firebase/firestore";
+// @ts-ignore
+import { getFlightByParams } from "../../lib/firestore/searchEngine.service.js";
+
 interface initialDate {
   date: dayjs.Dayjs | null;
   time: dayjs.Dayjs | null;
 }
 
 const ContainerEngineSearch = () => {
+  const router = useRouter();
   const [valueRadio, setValueRadio] = useState("oneWay");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -40,13 +46,13 @@ const ContainerEngineSearch = () => {
       const combinedDataTime = initialDate.date
         ?.set("hour", initialDate.time?.hour())
         .set("minute", initialDate.time?.minute());
-      return combinedDataTime;
+      return combinedDataTime?.toDate();
     }
     return;
   };
 
   //Format data to send to services to search
-  const handleSearch = () => {
+  const handleSearch = async () => {
     let dateAux = formatDateTime();
     let fromAux = origin;
     let toAux = destination;
@@ -58,8 +64,35 @@ const ContainerEngineSearch = () => {
       destination: toAux,
       passenger: numberAux,
     };
+    // const getFlightsbyParamsSnapshot = (snapshot: DocumentData) => {
+    //   const flightsData = snapshot.docs.map((doc: DocumentData) => {
+    //     doc.data();
+    //   });
 
-    console.log("PArams", searchParams);
+    //   console.log("ProductsData");
+    // };
+
+    // getFlightsByParams = (searchParams, getFlightsbyParamsSnapshot);
+    // const retriveFights = async () => {
+    //   let result = await getFlightByParams(searchParams);
+    //   console.log("RestulQuery", result);
+    // };
+
+    // retriveFights();
+    try {
+      const result = await getFlightByParams(searchParams); // Esperar a que se complete la función
+      console.log("ResultQuery", result);
+
+      // Aquí puedes realizar cualquier procesamiento necesario con los resultados
+
+      // Luego, navegar a la siguiente página pasando los resultados como query params
+      router.push({
+        pathname: "/flight-search",
+        query: { flights: JSON.stringify(result) }, // Convertir a JSON para pasar como query param
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -115,16 +148,16 @@ const ContainerEngineSearch = () => {
         </div>
 
         <div className="flex justify-center">
-          <Link href={"/flight-search"}>
-            <Button
-              style={{ backgroundColor: "#ED6C02", color: "white" }}
-              variant="contained"
-              size="large"
-              onClick={handleSearch}
-            >
-              {sections.items[2]?.title}
-            </Button>
-          </Link>
+          {/* <Link href={"/flight-search"}> */}
+          <Button
+            style={{ backgroundColor: "#ED6C02", color: "white" }}
+            variant="contained"
+            size="large"
+            onClick={handleSearch}
+          >
+            {sections.items[2]?.title}
+          </Button>
+          {/* </Link> */}
         </div>
       </div>
     </div>

@@ -281,6 +281,13 @@
     "imgArrow2": "/assets/images/ArrowLarge2.png",
     "imgAirplane": "/assets/images/AirplaneIcon.png",
     "svgPlus": "/assets/images/Plus.svg",
-    "svgLess": "/assets/images/Less.svg"
+    "svgLess": "/assets/images/Less.svg",
+    "svgCheck": "/assets/images/Check.svg"
+  },
+  "flight_details": {
+    "title": "Flight Details",
+    "label1": "No Surprises",
+    "label2": "All taxes are included in the final price",
+    "labelTotal": "TOTAL of your booking:"
   }
 }

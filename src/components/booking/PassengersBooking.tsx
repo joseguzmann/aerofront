@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
@@ -15,6 +15,7 @@ export interface SimpleDialogProps {
 
 function SimpleDialog(props: SimpleDialogProps) {
   const [sectionsV, setSectionsV] = useState(passengers.sections);
+
   const { onClose, selectedValue, open } = props;
 
   const handleIncrement = (index: any) => {
@@ -31,7 +32,6 @@ function SimpleDialog(props: SimpleDialogProps) {
   const handleClose = () => {
     const totalSum = sectionsV.reduce((total, section) => total + section.n, 0);
 
-  
     onClose(sectionsV, totalSum);
   };
 
@@ -112,6 +112,9 @@ interface PassengersBookingProps {
 }
 
 const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
+  useEffect(() => {
+    console.log("PASSENGERS COMPONENT MOUNT");
+  }, []);
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState<any>();
   // const totalSum = selectedValue.reduce(

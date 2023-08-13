@@ -3,6 +3,7 @@ import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import Link from "next/link";
 import config from "../../config/index.json";
+import Button from "@mui/material/Button";
 // import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,6 +15,7 @@ interface FlightsProps {
   fecha_salida: any;
   id: number;
   origen: any;
+  duration: string;
 }
 
 interface IProps {
@@ -24,7 +26,6 @@ interface IProps {
 const CardFligth = ({ flight, passengers }: IProps) => {
   const router = useRouter();
   const handleChooseFlight = () => {
-    
     router.push({
       pathname: "/flight-details",
       query: {
@@ -65,12 +66,13 @@ const CardFligth = ({ flight, passengers }: IProps) => {
           <div className="flex row  ">
             <div className="flex flex-col mx-9">
               <p>{flight.fecha_salida.formattedDate}</p>
-              <p>{flight.origen.code}</p>
               <p> {flight.origen.label}</p>
+              <p>{flight.origen.code}</p>
+
               <p className="text-4xl font-bold">{flight.fecha_salida.time}</p>
             </div>
             <div className="flex flex-col justify-center items-center ">
-              <p>{flight.fecha_salida.time}</p>
+              <p>{flight.duration}</p>
               <Image
                 src={config.other.imgArrow}
                 width={310}
@@ -80,15 +82,16 @@ const CardFligth = ({ flight, passengers }: IProps) => {
             </div>
             <div className="flex flex-col mx-9">
               <p>{flight.fecha_regreso.formattedDate}</p>
-              <p>{flight.destino.code}</p>
               <p> {flight.destino.label}</p>
+              <p>{flight.destino.code}</p>
+
               <p className="text-4xl font-bold">{flight.fecha_regreso.time}</p>
             </div>
           </div>
 
           <div className="flex flex-col justify-center items-center">
             <p className="text-2xl  font-bold text-[#FF7100] underline">
-              {flight.asientos.turista.precio}
+              $ {flight.asientos.turista.precio}
             </p>
           </div>
         </div>

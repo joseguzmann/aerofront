@@ -16,6 +16,7 @@ import { DocumentData } from "firebase/firestore";
 // @ts-ignore
 import { getFlightByParams } from "../../lib/firestore/searchEngine.service.js";
 import weekday from "dayjs/plugin/weekday";
+import duration from "dayjs/plugin/duration";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import utc from "dayjs/plugin/utc";
 import { countries } from "../../utils/constants";
@@ -26,6 +27,7 @@ interface initialDate {
 }
 
 dayjs.extend(weekday);
+dayjs.extend(duration);
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 
@@ -93,12 +95,29 @@ const ContainerEngineSearch = () => {
       const placeFields = ["origen", "destino"];
 
       const modifiedResults = resultQuery.map((res: any) => {
+        if (res.fecha_salida && res.fecha_regreso) {
+          const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+          const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+          console.log("Dep", res.fecha_salida.seconds);
+          console.log("Ret", returnDate);
+          const duration = dayjs.duration(returnDate.diff(departureDate));
+          console.log("Duration", duration);
+
+          let durationString = "";
+          if (duration.days() > 0) {
+            durationString += `${duration.days()}d `;
+          }
+          durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+          res.duration = durationString;
+        }
         dateFields.forEach((field) => {
           if (res[field] && res[field].seconds) {
             const date = new Date(res[field].seconds * 1000);
+            date.setUTCHours(date.getUTCHours() );
             res[field] = {
-              formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
-              time: dayjs(date).utc().format("HH:mm"),
+              formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+              time: dayjs(date).format("HH:mm"),
             };
           }
         });

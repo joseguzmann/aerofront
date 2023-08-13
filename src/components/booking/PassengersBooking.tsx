@@ -9,8 +9,8 @@ const { passengers } = config.booking;
 
 export interface SimpleDialogProps {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  selectedValue?: string;
+  onClose: (value: any, sum: any) => void;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
@@ -30,9 +30,9 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   const handleClose = () => {
     const totalSum = sectionsV.reduce((total, section) => total + section.n, 0);
-    console.log(totalSum); // Muestra la sumatoria de los valores de 'n'
 
-    onClose(totalSum.toString());
+  
+    onClose(sectionsV, totalSum);
   };
 
   return (
@@ -108,21 +108,26 @@ function SimpleDialog(props: SimpleDialogProps) {
   );
 }
 interface PassengersBookingProps {
-  setPassengerNumber: React.Dispatch<React.SetStateAction<string>>;
+  setPassengers: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const PassengersBooking = ({ setPassengerNumber }: PassengersBookingProps) => {
+const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<any>("");
+  const [selectedValue, setSelectedValue] = React.useState<any>();
+  // const totalSum = selectedValue.reduce(
+  //   (total: any, section: any) => total + section.n,
+  //   0
+  // );
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value: any, sum: any) => {
+    console.log("VALUE HANDLE CLOSE", value);
     setOpen(false);
-    setSelectedValue(value);
-    setPassengerNumber(value);
+    setSelectedValue(sum);
+    setPassengers(value);
   };
 
   return (
@@ -132,10 +137,10 @@ const PassengersBooking = ({ setPassengerNumber }: PassengersBookingProps) => {
         className="text-black"
         onClick={handleClickOpen}
       >
-        {passengers.title} {selectedValue}
+        {passengers.title} : {selectedValue}
       </Button>
       <SimpleDialog
-        selectedValue={selectedValue}
+        //selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
       />

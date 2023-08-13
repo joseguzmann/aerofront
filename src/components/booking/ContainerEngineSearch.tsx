@@ -15,11 +15,19 @@ import { useRouter } from "next/router";
 import { DocumentData } from "firebase/firestore";
 // @ts-ignore
 import { getFlightByParams } from "../../lib/firestore/searchEngine.service.js";
+import weekday from "dayjs/plugin/weekday";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import utc from "dayjs/plugin/utc";
+import { countries } from "../../utils/constants";
 
 interface initialDate {
   date: dayjs.Dayjs | null;
   time: dayjs.Dayjs | null;
 }
+
+dayjs.extend(weekday);
+dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 const ContainerEngineSearch = () => {
   const router = useRouter();
@@ -28,7 +36,7 @@ const ContainerEngineSearch = () => {
   const [destination, setDestination] = useState("");
   const [initialDate, setInitialDate] = useState<initialDate>();
   const [finallDate, setFinalDate] = useState<initialDate>();
-  const [passengerNumber, setPassengerNumber] = useState<string>("");
+  const [passengers, setPassengers] = useState<string>("");
 
   const { booking } = config;
   const { sections } = booking;
@@ -56,13 +64,12 @@ const ContainerEngineSearch = () => {
     let dateAux = formatDateTime();
     let fromAux = origin;
     let toAux = destination;
-    let numberAux = passengerNumber;
 
     const searchParams = {
       date: dateAux,
       origin: fromAux,
       destination: toAux,
-      passenger: numberAux,
+      // passenger: numberAux,
     };
     // const getFlightsbyParamsSnapshot = (snapshot: DocumentData) => {
     //   const flightsData = snapshot.docs.map((doc: DocumentData) => {
@@ -80,15 +87,79 @@ const ContainerEngineSearch = () => {
 
     // retriveFights();
     try {
-      const result = await getFlightByParams(searchParams); // Esperar a que se complete la función
-      console.log("ResultQuery", result);
+      const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
 
-      // Aquí puedes realizar cualquier procesamiento necesario con los resultados
+      const dateFields = ["fecha_salida", "fecha_regreso"];
+      const placeFields = ["origen", "destino"];
 
-      // Luego, navegar a la siguiente página pasando los resultados como query params
+      const modifiedResults = resultQuery.map((res: any) => {
+        dateFields.forEach((field) => {
+          if (res[field] && res[field].seconds) {
+            const date = new Date(res[field].seconds * 1000);
+            res[field] = {
+              formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
+              time: dayjs(date).utc().format("HH:mm"),
+            };
+          }
+        });
+        placeFields.forEach((field) => {
+          const foundCountry = countries.find(
+            (country) => country.code === res[field]
+          );
+          if (foundCountry) {
+            res[field] = {
+              code: foundCountry.code,
+              label: foundCountry.label,
+            };
+          }
+        });
+
+        return res;
+      });
+
+      //OPTIMIZATED
+      // const transformDateFields = (res: any) => {
+      //   const dateFields = ["fecha_salida", "fecha_regreso"];
+      //   dateFields.forEach((field) => {
+      //     if (res[field] && res[field].seconds) {
+      //       const date = new Date(res[field].seconds * 1000);
+      //       res[field] = {
+      //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
+      //         time: dayjs(date).utc().format("HH:mm"),
+      //       };
+      //     }
+      //   });
+      // };
+
+      // const transformPlaceFields = (res: any, countries: CountryType[]) => {
+      //   const placeFields = ["origen", "destino"];
+      //   placeFields.forEach((field) => {
+      //     const foundCountry = countries.find(
+      //       (country) => country.code === res[field]
+      //     );
+      //     if (foundCountry) {
+      //       res[field] = {
+      //         code: foundCountry.code,
+      //         label: foundCountry.label,
+      //       };
+      //     }
+      //   });
+      // };
+
+      // const modifiedResults = resultQuery.map((res: any) => {
+      //   transformDateFields(res);
+      //   transformPlaceFields(res, countries);
+      //   return res;
+      // });
+
+      console.log("MODIFIED", modifiedResults);
+
       router.push({
         pathname: "/flight-search",
-        query: { flights: JSON.stringify(result) }, // Convertir a JSON para pasar como query param
+        query: {
+          flights: JSON.stringify(modifiedResults),
+          passengers: JSON.stringify(passengers),
+        }, // Convertir a JSON para pasar como query param
       });
     } catch (error) {
       console.error("Error:", error);
@@ -134,7 +205,7 @@ const ContainerEngineSearch = () => {
                 origin={setOrigin}
                 destination={setDestination}
               />
-              <PassengersBooking setPassengerNumber={setPassengerNumber} />
+              <PassengersBooking setPassengers={setPassengers} />
             </div>
           </div>
           <DateBooking

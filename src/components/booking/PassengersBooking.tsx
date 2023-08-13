@@ -69,7 +69,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                   className="w-[40px] h-[40px]"
                   onClick={() => {
                     handleIncrement(i);
-                    console.log("PLUSSSSSSS", passenger.n);
+                 
                   }}
                 >
                   <Image
@@ -127,7 +127,7 @@ const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
   };
 
   const handleClose = (value: any, sum: any) => {
-    console.log("VALUE HANDLE CLOSE", value);
+  
     setOpen(false);
     setSelectedValue(sum);
     setPassengers(value);

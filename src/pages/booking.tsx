@@ -18,7 +18,7 @@ const Booking = () => {
       <PrimaryHeading />
       <ContainerEngineSearch />
 
-      <ExploreBooking />
+      <ExploreBooking  />
       <Footer />
     </div>
   );

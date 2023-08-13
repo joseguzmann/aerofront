@@ -69,16 +69,32 @@ const DateBooking = ({
   return (
     <div className="flex row justify-around">
       <div>
-        <p className=" text-lg ">{pLabel.items[0].element4}</p>
+        <p className=" text-lg ">{pLabel.items[0].element4} ¿?</p>
         <div className="flex flex-col">
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker onChange={(date: dayjs.Dayjs | null) => {}} />
+              <DatePicker
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (initialDateValue) {
+                    setInitialDate({ ...initialDateValue, date: value });
+                  } else {
+                    setInitialDate({ date: value, time: null });
+                  }
+                }}
+              />
             </LocalizationProvider>
           </div>
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker onChange={(time: dayjs.Dayjs | null) => {}} />
+              <TimePicker
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (initialDateValue) {
+                    setInitialDate({ ...initialDateValue, time: value });
+                  } else {
+                    setInitialDate({ date: null, time: value });
+                  }
+                }}
+              />
             </LocalizationProvider>
           </div>
         </div>
@@ -89,8 +105,12 @@ const DateBooking = ({
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                onChange={(date: dayjs.Dayjs | null) => {
-                  setSelectedDateFinal(date);
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (finalDateValue) {
+                    setFinalDate({ ...finalDateValue, date: value });
+                  } else {
+                    setFinalDate({ date: value, time: null });
+                  }
                 }}
               />
             </LocalizationProvider>
@@ -98,8 +118,12 @@ const DateBooking = ({
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker
-                onChange={(time: dayjs.Dayjs | null) => {
-                  setSelectedTimeFinal(time);
+                onChange={(value: dayjs.Dayjs | null) => {
+                  if (finalDateValue) {
+                    setFinalDate({ ...finalDateValue, time: value });
+                  } else {
+                    setFinalDate({ date: null, time: value });
+                  }
                 }}
               />
             </LocalizationProvider>

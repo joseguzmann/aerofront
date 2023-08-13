@@ -16,7 +16,7 @@ interface IProps {
 
 const CardExplore = ({ flight }: IProps) => {
   if (flight !== undefined) {
-    console.log("FLIGHT Inside,", flight);
+
     return (
       <div
       

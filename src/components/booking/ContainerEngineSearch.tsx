@@ -51,11 +51,12 @@ const ContainerEngineSearch = () => {
       ? "flex row px-20 py-5"
       : "flex flex-col px-20 py-5";
 
-  const formatDateTime = () => {
-    if (initialDate !== undefined && initialDate.time !== null) {
-      const combinedDataTime = initialDate.date
-        ?.set("hour", initialDate.time?.hour())
-        .set("minute", initialDate.time?.minute());
+  const formatDateTime = (date: initialDate) => {
+    if (date !== undefined && date.time !== null) {
+      const combinedDataTime = date.date
+        ?.set("hour", date.time?.hour())
+        .set("minute", date.time?.minute());
+
       return combinedDataTime?.toDate();
     }
     return;
@@ -63,16 +64,226 @@ const ContainerEngineSearch = () => {
 
   //Format data to send to services to search
   const handleSearch = async () => {
-    let dateAux = formatDateTime();
-    let fromAux = origin;
-    let toAux = destination;
+    console.log("HANDLE SEARCH");
+    if (valueRadio === oneWay?.value && initialDate) {
+      console.log("ONEWAY");
+      let dateInitialAux = formatDateTime(initialDate);
+      let fromAux = origin;
+      let toAux = destination;
 
-    const searchParams = {
-      date: dateAux,
-      origin: fromAux,
-      destination: toAux,
-      // passenger: numberAux,
-    };
+      const searchParams = {
+        dateInitial: dateInitialAux,
+        origin: fromAux,
+        destination: toAux,
+        // passenger: numberAux,
+      };
+      try {
+        const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
+
+        const dateFields = ["fecha_salida", "fecha_regreso"];
+        const placeFields = ["origen", "destino"];
+
+        const modifiedResults = resultQuery.map((res: any) => {
+          if (res.fecha_salida && res.fecha_regreso) {
+            const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+            const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+
+            const duration = dayjs.duration(returnDate.diff(departureDate));
+
+            let durationString = "";
+            if (duration.days() > 0) {
+              durationString += `${duration.days()}d `;
+            }
+            durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+            res.duration = durationString;
+          }
+          dateFields.forEach((field) => {
+            if (res[field] && res[field].seconds) {
+              const date = new Date(res[field].seconds * 1000);
+              date.setUTCHours(date.getUTCHours());
+              res[field] = {
+                formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+                time: dayjs(date).format("HH:mm"),
+              };
+            }
+          });
+          placeFields.forEach((field) => {
+            const foundCountry = countries.find(
+              (country) => country.code === res[field]
+            );
+            if (foundCountry) {
+              res[field] = {
+                code: foundCountry.code,
+                label: foundCountry.label,
+              };
+            }
+          });
+
+          return res;
+        });
+
+        //OPTIMIZATED
+        // const transformDateFields = (res: any) => {
+        //   const dateFields = ["fecha_salida", "fecha_regreso"];
+        //   dateFields.forEach((field) => {
+        //     if (res[field] && res[field].seconds) {
+        //       const date = new Date(res[field].seconds * 1000);
+        //       res[field] = {
+        //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
+        //         time: dayjs(date).utc().format("HH:mm"),
+        //       };
+        //     }
+        //   });
+        // };
+
+        // const transformPlaceFields = (res: any, countries: CountryType[]) => {
+        //   const placeFields = ["origen", "destino"];
+        //   placeFields.forEach((field) => {
+        //     const foundCountry = countries.find(
+        //       (country) => country.code === res[field]
+        //     );
+        //     if (foundCountry) {
+        //       res[field] = {
+        //         code: foundCountry.code,
+        //         label: foundCountry.label,
+        //       };
+        //     }
+        //   });
+        // };
+
+        // const modifiedResults = resultQuery.map((res: any) => {
+        //   transformDateFields(res);
+        //   transformPlaceFields(res, countries);
+        //   return res;
+        // });
+
+        // router.push({
+        //   pathname: "/flight-search",
+        //   query: {
+        //     flights: JSON.stringify(modifiedResults),
+        //     passengers: JSON.stringify(passengers),
+        //   }, // Convertir a JSON para pasar como query param
+        // });
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      console.log("OUTSIDE ROUND", initialDate);
+      console.log("OUTSIDE 2", finallDate);
+      if (initialDate && finallDate) {
+        console.log("ROUNDWAY");
+        let dateInitialAux = formatDateTime(initialDate);
+        let dateFinalAux = formatDateTime(finallDate);
+        let fromAux = origin;
+        let toAux = destination;
+        const searchParams = {
+          dateInitial: dateInitialAux,
+          dateFinal: dateFinalAux,
+          origin: fromAux,
+          destination: toAux,
+          // passenger: numberAux,
+        };
+        try {
+          const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
+
+          const dateFields = ["fecha_salida", "fecha_regreso"];
+          const placeFields = ["origen", "destino"];
+
+          const modifiedResults = resultQuery.map((res: any) => {
+            if (res.fecha_salida && res.fecha_regreso) {
+              const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+              const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+
+              const duration = dayjs.duration(returnDate.diff(departureDate));
+
+              let durationString = "";
+              if (duration.days() > 0) {
+                durationString += `${duration.days()}d `;
+              }
+              durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+              res.duration = durationString;
+            }
+            dateFields.forEach((field) => {
+              if (res[field] && res[field].seconds) {
+                const date = new Date(res[field].seconds * 1000);
+                date.setUTCHours(date.getUTCHours());
+                res[field] = {
+                  formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+                  time: dayjs(date).format("HH:mm"),
+                };
+              }
+            });
+            placeFields.forEach((field) => {
+              const foundCountry = countries.find(
+                (country) => country.code === res[field]
+              );
+              if (foundCountry) {
+                res[field] = {
+                  code: foundCountry.code,
+                  label: foundCountry.label,
+                };
+              }
+            });
+
+            return res;
+          });
+
+          //OPTIMIZATED
+          // const transformDateFields = (res: any) => {
+          //   const dateFields = ["fecha_salida", "fecha_regreso"];
+          //   dateFields.forEach((field) => {
+          //     if (res[field] && res[field].seconds) {
+          //       const date = new Date(res[field].seconds * 1000);
+          //       res[field] = {
+          //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
+          //         time: dayjs(date).utc().format("HH:mm"),
+          //       };
+          //     }
+          //   });
+          // };
+
+          // const transformPlaceFields = (res: any, countries: CountryType[]) => {
+          //   const placeFields = ["origen", "destino"];
+          //   placeFields.forEach((field) => {
+          //     const foundCountry = countries.find(
+          //       (country) => country.code === res[field]
+          //     );
+          //     if (foundCountry) {
+          //       res[field] = {
+          //         code: foundCountry.code,
+          //         label: foundCountry.label,
+          //       };
+          //     }
+          //   });
+          // };
+
+          // const modifiedResults = resultQuery.map((res: any) => {
+          //   transformDateFields(res);
+          //   transformPlaceFields(res, countries);
+          //   return res;
+          // });
+
+          // router.push({
+          //   pathname: "/flight-search",
+          //   query: {
+          //     flights: JSON.stringify(modifiedResults),
+          //     passengers: JSON.stringify(passengers),
+          //   }, // Convertir a JSON para pasar como query param
+          // });
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    }
+
+    // const searchParams = {
+    //   dateInitial: dateAux,
+    //   origin: fromAux,
+    //   destination: toAux,
+    //   // passenger: numberAux,
+    // };
     // const getFlightsbyParamsSnapshot = (snapshot: DocumentData) => {
     //   const flightsData = snapshot.docs.map((doc: DocumentData) => {
     //     doc.data();
@@ -88,101 +299,6 @@ const ContainerEngineSearch = () => {
     // };
 
     // retriveFights();
-    try {
-      const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
-
-      const dateFields = ["fecha_salida", "fecha_regreso"];
-      const placeFields = ["origen", "destino"];
-
-      const modifiedResults = resultQuery.map((res: any) => {
-        if (res.fecha_salida && res.fecha_regreso) {
-          const departureDate = dayjs(res.fecha_salida.seconds * 1000);
-          const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
-          console.log("Dep", res.fecha_salida.seconds);
-          console.log("Ret", returnDate);
-          const duration = dayjs.duration(returnDate.diff(departureDate));
-          console.log("Duration", duration);
-
-          let durationString = "";
-          if (duration.days() > 0) {
-            durationString += `${duration.days()}d `;
-          }
-          durationString += `${duration.hours()}h ${duration.minutes()}m`;
-
-          res.duration = durationString;
-        }
-        dateFields.forEach((field) => {
-          if (res[field] && res[field].seconds) {
-            const date = new Date(res[field].seconds * 1000);
-            date.setUTCHours(date.getUTCHours() );
-            res[field] = {
-              formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
-              time: dayjs(date).format("HH:mm"),
-            };
-          }
-        });
-        placeFields.forEach((field) => {
-          const foundCountry = countries.find(
-            (country) => country.code === res[field]
-          );
-          if (foundCountry) {
-            res[field] = {
-              code: foundCountry.code,
-              label: foundCountry.label,
-            };
-          }
-        });
-
-        return res;
-      });
-
-      //OPTIMIZATED
-      // const transformDateFields = (res: any) => {
-      //   const dateFields = ["fecha_salida", "fecha_regreso"];
-      //   dateFields.forEach((field) => {
-      //     if (res[field] && res[field].seconds) {
-      //       const date = new Date(res[field].seconds * 1000);
-      //       res[field] = {
-      //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
-      //         time: dayjs(date).utc().format("HH:mm"),
-      //       };
-      //     }
-      //   });
-      // };
-
-      // const transformPlaceFields = (res: any, countries: CountryType[]) => {
-      //   const placeFields = ["origen", "destino"];
-      //   placeFields.forEach((field) => {
-      //     const foundCountry = countries.find(
-      //       (country) => country.code === res[field]
-      //     );
-      //     if (foundCountry) {
-      //       res[field] = {
-      //         code: foundCountry.code,
-      //         label: foundCountry.label,
-      //       };
-      //     }
-      //   });
-      // };
-
-      // const modifiedResults = resultQuery.map((res: any) => {
-      //   transformDateFields(res);
-      //   transformPlaceFields(res, countries);
-      //   return res;
-      // });
-
-      console.log("MODIFIED", modifiedResults);
-
-      router.push({
-        pathname: "/flight-search",
-        query: {
-          flights: JSON.stringify(modifiedResults),
-          passengers: JSON.stringify(passengers),
-        }, // Convertir a JSON para pasar como query param
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
   };
 
   return (

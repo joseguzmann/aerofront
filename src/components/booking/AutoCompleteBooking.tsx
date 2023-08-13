@@ -36,7 +36,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         //   return option.label;
         // }}
         onChange={(event: any, newValue: any) => {
-          console.log("NEW VALUE", newValue);
+        
           origin(newValue);
         }}
         renderOption={(props, option) => (
@@ -72,7 +72,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         options={countries}
         autoHighlight
         onChange={(event: any, newValue: any) => {
-          console.log("NEW VALUE", newValue);
+        
           destination(newValue);
         }}
         renderOption={(props, option) => (

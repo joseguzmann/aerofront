@@ -26,9 +26,9 @@ const ExploreBooking = () => {
   const { booking } = config;
   const { content }: BookingContent = booking;
   const { discoverContent }: DiscContet = booking;
-  console.log("Content?", content);
+
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mb-20">
       <div className="relative  items-center w-[75%]">
         <div className="flex justify-between">
           <p className="text-lg my-3 text-base text-black">

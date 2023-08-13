@@ -17,12 +17,11 @@ const Menu = (propBoolean: PropsI) => {
   const { navigation, company, callToAction } = config;
   const { name: companyName, logo } = company;
 
-
   const colorNavText = propBoolean.propBoolean
     ? "text-white "
     : "text-gray-500";
 
-  console.log("HEADER Booking: ", propBoolean.propBoolean);
+
 
   return (
     <>
@@ -83,12 +82,14 @@ const Menu = (propBoolean: PropsI) => {
                 </Link>
               ))}
               {!propBoolean.propBoolean && (
-                <a
-                  href="#"
-                  className={`font-medium text-primary hover:text-secondary`}
-                >
-                  Buy tickets
-                </a>
+                <Link href="/booking">
+                  <a
+                    //href="#"
+                    className={`font-medium text-primary hover:text-secondary`}
+                  >
+                    Buy tickets
+                  </a>
+                </Link>
               )}
             </div>
           </nav>

@@ -25,28 +25,65 @@ const vueloRef = collection(db, "vuelo");
 // };
 
 export const getFlightByParams = async (params) => {
+  const flights = [];
+  console.log("PARAMS BACK", params);
   try {
-    //const timeStamp = Timestamp.fromDate(params.date);
+    if (params.dateFinal) {
+      console.log("ROUNDED BACK");
 
-    console.log("DATE PARM", params.date);
-    console.log("NEW DATE", 1702238700);
-    //console.log("TimeStap", timeStamp);
+      const timeStampI = Timestamp.fromDate(params.dateInitial);
+      const timeStampF = Timestamp.fromDate(params.dateFinal);
+      const q1 = query(
+        vueloRef,
+        where("destino", "==", params.destination.code),
+        where("origen", "==", params.origin.code),
+        where("fecha_salida", "<=", timeStampI)
 
-    const q = query(
-      vueloRef,
-      where("destino", "==", params.destination.code),
-      where("origen", "==", params.origin.code)
-      //  where("fecha_salida", "<=", 1702238700),
-      //   where("id", "==", 1)
-    );
-    const querySnapshot = await getDocs(q);
-    console.log("QuerySnapshot", querySnapshot);
+        // where("id", "==", 1)
+      );
+      const q2 = query(
+        vueloRef,
+        where("destino", "==", params.destination.code),
+        where("origen", "==", params.origin.code),
+        where("fecha_regreso", ">=", timeStampF)
 
-    const flights = [];
-    querySnapshot.forEach((doc) => {
-      console.log("INSIDE DOC", doc.data());
-      flights.push({ id: doc.id, ...doc.data() });
-    });
+        // where("id", "==", 1)
+      );
+
+      const querySnapshotInitial = await getDocs(q1);
+      const querySnapshotFinal = await getDocs(q2);
+
+      const dataInitial = querySnapshotInitial.docs.map((doc) => doc.data());
+      const dataFinal = querySnapshotFinal.docs.map((doc) => doc.data());
+
+      console.log("DATA INITIAL", typeof dataInitial);
+
+      // const dataResult = dataInitial.filter((doc) => {
+      //   console.log("DOCDATARESULT", doc);
+      // });
+    } else {
+      console.log("ONE WAY BACK");
+      const timeStamp = Timestamp.fromDate(params.dateInitial);
+
+      // console.log("PARAMS", params);
+
+      // console.log("MY TIME", timeStamp);
+
+      const q = query(
+        vueloRef,
+        where("destino", "==", params.destination.code),
+        where("origen", "==", params.origin.code),
+        where("fecha_salida", ">=", timeStamp)
+        // where("id", "==", 1)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        console.log("INSIDE DOC", doc.data());
+        flights.push({ id: doc.id, ...doc.data() });
+      });
+    }
+
     return flights;
   } catch (error) {
     console.log("Error:", error.message);

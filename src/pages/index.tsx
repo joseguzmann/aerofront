@@ -9,6 +9,7 @@ import MainHeroImage from "../components/other/MainHeroImage";
 import Divider from "../components/other/Divider";
 import Dashboard from "../components/dashboard/Dashboard";
 import Head from "next/head";
+import Footer from "../components/other/Footer";
 
 const App = () => {
   return (
@@ -31,14 +32,13 @@ const App = () => {
         </div>
         <Divider />
         <LazyShow>
-          <>
-            <Dashboard />
-          </>
+          <>{/* <Dashboard /> */}</>
         </LazyShow>
         <LazyShow>
           <>
             <Canvas />
-            <About />
+        
+            <Footer />
           </>
         </LazyShow>
       </div>

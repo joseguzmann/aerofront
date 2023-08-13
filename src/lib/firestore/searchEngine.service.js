@@ -62,7 +62,7 @@ export const getFlightByParams = async (params) => {
       //   console.log("DOCDATARESULT", doc);
       // });
     } else {
-      console.log("ONE WAY BACK");
+      console.log("ONE S WAY BACK");
       const timeStamp = Timestamp.fromDate(params.dateInitial);
 
       // console.log("PARAMS", params);
@@ -73,7 +73,7 @@ export const getFlightByParams = async (params) => {
         vueloRef,
         where("destino", "==", params.destination.code),
         where("origen", "==", params.origin.code),
-        where("fecha_salida", ">=", timeStamp)
+        where("fecha_salida", "<=", timeStamp)
         // where("id", "==", 1)
       );
       const querySnapshot = await getDocs(q);

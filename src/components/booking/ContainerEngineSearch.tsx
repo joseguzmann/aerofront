@@ -64,7 +64,6 @@ const ContainerEngineSearch = () => {
 
   //Format data to send to services to search
   const handleSearch = async () => {
-    console.log("HANDLE SEARCH");
     if (valueRadio === oneWay?.value && initialDate) {
       console.log("ONEWAY");
       let dateInitialAux = formatDateTime(initialDate);
@@ -83,45 +82,63 @@ const ContainerEngineSearch = () => {
         const dateFields = ["fecha_salida", "fecha_regreso"];
         const placeFields = ["origen", "destino"];
 
-        const modifiedResults = resultQuery.map((res: any) => {
-          if (res.fecha_salida && res.fecha_regreso) {
-            const departureDate = dayjs(res.fecha_salida.seconds * 1000);
-            const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+        if (resultQuery.length > 0) {
+          console.log("ResultQuery", resultQuery);
 
-            const duration = dayjs.duration(returnDate.diff(departureDate));
+          const modifiedResults = resultQuery.map((res: any) => {
+            if (res.fecha_salida && res.fecha_regreso) {
+              const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+              const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
 
-            let durationString = "";
-            if (duration.days() > 0) {
-              durationString += `${duration.days()}d `;
+              const duration = dayjs.duration(returnDate.diff(departureDate));
+
+              let durationString = "";
+              if (duration.days() > 0) {
+                durationString += `${duration.days()}d `;
+              }
+              durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+              res.duration = durationString;
             }
-            durationString += `${duration.hours()}h ${duration.minutes()}m`;
+            dateFields.forEach((field) => {
+              if (res[field] && res[field].seconds) {
+                const date = new Date(res[field].seconds * 1000);
+                date.setUTCHours(date.getUTCHours());
+                res[field] = {
+                  formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+                  time: dayjs(date).format("HH:mm"),
+                };
+              }
+            });
+            placeFields.forEach((field) => {
+              const foundCountry = countries.find(
+                (country) => country.code === res[field]
+              );
+              if (foundCountry) {
+                res[field] = {
+                  code: foundCountry.code,
+                  label: foundCountry.label,
+                };
+              }
+            });
 
-            res.duration = durationString;
-          }
-          dateFields.forEach((field) => {
-            if (res[field] && res[field].seconds) {
-              const date = new Date(res[field].seconds * 1000);
-              date.setUTCHours(date.getUTCHours());
-              res[field] = {
-                formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
-                time: dayjs(date).format("HH:mm"),
-              };
-            }
+            return res;
           });
-          placeFields.forEach((field) => {
-            const foundCountry = countries.find(
-              (country) => country.code === res[field]
-            );
-            if (foundCountry) {
-              res[field] = {
-                code: foundCountry.code,
-                label: foundCountry.label,
-              };
-            }
+          router.push({
+            pathname: "/flight-search",
+            query: {
+              flights: JSON.stringify(modifiedResults),
+              passengers: JSON.stringify(passengers),
+            }, // Convertir a JSON para pasar como query param
           });
-
-          return res;
-        });
+        } else {
+          router.push({
+            pathname: "/flight-search",
+            query: {
+              passengers: JSON.stringify(passengers),
+            }, // Convertir a JSON para pasar como query param
+          });
+        }
 
         //OPTIMIZATED
         // const transformDateFields = (res: any) => {
@@ -277,28 +294,6 @@ const ContainerEngineSearch = () => {
         }
       }
     }
-
-    // const searchParams = {
-    //   dateInitial: dateAux,
-    //   origin: fromAux,
-    //   destination: toAux,
-    //   // passenger: numberAux,
-    // };
-    // const getFlightsbyParamsSnapshot = (snapshot: DocumentData) => {
-    //   const flightsData = snapshot.docs.map((doc: DocumentData) => {
-    //     doc.data();
-    //   });
-
-    //   console.log("ProductsData");
-    // };
-
-    // getFlightsByParams = (searchParams, getFlightsbyParamsSnapshot);
-    // const retriveFights = async () => {
-    //   let result = await getFlightByParams(searchParams);
-    //   console.log("RestulQuery", result);
-    // };
-
-    // retriveFights();
   };
 
   return (

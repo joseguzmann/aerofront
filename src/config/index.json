@@ -282,7 +282,8 @@
     "imgAirplane": "/assets/images/AirplaneIcon.png",
     "svgPlus": "/assets/images/Plus.svg",
     "svgLess": "/assets/images/Less.svg",
-    "svgCheck": "/assets/images/Check.svg"
+    "svgCheck": "/assets/images/Check.svg",
+    "imgNoFligh": "/assets/images/NoFlights.jpg"
   },
   "flight_details": {
     "title": "Flight Details",

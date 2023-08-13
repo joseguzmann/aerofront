@@ -69,7 +69,7 @@ const DateBooking = ({
   return (
     <div className="flex row justify-around">
       <div>
-        <p className=" text-lg ">{pLabel.items[0].element4} ¿?</p>
+        <p className=" text-lg ">{pLabel.items[0].element4}</p>
         <div className="flex flex-col">
           <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>

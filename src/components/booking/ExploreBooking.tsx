@@ -38,7 +38,9 @@ const ExploreBooking = () => {
         </div>
         <div className=" flex flex-row flex-wrap justify-between">
           {content.map((flight) => {
-            return <CardExplore flight={flight} />;
+            return (
+              <CardExplore key={flight.origin + flight.date} flight={flight} />
+            );
           })}
         </div>
         <p className="text-lg my-3 text-base text-black">{booking.discover}</p>
@@ -47,9 +49,7 @@ const ExploreBooking = () => {
             return <DiscoverBooking discover={discover} />;
           })}
         </div>
-        <div>
-  
-        </div>
+        <div></div>
       </div>
     </div>
   );

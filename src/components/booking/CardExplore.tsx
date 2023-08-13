@@ -18,7 +18,10 @@ const CardExplore = ({ flight }: IProps) => {
   if (flight !== undefined) {
     console.log("FLIGHT Inside,", flight);
     return (
-      <div className="flex row rounded-lg border bg-gray-200 border-gray-300 border-b-4 border-opacity-75 shadow-lg w-[49%] mb-5 ">
+      <div
+      
+        className="flex row rounded-lg border bg-gray-200 border-gray-300 border-b-4 border-opacity-75 shadow-lg w-[49%] mb-5 "
+      >
         <Image src={flight.img} width={303} height={237} alt="" />
         <div className="flex flex-col my-5  w-[55%] px-5">
           <p className="text-xl py-4">{flight.origin}</p>

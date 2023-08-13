@@ -230,7 +230,33 @@
         "desc": "Have you ever considered visiting Easter Island or Alaska? These are the most unique destinations in 2022",
         "img": "/assets/images/Discover3.png"
       }
-    ]
+    ],
+    "passengers": {
+      "title": "Passengers",
+      "sections": [
+        {
+          "title": "Senior Citizens",
+          "desc": "Over 65 years",
+          "n": 0
+        },
+        {
+          "title": "Adult",
+          "desc": "12 - 65 years",
+          "n": 1
+        },
+        {
+          "title": "Childrens",
+          "desc": "2 - 11 years",
+          "n": 0
+        },
+        {
+          "title": "Infants",
+          "desc": "Under 2 years",
+          "n": 0
+        }
+      ],
+      "continue": "Continue"
+    }
   },
   "footer": {
     "section1": [
@@ -253,6 +279,8 @@
   "other": {
     "imgArrow": "/assets/images/ArrowLarge.png",
     "imgArrow2": "/assets/images/ArrowLarge2.png",
-    "imgAirplane": "/assets/images/AirplaneIcon.png"
+    "imgAirplane": "/assets/images/AirplaneIcon.png",
+    "svgPlus": "/assets/images/Plus.svg",
+    "svgLess": "/assets/images/Less.svg"
   }
 }

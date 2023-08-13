@@ -10,6 +10,7 @@ const PrimaryHeading = () => {
   return (
     <div>
       <div className=" w-full absolute top-0 left-0">
+        
         <Image
           src={booking.img}
           width={1749}

@@ -9,6 +9,7 @@ import AutoCompleteBooking from "./AutoCompleteBooking";
 import DateBooking from "./DateBooking";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import PassengersBooking from "./PassengersBooking";
 
 const ContainerEngineSearch = () => {
   const [valueRadio, setValueRadio] = useState("oneWay");
@@ -53,7 +54,14 @@ const ContainerEngineSearch = () => {
                 />
               </RadioGroup>
             </FormControl>
-            <AutoCompleteBooking />
+            <div
+              className={
+                valueRadio !== oneWay?.value ? "flex row justify-around " : ""
+              }
+            >
+              <AutoCompleteBooking />
+              <PassengersBooking />
+            </div>
           </div>
           <DateBooking pLabel={sections} valueRadio={valueRadio} />
         </div>

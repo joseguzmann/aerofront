@@ -9,13 +9,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 interface FlightsProps {
-  asientos: any;
+  disponibles: number;
   destino: any;
   fecha_regreso: any;
   fecha_salida: any;
   id: number;
   origen: any;
   duration: string;
+  precio: number;
 }
 
 interface IProps {
@@ -91,7 +92,10 @@ const CardFligth = ({ flight, passengers }: IProps) => {
 
           <div className="flex flex-col justify-center items-center">
             <p className="text-2xl  font-bold text-[#FF7100] underline">
-              $ {flight.asientos.turista.precio}
+              $ {flight.precio}
+            </p>
+            <p className=" py-2">
+              Available: <b>{flight.disponibles}</b>
             </p>
           </div>
         </div>

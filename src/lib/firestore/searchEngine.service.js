@@ -65,20 +65,31 @@ export const getFlightByParams = async (params) => {
       console.log("ONE S WAY BACK");
       const timeStamp = Timestamp.fromDate(params.dateInitial);
 
-      // console.log("PARAMS", params);
-
-      // console.log("MY TIME", timeStamp);
-
-      const q = query(
+      const qAvailable = query(
+        vueloRef,
+        where("destino", "==", params.destination.code),
+        where("origen", "==", params.origin.code),
+        where("disponibles", ">=", params.totalSumPassengers)
+      );
+      const qDate = query(
         vueloRef,
         where("destino", "==", params.destination.code),
         where("origen", "==", params.origin.code),
         where("fecha_salida", ">=", timeStamp)
-        // where("id", "==", 1)
       );
-      const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
+      const [fechaSalidaResults, disponiblesResults] = await Promise.all([
+        getDocs(qDate),
+        getDocs(qAvailable),
+      ]);
+      const filteredResults = fechaSalidaResults.docs.filter((doc) => {
+        const disponibilidadDoc = disponiblesResults.docs.find(
+          (disponibilidadDoc) => disponibilidadDoc.id === doc.id
+        );
+        return disponibilidadDoc !== undefined;
+      });
+
+      filteredResults.forEach((doc) => {
         console.log("INSIDE DOC", doc.data());
         flights.push({ id: doc.id, ...doc.data() });
       });

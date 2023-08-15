@@ -5,13 +5,14 @@ import Image from "next/image";
 import Button from "@mui/material/Button";
 
 interface FlightsProps {
-  asientos: any;
+  disponibles: number;
   destino: string;
   fecha_regreso: any;
   fecha_salida: any;
   id: number;
   origen: string;
   duration: string;
+  precio: number;
 }
 interface IProps {
   flights: FlightsProps[] | any;
@@ -22,42 +23,6 @@ interface IProps {
 const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
   const { desc } = config.search;
   const { flight_details } = config;
-  // const [total, setTotal] = useState<number>(0);
-  // let sumSenior = 0;
-  // let sumAdult = 0;
-  // let sumChildren = 0;
-  // let sumInfant = 0;
-  // let sumTOTAL = 0;
-  // useEffect(() => {
-  //   if (isDetails) {
-  //     let sumSenior = 0;
-  //     let sumAdult = 0;
-  //     let sumChildren = 0;
-  //     let sumInfant = 0;
-  //     let sumTOTAL = 0;
-  //     for (let index = 0; index < passengers.length; index++) {
-  //       switch (index) {
-  //         case 0:
-  //           sumSenior =
-  //             (flights.asientos.turista.precio / 2) * passengers[index].n;
-  //           break;
-  //         case 1:
-  //           sumAdult = flights.asientos.turista.precio * passengers[index].n;
-  //           break;
-  //         case 2:
-  //           sumChildren = flights.asientos.turista.precio * passengers[index].n;
-  //           break;
-
-  //         default:
-  //           break;
-  //       }
-  //     }
-
-  //     sumTOTAL = sumSenior + sumAdult + sumChildren;
-  //     setTotal(sumTOTAL);
-  //     console.log("VALOR TOTAL", sumTOTAL);
-  //   }
-  // }, []);
 
   const calculateTotal = (flights: any, passengers: any[]) => {
     const categories = [
@@ -71,7 +36,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
 
     categories.forEach((category, index) => {
       const { key, priceFactor } = category;
-      const categoryPrice = flights.asientos.turista.precio * priceFactor;
+      const categoryPrice = flights.precio * priceFactor;
       total += categoryPrice * passengers[index]?.n || 0;
     });
 
@@ -84,7 +49,6 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
     if (isDetails) {
       const sumTOTAL = calculateTotal(flights, passengers);
       setTotal(sumTOTAL);
-
     }
   }, []);
   return (

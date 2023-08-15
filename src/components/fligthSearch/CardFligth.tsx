@@ -4,6 +4,7 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import Link from "next/link";
 import config from "../../config/index.json";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 // import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -101,6 +102,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
         </div>
       </div>
       {/* </Link> */}
+      <Divider />
     </div>
   );
 };

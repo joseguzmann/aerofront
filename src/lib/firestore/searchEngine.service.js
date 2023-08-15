@@ -26,43 +26,49 @@ const vueloRef = collection(db, "vuelo");
 
 export const getFlightByParams = async (params) => {
   const flights = [];
-  console.log("PARAMS BACK", params);
+
   try {
     if (params.dateFinal) {
-      console.log("ROUNDED BACK");
-
       const timeStampI = Timestamp.fromDate(params.dateInitial);
       const timeStampF = Timestamp.fromDate(params.dateFinal);
+
       const q1 = query(
         vueloRef,
         where("destino", "==", params.destination.code),
         where("origen", "==", params.origin.code),
-        where("fecha_salida", "<=", timeStampI)
-
-        // where("id", "==", 1)
+        where("fecha_salida", ">=", timeStampI)
       );
       const q2 = query(
         vueloRef,
         where("destino", "==", params.destination.code),
         where("origen", "==", params.origin.code),
-        where("fecha_regreso", ">=", timeStampF)
-
-        // where("id", "==", 1)
+        where("fecha_regreso", "<=", timeStampF)
       );
 
-      const querySnapshotInitial = await getDocs(q1);
-      const querySnapshotFinal = await getDocs(q2);
+      const q3 = query(
+        vueloRef,
+        where("destino", "==", params.destination.code),
+        where("origen", "==", params.origin.code),
+        where("disponibles", ">=", params.totalSumPassengers)
+      );
 
-      const dataInitial = querySnapshotInitial.docs.map((doc) => doc.data());
-      const dataFinal = querySnapshotFinal.docs.map((doc) => doc.data());
+      const [fechaSalidaResults, fechaLlegadaResults, disponiblesResults] =
+        await Promise.all([getDocs(q1), getDocs(q2), getDocs(q3)]);
 
-      console.log("DATA INITIAL", typeof dataInitial);
+      const filteredResults = fechaSalidaResults.docs.filter((doc) => {
+        const fechaLlegadaDoc = fechaLlegadaResults.docs.find(
+          (fechaLlegadaDoc) => fechaLlegadaDoc.id === doc.id
+        );
+        const disponibilidadDoc = disponiblesResults.docs.find(
+          (disponibilidadDoc) => disponibilidadDoc.id === doc.id
+        );
+        return fechaLlegadaDoc !== undefined && disponibilidadDoc !== undefined;
+      });
 
-      // const dataResult = dataInitial.filter((doc) => {
-      //   console.log("DOCDATARESULT", doc);
-      // });
+      filteredResults.forEach((doc) => {
+        flights.push({ id: doc.id, ...doc.data() });
+      });
     } else {
-      console.log("ONE S WAY BACK");
       const timeStamp = Timestamp.fromDate(params.dateInitial);
 
       const qAvailable = query(
@@ -90,7 +96,6 @@ export const getFlightByParams = async (params) => {
       });
 
       filteredResults.forEach((doc) => {
-        console.log("INSIDE DOC", doc.data());
         flights.push({ id: doc.id, ...doc.data() });
       });
     }

@@ -23,11 +23,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
   const [originAux, setOriginAux] = useState<any>();
   const [destinationAux, setDestinationAux] = useState<any>();
   const newContry = countries;
-  useEffect(() => {
-    console.log("MOUTING ---->>>>>");
-
-    console.log("DESTINATION", destinationAux);
-  }, [originAux, destinationAux]);
+  useEffect(() => {}, [originAux, destinationAux]);
   // const roundedWay = config.booking.sections.items[1];
   const widthStyle = 200;
 
@@ -41,10 +37,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         sx={{ width: widthStyle, marginRight: "6rem" }}
         options={newContry}
         blurOnSelect
-        // getOptionLabel={(option) => {
-        //   console.log("GETOPTION?=", option);
-        //   return option.label;
-        // }}
+   
         onChange={(event: any, newValue: any) => {
           origin(newValue);
           setOriginAux(newValue);
@@ -68,7 +61,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label={oneWay?.element1 }
+            label={oneWay?.element1}
             inputProps={{
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill

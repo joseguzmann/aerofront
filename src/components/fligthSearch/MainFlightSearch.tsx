@@ -46,6 +46,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
+    console.log("Passengers", passengers);
     if (isDetails) {
       const sumTOTAL = calculateTotal(flights, passengers);
       setTotal(sumTOTAL);
@@ -66,7 +67,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
               flight={flights}
               passengers={passengers}
             />
-            <div className="relative flex justify-center items-center ">
+            <div className="relative flex justify-center items-center my-10 ">
               <div className=" w-[70%] flex row justify-around">
                 <div className="bg-[#EDF7ED] p-2 flex row  w-[36%] justify-around ">
                   <Image
@@ -88,6 +89,31 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
                   </p>
                   <p className="text-xl">$ {total} USD</p>
                 </div>
+              </div>
+            </div>
+            <div className="flex justify-center items-center my-10">
+              <div className="flex flex-col bg-gray-300 p-3">
+                <p>
+                  <b>DETAILS PASSENGERS</b>
+                </p>
+                {passengers.map((res: any, i: number) => {
+                  if (res.n > 0) {
+                    return (
+                      <div className="flex justify-between py-1">
+                        <p>{res.title} Total:</p>
+                        <p>
+                          {" "}
+                          {i === 0
+                            ? (flights.precio / 2) * res.n
+                            : i === 3
+                            ? 0
+                            : flights.precio * res.n}{" "}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return;
+                })}
               </div>
             </div>
             <div>

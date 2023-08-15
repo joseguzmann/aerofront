@@ -13,7 +13,6 @@ const FlightSearch = () => {
   const parsedFlights = flights ? JSON.parse(flights) : null;
   const parsedPassengers = passengers ? JSON.parse(passengers) : null;
 
-  console.log("PArsedFlight", parsedFlights);
   useEffect(() => {}, []);
 
   const { search } = config;

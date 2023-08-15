@@ -36,8 +36,7 @@ const DateBooking = ({
   const [dateInitial, setDateInitial] = useState<dayjs.Dayjs | undefined>();
 
   useEffect(() => {
-    console.log("DAYJS INITIAL: ", dateInitialRound);
-    console.log("DAYJS FINAL: ", dateFinalRound);
+
   }, [dateFinalRound, dateInitialRound]);
 
   if (valueRadio === pLabel.items[0].value) {

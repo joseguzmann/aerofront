@@ -82,8 +82,7 @@ const ContainerEngineSearch = () => {
         });
         return;
       }
-      console.log("ORIGEN", origin);
-      console.log("destination", destination);
+    
       setError({ value: false });
       let dateInitialAux;
       let dateFinalAux;

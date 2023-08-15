@@ -6,7 +6,7 @@ import Image from "next/image";
 import config from "../../config/index.json";
 
 const { passengers } = config.booking;
-console.log("outise passengers", passengers);
+
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -17,11 +17,7 @@ export interface SimpleDialogProps {
 function SimpleDialog(props: SimpleDialogProps) {
   const [sectionsV, setSectionsV] = useState(passengers.sections);
 
-  useEffect(() => {
-    console.log("MOUT PASSENGERS --->>>>");
-    console.log("SectionV", sectionsV);
-    console.log("SectionV", passengers.sections);
-  }, []);
+
 
   const { onClose, selectedValue, open } = props; 
 
@@ -118,9 +114,7 @@ interface PassengersBookingProps {
 }
 
 const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
-  useEffect(() => {
-    console.log("PASSENGERS COMPONENT MOUNT");
-  }, []);
+
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState<any>();
   // const totalSum = selectedValue.reduce(

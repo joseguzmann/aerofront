@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -20,8 +20,18 @@ interface IProps {
 
 const AutoCompleteBooking = ({ origin, destination }: IProps) => {
   const oneWay = config.booking.sections.items[0];
+  const [originAux, setOriginAux] = useState<any>();
+  const [destinationAux, setDestinationAux] = useState<any>();
+  const newContry = countries;
+  useEffect(() => {
+    console.log("MOUTING ---->>>>>");
+
+    console.log("DESTINATION", destinationAux);
+  }, [originAux, destinationAux]);
   // const roundedWay = config.booking.sections.items[1];
   const widthStyle = 200;
+
+  // const newContry = countries.filter((item) => item.code !== "AE");
 
   return (
     <div className="relative flex row my-10 items-center">
@@ -29,15 +39,15 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
       <Autocomplete
         id="country-select-demo"
         sx={{ width: widthStyle, marginRight: "6rem" }}
-        options={countries}
+        options={newContry}
         blurOnSelect
         // getOptionLabel={(option) => {
         //   console.log("GETOPTION?=", option);
         //   return option.label;
         // }}
         onChange={(event: any, newValue: any) => {
-        
           origin(newValue);
+          setOriginAux(newValue);
         }}
         renderOption={(props, option) => (
           <Box
@@ -58,7 +68,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label={oneWay?.element1}
+            label={oneWay?.element1 }
             inputProps={{
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill
@@ -69,11 +79,11 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
       <Autocomplete
         id="country-select-demo"
         sx={{ width: widthStyle }}
-        options={countries}
+        options={newContry}
         autoHighlight
         onChange={(event: any, newValue: any) => {
-        
           destination(newValue);
+          setDestinationAux(newValue);
         }}
         renderOption={(props, option) => (
           <Box
@@ -107,4 +117,3 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
 };
 
 export default AutoCompleteBooking;
-

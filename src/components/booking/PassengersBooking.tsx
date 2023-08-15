@@ -6,6 +6,7 @@ import Image from "next/image";
 import config from "../../config/index.json";
 
 const { passengers } = config.booking;
+console.log("outise passengers", passengers);
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -16,7 +17,13 @@ export interface SimpleDialogProps {
 function SimpleDialog(props: SimpleDialogProps) {
   const [sectionsV, setSectionsV] = useState(passengers.sections);
 
-  const { onClose, selectedValue, open } = props;
+  useEffect(() => {
+    console.log("MOUT PASSENGERS --->>>>");
+    console.log("SectionV", sectionsV);
+    console.log("SectionV", passengers.sections);
+  }, []);
+
+  const { onClose, selectedValue, open } = props; 
 
   const handleIncrement = (index: any) => {
     const updatedSections: any = [...sectionsV];
@@ -41,7 +48,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       open={open}
     >
       <div className="px-9 py-4">
-        {passengers.sections.map((passenger, i) => (
+        {sectionsV.map((passenger, i) => (
           <div className="pt-5" key={passenger.title}>
             <div className="flex row ">
               <div className=" w-[190px]">
@@ -69,7 +76,6 @@ function SimpleDialog(props: SimpleDialogProps) {
                   className="w-[40px] h-[40px]"
                   onClick={() => {
                     handleIncrement(i);
-                 
                   }}
                 >
                   <Image
@@ -127,7 +133,6 @@ const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
   };
 
   const handleClose = (value: any, sum: any) => {
-  
     setOpen(false);
     setSelectedValue(sum);
     setPassengers(value);

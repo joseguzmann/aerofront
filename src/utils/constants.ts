@@ -3,6 +3,7 @@ interface CountryType {
   label: string;
   phone: string;
   suggested?: boolean;
+  hide?: boolean;
 }
 export const countries: CountryType[] = [
   { code: "AD", label: "Andorra", phone: "376" },
@@ -10,6 +11,7 @@ export const countries: CountryType[] = [
     code: "AE",
     label: "United Arab Emirates",
     phone: "971",
+    hide: true,
   },
   { code: "AF", label: "Afghanistan", phone: "93" },
   {

@@ -73,7 +73,7 @@ export const getFlightByParams = async (params) => {
         vueloRef,
         where("destino", "==", params.destination.code),
         where("origen", "==", params.origin.code),
-        where("fecha_salida", "<=", timeStamp)
+        where("fecha_salida", ">=", timeStamp)
         // where("id", "==", 1)
       );
       const querySnapshot = await getDocs(q);

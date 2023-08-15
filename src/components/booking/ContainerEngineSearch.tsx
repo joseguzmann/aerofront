@@ -26,6 +26,11 @@ interface initialDate {
   time: dayjs.Dayjs | null;
 }
 
+interface IErrors {
+  value: boolean;
+  msg?: string;
+}
+
 dayjs.extend(weekday);
 dayjs.extend(duration);
 dayjs.extend(localizedFormat);
@@ -34,11 +39,12 @@ dayjs.extend(utc);
 const ContainerEngineSearch = () => {
   const router = useRouter();
   const [valueRadio, setValueRadio] = useState("oneWay");
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+  const [origin, setOrigin] = useState<any>();
+  const [destination, setDestination] = useState<any>();
   const [initialDate, setInitialDate] = useState<initialDate>();
   const [finallDate, setFinalDate] = useState<initialDate>();
-  const [passengers, setPassengers] = useState<string>("");
+  const [passengers, setPassengers] = useState<any>();
+  const [error, setError] = useState<IErrors>({ value: false });
 
   const { booking } = config;
   const { sections } = booking;
@@ -63,236 +69,254 @@ const ContainerEngineSearch = () => {
   };
 
   //Format data to send to services to search
+  // const handleSearch = async () => {
+  //   if (valueRadio === oneWay?.value && initialDate) {
+  //     console.log("ONEWAY");
+  //     let dateInitialAux = formatDateTime(initialDate);
+  //     let fromAux = origin;
+  //     let toAux = destination;
+
+  //     const searchParams = {
+  //       dateInitial: dateInitialAux,
+  //       origin: fromAux,
+  //       destination: toAux,
+  //       // passenger: numberAux,
+  //     };
+  //     try {
+  //       const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
+
+  //       const dateFields = ["fecha_salida", "fecha_regreso"];
+  //       const placeFields = ["origen", "destino"];
+
+  //       if (resultQuery.length > 0) {
+
+  //         const modifiedResults = resultQuery.map((res: any) => {
+  //           if (res.fecha_salida && res.fecha_regreso) {
+  //             const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+  //             const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+
+  //             const duration = dayjs.duration(returnDate.diff(departureDate));
+
+  //             let durationString = "";
+  //             if (duration.days() > 0) {
+  //               durationString += `${duration.days()}d `;
+  //             }
+  //             durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+  //             res.duration = durationString;
+  //           }
+  //           dateFields.forEach((field) => {
+  //             if (res[field] && res[field].seconds) {
+  //               const date = new Date(res[field].seconds * 1000);
+  //               date.setUTCHours(date.getUTCHours());
+  //               res[field] = {
+  //                 formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+  //                 time: dayjs(date).format("HH:mm"),
+  //               };
+  //             }
+  //           });
+  //           placeFields.forEach((field) => {
+  //             const foundCountry = countries.find(
+  //               (country) => country.code === res[field]
+  //             );
+  //             if (foundCountry) {
+  //               res[field] = {
+  //                 code: foundCountry.code,
+  //                 label: foundCountry.label,
+  //               };
+  //             }
+  //           });
+
+  //           return res;
+  //         });
+  //         router.push({
+  //           pathname: "/flight-search",
+  //           query: {
+  //             flights: JSON.stringify(modifiedResults),
+  //             passengers: JSON.stringify(passengers),
+  //           }, // Convertir a JSON para pasar como query param
+  //         });
+  //       } else {
+  //         router.push({
+  //           pathname: "/flight-search",
+  //           query: {
+  //             passengers: JSON.stringify(passengers),
+  //           }, // Convertir a JSON para pasar como query param
+  //         });
+  //       }
+
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   } else {
+  //     console.log("OUTSIDE ROUND", initialDate);
+  //     console.log("OUTSIDE 2", finallDate);
+  //     if (initialDate && finallDate) {
+  //       console.log("ROUNDWAY");
+  //       let dateInitialAux = formatDateTime(initialDate);
+  //       let dateFinalAux = formatDateTime(finallDate);
+  //       let fromAux = origin;
+  //       let toAux = destination;
+  //       const searchParams = {
+  //         dateInitial: dateInitialAux,
+  //         dateFinal: dateFinalAux,
+  //         origin: fromAux,
+  //         destination: toAux,
+  //         // passenger: numberAux,
+  //       };
+  //       try {
+  //         const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
+
+  //         const dateFields = ["fecha_salida", "fecha_regreso"];
+  //         const placeFields = ["origen", "destino"];
+
+  //         const modifiedResults = resultQuery.map((res: any) => {
+  //           if (res.fecha_salida && res.fecha_regreso) {
+  //             const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+  //             const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+
+  //             const duration = dayjs.duration(returnDate.diff(departureDate));
+
+  //             let durationString = "";
+  //             if (duration.days() > 0) {
+  //               durationString += `${duration.days()}d `;
+  //             }
+  //             durationString += `${duration.hours()}h ${duration.minutes()}m`;
+
+  //             res.duration = durationString;
+  //           }
+  //           dateFields.forEach((field) => {
+  //             if (res[field] && res[field].seconds) {
+  //               const date = new Date(res[field].seconds * 1000);
+  //               date.setUTCHours(date.getUTCHours());
+  //               res[field] = {
+  //                 formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+  //                 time: dayjs(date).format("HH:mm"),
+  //               };
+  //             }
+  //           });
+  //           placeFields.forEach((field) => {
+  //             const foundCountry = countries.find(
+  //               (country) => country.code === res[field]
+  //             );
+  //             if (foundCountry) {
+  //               res[field] = {
+  //                 code: foundCountry.code,
+  //                 label: foundCountry.label,
+  //               };
+  //             }
+  //           });
+
+  //           return res;
+  //         });
+
+  //       } catch (error) {
+  //         console.error("Error:", error);
+  //       }
+  //     }
+  //   }
+  // };
+
   const handleSearch = async () => {
-    if (valueRadio === oneWay?.value && initialDate) {
-      console.log("ONEWAY");
-      let dateInitialAux = formatDateTime(initialDate);
-      let fromAux = origin;
-      let toAux = destination;
+    if (origin && destination && initialDate && passengers) {
+      if (origin.code === destination.code) {
+       
+        setError({
+          value: true,
+          msg: "Please ensure that the destination and origin countries for the flight are not the same.",
+        });
+        return;
+      }
+      console.log("ORIGEN", origin);
+      console.log("destination", destination);
+      setError({ value: false });
+      let dateInitialAux;
+      let dateFinalAux;
+      let flightsQuery = null;
+
+      if (valueRadio === oneWay?.value && initialDate) {
+        dateInitialAux = formatDateTime(initialDate);
+      } else if (initialDate && finallDate) {
+        dateInitialAux = formatDateTime(initialDate);
+        dateFinalAux = formatDateTime(finallDate);
+      } else {
+        setError({ value: true, msg: "Please fill the data input" });
+        return;
+      }
 
       const searchParams = {
         dateInitial: dateInitialAux,
-        origin: fromAux,
-        destination: toAux,
-        // passenger: numberAux,
+        dateFinal: dateFinalAux,
+        origin,
+        destination,
       };
-      try {
-        const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
 
+      try {
+        const resultQuery = await getFlightByParams(searchParams);
         const dateFields = ["fecha_salida", "fecha_regreso"];
         const placeFields = ["origen", "destino"];
 
-        if (resultQuery.length > 0) {
-          console.log("ResultQuery", resultQuery);
+        const modifiedResults = resultQuery.map((res: any) => {
+          if (res.fecha_salida && res.fecha_regreso) {
+            const departureDate = dayjs(res.fecha_salida.seconds * 1000);
+            const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
+            const duration = dayjs.duration(returnDate.diff(departureDate));
+            let durationString = "";
 
-          const modifiedResults = resultQuery.map((res: any) => {
-            if (res.fecha_salida && res.fecha_regreso) {
-              const departureDate = dayjs(res.fecha_salida.seconds * 1000);
-              const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
-
-              const duration = dayjs.duration(returnDate.diff(departureDate));
-
-              let durationString = "";
-              if (duration.days() > 0) {
-                durationString += `${duration.days()}d `;
-              }
-              durationString += `${duration.hours()}h ${duration.minutes()}m`;
-
-              res.duration = durationString;
+            if (duration.days() > 0) {
+              durationString += `${duration.days()}d `;
             }
-            dateFields.forEach((field) => {
-              if (res[field] && res[field].seconds) {
-                const date = new Date(res[field].seconds * 1000);
-                date.setUTCHours(date.getUTCHours());
-                res[field] = {
-                  formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
-                  time: dayjs(date).format("HH:mm"),
-                };
-              }
-            });
-            placeFields.forEach((field) => {
-              const foundCountry = countries.find(
-                (country) => country.code === res[field]
-              );
-              if (foundCountry) {
-                res[field] = {
-                  code: foundCountry.code,
-                  label: foundCountry.label,
-                };
-              }
-            });
 
-            return res;
+            durationString += `${duration.hours()}h ${duration.minutes()}m`;
+            res.duration = durationString;
+          }
+
+          dateFields.forEach((field) => {
+            if (res[field] && res[field].seconds) {
+              const date = new Date(res[field].seconds * 1000);
+              date.setUTCHours(date.getUTCHours());
+              res[field] = {
+                formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
+                time: dayjs(date).format("HH:mm"),
+              };
+            }
           });
-          router.push({
-            pathname: "/flight-search",
-            query: {
-              flights: JSON.stringify(modifiedResults),
-              passengers: JSON.stringify(passengers),
-            }, // Convertir a JSON para pasar como query param
+
+          placeFields.forEach((field) => {
+            const foundCountry = countries.find(
+              (country) => country.code === res[field]
+            );
+            if (foundCountry) {
+              res[field] = {
+                code: foundCountry.code,
+                label: foundCountry.label,
+              };
+            }
           });
-        } else {
-          router.push({
-            pathname: "/flight-search",
-            query: {
-              passengers: JSON.stringify(passengers),
-            }, // Convertir a JSON para pasar como query param
-          });
+
+          return res;
+        });
+
+        if (modifiedResults.length > 0) {
+          flightsQuery = JSON.stringify(modifiedResults);
         }
 
-        //OPTIMIZATED
-        // const transformDateFields = (res: any) => {
-        //   const dateFields = ["fecha_salida", "fecha_regreso"];
-        //   dateFields.forEach((field) => {
-        //     if (res[field] && res[field].seconds) {
-        //       const date = new Date(res[field].seconds * 1000);
-        //       res[field] = {
-        //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
-        //         time: dayjs(date).utc().format("HH:mm"),
-        //       };
-        //     }
-        //   });
-        // };
-
-        // const transformPlaceFields = (res: any, countries: CountryType[]) => {
-        //   const placeFields = ["origen", "destino"];
-        //   placeFields.forEach((field) => {
-        //     const foundCountry = countries.find(
-        //       (country) => country.code === res[field]
-        //     );
-        //     if (foundCountry) {
-        //       res[field] = {
-        //         code: foundCountry.code,
-        //         label: foundCountry.label,
-        //       };
-        //     }
-        //   });
-        // };
-
-        // const modifiedResults = resultQuery.map((res: any) => {
-        //   transformDateFields(res);
-        //   transformPlaceFields(res, countries);
-        //   return res;
-        // });
-
-        // router.push({
-        //   pathname: "/flight-search",
-        //   query: {
-        //     flights: JSON.stringify(modifiedResults),
-        //     passengers: JSON.stringify(passengers),
-        //   }, // Convertir a JSON para pasar como query param
-        // });
+        router.push({
+          pathname: "/flight-search",
+          query: {
+            flights: flightsQuery,
+            passengers: JSON.stringify(passengers),
+          },
+        });
       } catch (error) {
         console.error("Error:", error);
       }
     } else {
-      console.log("OUTSIDE ROUND", initialDate);
-      console.log("OUTSIDE 2", finallDate);
-      if (initialDate && finallDate) {
-        console.log("ROUNDWAY");
-        let dateInitialAux = formatDateTime(initialDate);
-        let dateFinalAux = formatDateTime(finallDate);
-        let fromAux = origin;
-        let toAux = destination;
-        const searchParams = {
-          dateInitial: dateInitialAux,
-          dateFinal: dateFinalAux,
-          origin: fromAux,
-          destination: toAux,
-          // passenger: numberAux,
-        };
-        try {
-          const resultQuery = await getFlightByParams(searchParams); // Esperar a que se complete la función
-
-          const dateFields = ["fecha_salida", "fecha_regreso"];
-          const placeFields = ["origen", "destino"];
-
-          const modifiedResults = resultQuery.map((res: any) => {
-            if (res.fecha_salida && res.fecha_regreso) {
-              const departureDate = dayjs(res.fecha_salida.seconds * 1000);
-              const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
-
-              const duration = dayjs.duration(returnDate.diff(departureDate));
-
-              let durationString = "";
-              if (duration.days() > 0) {
-                durationString += `${duration.days()}d `;
-              }
-              durationString += `${duration.hours()}h ${duration.minutes()}m`;
-
-              res.duration = durationString;
-            }
-            dateFields.forEach((field) => {
-              if (res[field] && res[field].seconds) {
-                const date = new Date(res[field].seconds * 1000);
-                date.setUTCHours(date.getUTCHours());
-                res[field] = {
-                  formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
-                  time: dayjs(date).format("HH:mm"),
-                };
-              }
-            });
-            placeFields.forEach((field) => {
-              const foundCountry = countries.find(
-                (country) => country.code === res[field]
-              );
-              if (foundCountry) {
-                res[field] = {
-                  code: foundCountry.code,
-                  label: foundCountry.label,
-                };
-              }
-            });
-
-            return res;
-          });
-
-          //OPTIMIZATED
-          // const transformDateFields = (res: any) => {
-          //   const dateFields = ["fecha_salida", "fecha_regreso"];
-          //   dateFields.forEach((field) => {
-          //     if (res[field] && res[field].seconds) {
-          //       const date = new Date(res[field].seconds * 1000);
-          //       res[field] = {
-          //         formattedDate: dayjs(date).utc().format("ddd, D MMMM YYYY"),
-          //         time: dayjs(date).utc().format("HH:mm"),
-          //       };
-          //     }
-          //   });
-          // };
-
-          // const transformPlaceFields = (res: any, countries: CountryType[]) => {
-          //   const placeFields = ["origen", "destino"];
-          //   placeFields.forEach((field) => {
-          //     const foundCountry = countries.find(
-          //       (country) => country.code === res[field]
-          //     );
-          //     if (foundCountry) {
-          //       res[field] = {
-          //         code: foundCountry.code,
-          //         label: foundCountry.label,
-          //       };
-          //     }
-          //   });
-          // };
-
-          // const modifiedResults = resultQuery.map((res: any) => {
-          //   transformDateFields(res);
-          //   transformPlaceFields(res, countries);
-          //   return res;
-          // });
-
-          // router.push({
-          //   pathname: "/flight-search",
-          //   query: {
-          //     flights: JSON.stringify(modifiedResults),
-          //     passengers: JSON.stringify(passengers),
-          //   }, // Convertir a JSON para pasar como query param
-          // });
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
+     
+      setError({
+        value: true,
+        msg: " Please complete all fields before searching for a flight.",
+      });
     }
   };
 
@@ -311,7 +335,10 @@ const ContainerEngineSearch = () => {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                onChange={(event) => setValueRadio(event.target.value)}
+                onChange={(event) => {
+                  setError({ value: false });
+                  setValueRadio(event.target.value);
+                }}
                 value={valueRadio}
               >
                 <FormControlLabel
@@ -347,6 +374,11 @@ const ContainerEngineSearch = () => {
             finalDateValue={finallDate}
           />
         </div>
+        {error.value && (
+          <div>
+            <p className="p-3 text-lg text-red-500">{error.msg}</p>
+          </div>
+        )}
 
         <div className="flex justify-center">
           {/* <Link href={"/flight-search"}> */}

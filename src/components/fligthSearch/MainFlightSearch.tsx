@@ -35,7 +35,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
     let total = 0;
 
     categories.forEach((category, index) => {
-      const { key, priceFactor } = category;
+      const {  priceFactor } = category;
       const categoryPrice = flights.precio * priceFactor;
       total += categoryPrice * passengers[index]?.n || 0;
     });

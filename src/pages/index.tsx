@@ -1,13 +1,11 @@
 import React from "react";
 
-import About from "../components/other/About";
 import Canvas from "../components/other/Canvas";
 import Header from "../components/other/Header";
 import LazyShow from "../components/other/LazyShow";
 import MainHero from "../components/other/MainHero";
 import MainHeroImage from "../components/other/MainHeroImage";
 import Divider from "../components/other/Divider";
-import Dashboard from "../components/dashboard/Dashboard";
 import Head from "next/head";
 import Footer from "../components/other/Footer";
 
@@ -37,7 +35,6 @@ const App = () => {
         <LazyShow>
           <>
             <Canvas />
-        
             <Footer />
           </>
         </LazyShow>

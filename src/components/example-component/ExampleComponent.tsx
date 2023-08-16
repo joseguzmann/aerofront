@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-// @ts-ignore
- import { fetchAllMaletas } from "../../lib/firestore/maleta.service.js";
+import React from "react";
 
+// @ts-ignore
+import { fetchAllMaletas } from "../../lib/firestore/maleta.service.js";
 
 const ExampleComponent = (): JSX.Element => {
   const [maletas, setMaletas] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
@@ -19,7 +19,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
 
 
-  const { onClose, selectedValue, open } = props; 
+  const { onClose,  open } = props; 
 
   const handleIncrement = (index: any) => {
     const updatedSections: any = [...sectionsV];

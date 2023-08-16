@@ -8,11 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import AutoCompleteBooking from "./AutoCompleteBooking";
 import DateBooking from "./DateBooking";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import PassengersBooking from "./PassengersBooking";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { DocumentData } from "firebase/firestore";
 // @ts-ignore
 import { getFlightByParams } from "../../lib/firestore/searchEngine.service.js";
 import weekday from "dayjs/plugin/weekday";

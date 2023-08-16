@@ -27,7 +27,7 @@ const CardExplore = ({ flight }: IProps) => {
           <p className="text-xl py-4">{flight.origin}</p>
           <p>{flight.date}</p>
           <div className="flex row my-2 ">
-            <p className="mr-5">{flight.status}</p>
+            {/* <p className="mr-5">{flight.status}</p> */}
             <p>{flight.duration}</p>
           </div>
           <div className="flex flex-col justify-end items-end h-full">

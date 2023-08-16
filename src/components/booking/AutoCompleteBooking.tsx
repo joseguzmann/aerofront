@@ -7,12 +7,12 @@ import { countries } from "../../utils/constants";
 
 import config from "../../config/index.json";
 
-interface CountryType {
-  code: string;
-  label: string;
-  phone: string;
-  suggested?: boolean;
-}
+// interface CountryType {
+//   code: string;
+//   label: string;
+//   phone: string;
+//   suggested?: boolean;
+// }
 interface IProps {
   origin: any;
   destination: any;
@@ -37,8 +37,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         sx={{ width: widthStyle, marginRight: "6rem" }}
         options={newContry}
         blurOnSelect
-   
-        onChange={(event: any, newValue: any) => {
+        onChange={(newValue: any) => {
           origin(newValue);
           setOriginAux(newValue);
         }}
@@ -74,7 +73,7 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         sx={{ width: widthStyle }}
         options={newContry}
         autoHighlight
-        onChange={(event: any, newValue: any) => {
+        onChange={(newValue: any) => {
           destination(newValue);
           setDestinationAux(newValue);
         }}

@@ -1,7 +1,7 @@
 import React from "react";
 import config from "../../config/index.json";
 import CardExplore from "./CardExplore";
-import DiscoverBooking from "./DiscoverBooking";
+// import DiscoverBooking from "./DiscoverBooking";
 interface FlightData {
   origin: string;
   date: string;
@@ -13,19 +13,19 @@ interface FlightData {
 interface BookingContent {
   content: FlightData[];
 }
-interface DiscoverData {
-  title: string;
-  desc: string;
-  img: string;
-}
-interface DiscContet {
-  discoverContent: DiscoverData[];
-}
+// interface DiscoverData {
+//   title: string;
+//   desc: string;
+//   img: string;
+// }
+// interface DiscContet {
+//   discoverContent: DiscoverData[];
+// }
 
 const ExploreBooking = () => {
   const { booking } = config;
   const { content }: BookingContent = booking;
-  const { discoverContent }: DiscContet = booking;
+  // const { discoverContent }: DiscContet = booking;
 
   return (
     <div className="flex justify-center items-center mb-20">
@@ -43,13 +43,13 @@ const ExploreBooking = () => {
             );
           })}
         </div>
-        <p className="text-lg my-3 text-base text-black">{booking.discover}</p>
+        {/* <p className="text-lg my-3 text-base text-black">{booking.discover}</p>
         <div className=" flex flex-row flex-wrap justify-between mb-15">
           {discoverContent.map((discover) => {
             return <DiscoverBooking discover={discover} />;
           })}
-        </div>
-        <div></div>
+        </div> */}
+
       </div>
     </div>
   );

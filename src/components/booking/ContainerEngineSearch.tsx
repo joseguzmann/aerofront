@@ -101,7 +101,7 @@ const ContainerEngineSearch = () => {
         dateFinal: dateFinalAux,
         origin,
         destination,
-        totalSumPassengers
+        totalSumPassengers,
       };
 
       try {
@@ -153,6 +153,8 @@ const ContainerEngineSearch = () => {
         if (modifiedResults.length > 0) {
           flightsQuery = JSON.stringify(modifiedResults);
         }
+
+
 
         router.push({
           pathname: "/flight-search",

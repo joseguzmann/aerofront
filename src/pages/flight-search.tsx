@@ -6,14 +6,18 @@ import PrimaryHeading from "../components/other/PrimaryHeading";
 import MainFlightSearch from "../components/fligthSearch/MainFlightSearch";
 import Footer from "../components/other/Footer";
 import NoMatchesFlight from "../components/fligthSearch/NoMatchesFlight";
+import { IFlights } from "../interface/interface";
 
 const FlightSearch = () => {
   const router = useRouter();
   const { flights, passengers }: any = router.query; // Obtener los query params
-  const parsedFlights = flights ? JSON.parse(flights) : null;
+  const parsedFlights: IFlights[] = flights ? JSON.parse(flights) : null;
   const parsedPassengers = passengers ? JSON.parse(passengers) : null;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("PARSED FLLIGHTS: ", parsedFlights);
+    console.log("PARSED Passengers: ", parsedPassengers);
+  }, []);
 
   const { search } = config;
   return (

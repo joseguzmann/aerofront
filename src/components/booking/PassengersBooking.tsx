@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
@@ -6,7 +6,6 @@ import Divider from "@mui/material/Divider";
 import config from "../../config/index.json";
 
 const { passengers } = config.booking;
-
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -16,10 +15,13 @@ export interface SimpleDialogProps {
 
 function SimpleDialog(props: SimpleDialogProps) {
   const [sectionsV, setSectionsV] = useState(passengers.sections);
+  const [totalSum, setTotalSum] = useState(1);
 
+  useEffect(() => {
+    setTotalSum(sectionsV.reduce((total, section) => total + section.n, 0));
+  }, [sectionsV]);
 
-
-  const { onClose,  open } = props; 
+  const { onClose, open } = props;
 
   const handleIncrement = (index: any) => {
     const updatedSections: any = [...sectionsV];
@@ -53,6 +55,7 @@ function SimpleDialog(props: SimpleDialogProps) {
               </div>
               <div className="flex row items-center w-[150px] justify-around">
                 <button
+                  // disabled={totalSum === 9 ? true : false}
                   className="w-[30px] h-[30px]"
                   onClick={() => {
                     if (passenger.n > 0) handleDecrement(i);
@@ -69,6 +72,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
                 <p className="text-xl">{passenger.n}</p>
                 <button
+                  disabled={totalSum === 9 ? true : false}
                   className="w-[40px] h-[40px]"
                   onClick={() => {
                     handleIncrement(i);
@@ -89,20 +93,28 @@ function SimpleDialog(props: SimpleDialogProps) {
             </div>
           </div>
         ))}
-        <div className=" flex items-center justify-center">
-          <Button
-            style={{
-              backgroundColor: "#ED6C02",
-              color: "white",
-            }}
-            variant="contained"
-            size="large"
-            className="mt-9 mb-4"
-            onClick={handleClose}
-          >
-            {passengers.continue}
-          </Button>
+        <div className=" flex items-center justify-center my-5">
+          {totalSum > 0 && (
+            <Button
+              disabled={totalSum === 9 ? true : false}
+              style={{
+                backgroundColor: "#ED6C02",
+                color: "white",
+              }}
+              variant="contained"
+              size="large"
+              className="mt-9 mb-4"
+              onClick={handleClose}
+            >
+              {passengers.continue}
+            </Button>
+          )}
         </div>
+        {totalSum === 9 && (
+          <div className="flex justify-center">
+            <p>No puede añadir mas de 9 pasajeros</p>
+          </div>
+        )}
       </div>
 
       {/* </List> */}
@@ -114,7 +126,6 @@ interface PassengersBookingProps {
 }
 
 const PassengersBooking = ({ setPassengers }: PassengersBookingProps) => {
-
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState<any>();
   // const totalSum = selectedValue.reduce(

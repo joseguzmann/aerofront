@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import config from "../../config/index.json";
 import CardFligth from "./CardFligth";
+import Link from "next/link";
 // import Image from "next/image";
 import Button from "@mui/material/Button";
+import { IFlights } from "../../interface/interface";
 
-interface FlightsProps {
-  disponibles: number;
-  destino: string;
-  fecha_regreso: any;
-  fecha_salida: any;
-  id: any;
-  origen: string;
-  duration: string;
-  precio: number;
-}
 interface IProps {
-  flights: FlightsProps[] | any;
+  flights?: IFlights[] | null;
   passengers: any;
   isDetails?: boolean;
+  flightSelected?: IFlights;
 }
 
-const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
+const MainFlightSearch = ({
+  flights,
+  passengers,
+  isDetails,
+  flightSelected,
+}: IProps) => {
   const { desc } = config.search;
   const { flight_details } = config;
 
@@ -60,11 +58,11 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
             {isDetails ? "DETALLE" : desc}
           </p>
         </div>
-        {isDetails && flights && (
+        {isDetails && flightSelected && (
           <>
             <CardFligth
-              key={flights.id}
-              flight={flights}
+              key={flightSelected.id}
+              flight={flightSelected}
               passengers={passengers}
             />
             <div className="relative flex justify-center items-center my-10 ">
@@ -105,10 +103,10 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
                           <p>
                             {" "}
                             {i === 0
-                              ? (flights.precio / 2) * res.n
+                              ? (flightSelected.precio / 2) * res.n
                               : i === 3
                               ? 0
-                              : flights.precio * res.n}{" "}
+                              : flightSelected.precio * res.n}{" "}
                           </p>
                         </div>
                       );
@@ -118,20 +116,22 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
               </div>
             </div>
             <div>
-              <Button
-                style={{ backgroundColor: "#ED6C02", color: "white" }}
-                variant="contained"
-                size="large"
-                // onClick={handleSearch}
-              >
-                CONTINUAR EL PAGO
-              </Button>
+              <Link href={"/login"}>
+                <Button
+                  style={{ backgroundColor: "#ED6C02", color: "white" }}
+                  variant="contained"
+                  size="large"
+                  // onClick={handleSearch}
+                >
+                  CONTINUAR EL PAGO
+                </Button>
+              </Link>
             </div>
           </>
         )}
         {!isDetails &&
           flights &&
-          flights.map((flight: FlightsProps) => (
+          flights.map((flight: IFlights) => (
             <CardFligth
               key={flight.id}
               flight={flight}

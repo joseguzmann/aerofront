@@ -290,5 +290,8 @@
     "label1": "No Surprises",
     "label2": "All taxes are included in the final price",
     "labelTotal": "TOTAL of your booking:"
+  },
+  "login":{
+    "title": "Login"
   }
 }

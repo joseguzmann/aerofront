@@ -6,20 +6,10 @@ import Divider from "@mui/material/Divider";
 // import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 // import Image from "next/image";
 import { useRouter } from "next/router";
-
-interface FlightsProps {
-  disponibles: number;
-  destino: any;
-  fecha_regreso: any;
-  fecha_salida: any;
-  id: any;
-  origen: any;
-  duration: string;
-  precio: number;
-}
+import { IFlights } from "../../interface/interface";
 
 interface IProps {
-  flight: FlightsProps;
+  flight: IFlights;
   passengers: any;
 }
 
@@ -39,12 +29,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
       <div className="my-[25px] ">
         <div className="bg-[#ECECEC] w-[100%] flex row p-1 items-center">
           <div className="mr-5">
-            <img
-              src={config.other.imgAirplane}
-              width={64}
-              height={42}
-              alt=""
-            />
+            <img src={config.other.imgAirplane} width={64} height={42} alt="" />
           </div>
 
           <p className="mx-5">
@@ -73,12 +58,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
             </div>
             <div className="flex flex-col justify-center items-center ">
               <p>{flight.duration}</p>
-              <img
-                src={config.other.imgArrow}
-                width={310}
-                height={28}
-                alt=""
-              />
+              <img src={config.other.imgArrow} width={310} height={28} alt="" />
             </div>
             <div className="flex flex-col mx-9">
               <p>{flight.fecha_regreso.formattedDate}</p>

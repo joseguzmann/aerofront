@@ -9,7 +9,7 @@ interface FlightsProps {
   destino: string;
   fecha_regreso: any;
   fecha_salida: any;
-  id: number;
+  id: any;
   origen: string;
   duration: string;
   precio: number;
@@ -35,7 +35,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
     let total = 0;
 
     categories.forEach((category, index) => {
-      const {  priceFactor } = category;
+      const { priceFactor } = category;
       const categoryPrice = flights.precio * priceFactor;
       total += categoryPrice * passengers[index]?.n || 0;
     });
@@ -46,7 +46,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    console.log("Passengers", passengers);
+    console.log("FLIGHTS", flights);
     if (isDetails) {
       const sumTOTAL = calculateTotal(flights, passengers);
       setTotal(sumTOTAL);
@@ -60,7 +60,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
             {isDetails ? "DETALLE" : desc}
           </p>
         </div>
-        {isDetails ? (
+        {isDetails && flights && (
           <>
             <CardFligth
               key={flights.id}
@@ -96,24 +96,25 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
                 <p>
                   <b>DETAILS PASSENGERS</b>
                 </p>
-                {passengers.map((res: any, i: number) => {
-                  if (res.n > 0) {
-                    return (
-                      <div className="flex justify-between py-1">
-                        <p>{res.title} Total:</p>
-                        <p>
-                          {" "}
-                          {i === 0
-                            ? (flights.precio / 2) * res.n
-                            : i === 3
-                            ? 0
-                            : flights.precio * res.n}{" "}
-                        </p>
-                      </div>
-                    );
-                  }
-                  return;
-                })}
+                {passengers &&
+                  passengers.map((res: any, i: number) => {
+                    if (res.n > 0) {
+                      return (
+                        <div className="flex justify-between py-1">
+                          <p>{res.title} Total:</p>
+                          <p>
+                            {" "}
+                            {i === 0
+                              ? (flights.precio / 2) * res.n
+                              : i === 3
+                              ? 0
+                              : flights.precio * res.n}{" "}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return;
+                  })}
               </div>
             </div>
             <div>
@@ -127,16 +128,17 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
               </Button>
             </div>
           </>
-        ) : (
-          flights.map((flight: FlightsProps) => (
-            <CardFligth
-              key={flight.id}
-              flight={flight}
-              passengers={passengers}
-            />
-          ))
         )}
-
+        {!isDetails &&
+          flights(
+            flights.map((flight: FlightsProps) => (
+              <CardFligth
+                key={flight.id}
+                flight={flight}
+                passengers={passengers}
+              />
+            ))
+          )}
         {/* <CardFligth />
         <CardFligth /> */}
       </div>

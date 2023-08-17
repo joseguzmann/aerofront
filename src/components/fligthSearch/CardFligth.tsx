@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import config from "../../config/index.json";
 
 import Divider from "@mui/material/Divider";
@@ -13,7 +12,7 @@ interface FlightsProps {
   destino: any;
   fecha_regreso: any;
   fecha_salida: any;
-  id: number;
+  id: any;
   origen: any;
   duration: string;
   precio: number;

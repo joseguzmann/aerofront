@@ -37,7 +37,8 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         sx={{ width: widthStyle, marginRight: "6rem" }}
         options={newContry}
         blurOnSelect
-        onChange={(newValue: any) => {
+        onChange={(event: any, newValue: any) => {
+          console.log("NEW VALUE:", event);
           origin(newValue);
           setOriginAux(newValue);
         }}
@@ -73,7 +74,9 @@ const AutoCompleteBooking = ({ origin, destination }: IProps) => {
         sx={{ width: widthStyle }}
         options={newContry}
         autoHighlight
-        onChange={(newValue: any) => {
+        onChange={(event: any, newValue: any) => {
+          console.log("NEW VALUE:", event);
+
           destination(newValue);
           setDestinationAux(newValue);
         }}

@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import config from "../../config/index.json";
 
 const NoMatchesFlight = () => {
@@ -10,7 +10,7 @@ const NoMatchesFlight = () => {
           <p className="font-bold text-4xl my-9">No Flights Found</p>
         </div>
         <div>
-          <Image
+          <img
             src={config.other.imgNoFligh}
             width={624}
             height={416}

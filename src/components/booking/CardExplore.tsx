@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 
 interface FlightData {
   origin: string;
@@ -22,7 +22,7 @@ const CardExplore = ({ flight }: IProps) => {
       
         className="flex row rounded-lg border bg-gray-200 border-gray-300 border-b-4 border-opacity-75 shadow-lg w-[49%] mb-5 "
       >
-        <Image src={flight.img} width={303} height={237} alt="" />
+        <img src={flight.img} width={303} height={237} alt="" />
         <div className="flex flex-col my-5  w-[55%] px-5">
           <p className="text-xl py-4">{flight.origin}</p>
           <p>{flight.date}</p>

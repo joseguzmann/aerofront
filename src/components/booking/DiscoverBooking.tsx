@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface DiscoverData {
@@ -15,7 +15,7 @@ const DiscoverBooking = ({ discover }: IProps) => {
   if (discover !== undefined) {
     return (
       <div className="flex flex-col border rounded-lg border-gray-300 border-b-4 border-opacity-75 w-[30%] h-[470px]">
-        <Image src={discover.img} width={464} height={229} alt="" />
+        <img src={discover.img} width={464} height={229} alt="" />
         <div className="mx-10">
           <p className="text-3xl py-5">{discover.title}</p>
           <p>{discover.desc}</p>

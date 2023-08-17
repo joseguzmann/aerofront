@@ -4,7 +4,7 @@ import config from "../../config/index.json";
 
 import Divider from "@mui/material/Divider";
 // import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/router";
 
 interface FlightsProps {
@@ -39,7 +39,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
       <div className="my-[25px] ">
         <div className="bg-[#ECECEC] w-[100%] flex row p-1 items-center">
           <div className="mr-5">
-            <Image
+            <img
               src={config.other.imgAirplane}
               width={64}
               height={42}
@@ -50,7 +50,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
           <p className="mx-5">
             {flight.origen.label} ({flight.origen.code})
           </p>
-          <Image src={config.other.imgArrow2} width={99} height={13} alt="" />
+          <img src={config.other.imgArrow2} width={99} height={13} alt="" />
           <p className="mx-5">
             {flight.destino.label}({flight.destino.code})
           </p>
@@ -73,7 +73,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
             </div>
             <div className="flex flex-col justify-center items-center ">
               <p>{flight.duration}</p>
-              <Image
+              <img
                 src={config.other.imgArrow}
                 width={310}
                 height={28}

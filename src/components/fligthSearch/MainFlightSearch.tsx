@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import config from "../../config/index.json";
 import CardFligth from "./CardFligth";
-import Image from "next/image";
+// import Image from "next/image";
 import Button from "@mui/material/Button";
 
 interface FlightsProps {
@@ -70,7 +70,7 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
             <div className="relative flex justify-center items-center my-10 ">
               <div className=" w-[70%] flex row justify-around">
                 <div className="bg-[#EDF7ED] p-2 flex row  w-[36%] justify-around ">
-                  <Image
+                  <img
                     src={config.other.svgCheck}
                     width={25}
                     height={25}
@@ -130,15 +130,14 @@ const MainFlightSearch = ({ flights, passengers, isDetails }: IProps) => {
           </>
         )}
         {!isDetails &&
-          flights(
-            flights.map((flight: FlightsProps) => (
-              <CardFligth
-                key={flight.id}
-                flight={flight}
-                passengers={passengers}
-              />
-            ))
-          )}
+          flights &&
+          flights.map((flight: FlightsProps) => (
+            <CardFligth
+              key={flight.id}
+              flight={flight}
+              passengers={passengers}
+            />
+          ))}
         {/* <CardFligth />
         <CardFligth /> */}
       </div>

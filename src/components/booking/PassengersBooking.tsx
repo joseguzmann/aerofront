@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Divider from "@mui/material/Divider";
-import Image from "next/image";
+// import Image from "next/image";
 import config from "../../config/index.json";
 
 const { passengers } = config.booking;
@@ -58,7 +58,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                     if (passenger.n > 0) handleDecrement(i);
                   }}
                 >
-                  <Image
+                  <img
                     src={config.other.svgLess}
                     width={30}
                     height={30}
@@ -74,7 +74,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                     handleIncrement(i);
                   }}
                 >
-                  <Image
+                  <img
                     src={config.other.svgPlus}
                     width={50}
                     height={50}

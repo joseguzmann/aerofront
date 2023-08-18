@@ -5,10 +5,9 @@ import PrimaryHeading from "../components/other/PrimaryHeading";
 import Footer from "../components/other/Footer";
 import MainFlightSearch from "../components/fligthSearch/MainFlightSearch";
 
-import config from "../config/index.json"
+import config from "../config/index.json";
 const FlightDetails = () => {
-
-  const {flight_details}= config
+  const { flight_details } = config;
 
   const router = useRouter();
   const { flights, passengers }: any = router.query; // Obtener los query params
@@ -21,7 +20,7 @@ const FlightDetails = () => {
       </Head>
       <PrimaryHeading />
       <MainFlightSearch
-        flights={parsedFlights}
+        flightSelected={parsedFlights}
         passengers={parsedPassengers}
         isDetails={true}
       />

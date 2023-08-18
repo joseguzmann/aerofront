@@ -291,7 +291,16 @@
     "label2": "All taxes are included in the final price",
     "labelTotal": "TOTAL of your booking:"
   },
-  "login":{
-    "title": "Login"
+  "login": {
+    "title": "Login",
+    "imgLogin": "/assets/images/planeLogin.png",
+    "welcome": "Welcome back",
+    "login": "Login to your account",
+    "email": "E-Mail",
+    "password": "Password",
+    "forgot": "Forgot Password",
+    "buttonLogin": "Login Now",
+    "noAccount": "Don't have an account",
+    "register": "Register"
   }
 }

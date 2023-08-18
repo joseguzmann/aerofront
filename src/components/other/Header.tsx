@@ -12,20 +12,30 @@ import config from "../../config/index.json";
 // }
 interface PropsI {
   propBoolean?: boolean;
+  noSvg?: boolean;
 }
-const Menu = (propBoolean: PropsI) => {
+const Menu = ({ propBoolean, noSvg }: PropsI) => {
   const { navigation, company, callToAction } = config;
   const { name: companyName, logo } = company;
 
-  const colorNavText = propBoolean.propBoolean
-    ? "text-white "
-    : "text-gray-500";
-
-
+  const colorNavText = propBoolean ? "text-white " : "text-gray-500";
 
   return (
     <>
-      {!propBoolean.propBoolean && (
+      {noSvg
+        ? null
+        : !propBoolean && (
+            <svg
+              className={`hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-background transform translate-x-1/2`}
+              fill="currentColor"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <polygon points="50,0 100,0 50,100 0,100" />
+            </svg>
+          )}
+      {/* {!propBoolean && (
         <svg
           className={`hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-background transform translate-x-1/2`}
           fill="currentColor"
@@ -35,7 +45,7 @@ const Menu = (propBoolean: PropsI) => {
         >
           <polygon points="50,0 100,0 50,100 0,100" />
         </svg>
-      )}
+      )} */}
 
       <Popover>
         {/* <div className={positionNav}> */}
@@ -81,7 +91,7 @@ const Menu = (propBoolean: PropsI) => {
                   {item.name}
                 </Link>
               ))}
-              {!propBoolean.propBoolean && (
+              {!propBoolean && (
                 <Link href="/booking">
                   <a
                     //href="#"

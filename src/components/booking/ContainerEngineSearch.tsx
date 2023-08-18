@@ -12,7 +12,7 @@ import PassengersBooking from "./PassengersBooking";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 // @ts-ignore
-import { getFlightByParams } from "../../lib/firestore/searchEngine.service.js";
+import { getFlightByParams } from "../../lib/firestore/searchEngine.service";
 import weekday from "dayjs/plugin/weekday";
 import duration from "dayjs/plugin/duration";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -153,8 +153,6 @@ const ContainerEngineSearch = () => {
         if (modifiedResults.length > 0) {
           flightsQuery = JSON.stringify(modifiedResults);
         }
-
-
 
         router.push({
           pathname: "/flight-search",

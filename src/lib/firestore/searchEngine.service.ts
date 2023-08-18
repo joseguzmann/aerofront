@@ -24,8 +24,8 @@ const vueloRef = collection(db, "vuelo");
 //   return onSnapshot(q, fSnapshot);
 // };
 
-export const getFlightByParams = async (params) => {
-  const flights = [];
+export const getFlightByParams = async (params: any) => {
+  const flights: any = [];
 
   try {
     if (params.dateFinal) {
@@ -101,7 +101,7 @@ export const getFlightByParams = async (params) => {
     }
 
     return flights;
-  } catch (error) {
+  } catch (error: any) {
     console.log("Error:", error.message);
     return null;
   }

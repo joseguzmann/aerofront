@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Canvas from "../components/other/Canvas";
 import Header from "../components/other/Header";
@@ -8,17 +8,38 @@ import MainHeroImage from "../components/other/MainHeroImage";
 import Divider from "../components/other/Divider";
 import Head from "next/head";
 import Footer from "../components/other/Footer";
-import { PassengerContextProvider } from "../contexts/userContext";
+import { UserContextProvider } from "../contexts/userContext";
 import { IFlights, IPassenger } from "../interface/interface";
 import { FlightContextProvider } from "../contexts/flightContext";
+import { getCurrentUser, getUserByUid } from "../lib/firestore/auth.service";
 
 const App = () => {
-  const [passenger, setPassegner] = useState<IPassenger | null>(null);
+  const [user, setUser] = useState<IPassenger | null>(null);
   const [flight, setFlight] = useState<IFlights | null>(null);
+
+  useEffect(() => {
+    console.log("USE EFECT INDEX");
+    const getUserByUidSnapshot = (snapshot: any) => {
+      const user = snapshot.data();
+
+      console.log("USER?: ", user);
+
+      setUser(user);
+    };
+    const getCurrentUserSnapshot = (snapshot: any) => {
+      if (snapshot) {
+        const userUid = snapshot.uid;
+        getUserByUid(userUid, getUserByUidSnapshot);
+      } else {
+        setUser(null);
+      }
+    };
+    getCurrentUser(getCurrentUserSnapshot);
+  }, []);
 
   return (
     <div>
-      <PassengerContextProvider value={{ passenger, setPassegner }}>
+      <UserContextProvider value={{ user, setUser }}>
         <FlightContextProvider value={{ flight, setFlight }}>
           <Head>
             <title>AeroFly</title>
@@ -48,7 +69,7 @@ const App = () => {
             </LazyShow>
           </div>
         </FlightContextProvider>
-      </PassengerContextProvider>
+      </UserContextProvider>
     </div>
   );
 };

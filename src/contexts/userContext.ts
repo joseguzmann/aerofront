@@ -2,15 +2,15 @@ import { createContext } from "react";
 
 import { IPassenger } from "../interface/interface";
 
-interface IPassengerContext {
-  passenger: IPassenger | null;
-  setPassegner: Function;
+interface IUserContext {
+  user: IPassenger | null;
+  setUser: Function;
 }
 
-const PassengerContext = createContext<IPassengerContext>({
-  passenger: null,
-  setPassegner: () => {},
+const UserContext = createContext<IUserContext>({
+  user: null,
+  setUser: () => {},
 });
 
-export const PassengerContextProvider = PassengerContext.Provider;
-export default PassengerContext;
+export const UserContextProvider = UserContext.Provider;
+export default UserContext;

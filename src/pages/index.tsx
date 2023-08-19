@@ -67,6 +67,7 @@ const App = () => {
                 <Footer />
               </>
             </LazyShow>
+        
           </div>
         </FlightContextProvider>
       </UserContextProvider>

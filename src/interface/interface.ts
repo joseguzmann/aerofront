@@ -23,6 +23,13 @@ export interface IFlights {
   id: string;
   origen: ICountry;
   precio: number;
+  passengers?: IPassengersFlight[];
+}
+
+interface IPassengersFlight {
+  title: string;
+  desc: string;
+  n: number;
 }
 interface iDate {
   formattedDate: string;

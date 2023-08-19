@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import config from "../../config/index.json";
 import CardFligth from "./CardFligth";
 import Link from "next/link";
 // import Image from "next/image";
 import Button from "@mui/material/Button";
 import { IFlights } from "../../interface/interface";
+import FlightContext from "../../contexts/flightContext";
+import { useRouter } from "next/router";
 
 interface IProps {
   flights?: IFlights[] | null;
@@ -21,6 +23,8 @@ const MainFlightSearch = ({
 }: IProps) => {
   const { desc } = config.search;
   const { flight_details } = config;
+  const { setFlight, flight } = useContext(FlightContext);
+  const router = useRouter();
 
   const calculateTotal = (flights: any, passengers: any[]) => {
     const categories = [
@@ -32,24 +36,47 @@ const MainFlightSearch = ({
 
     let total = 0;
 
-    categories.forEach((category, index) => {
-      const { priceFactor } = category;
-      const categoryPrice = flights.precio * priceFactor;
-      total += categoryPrice * passengers[index]?.n || 0;
-    });
+    if (flightSelected) {
+      categories.forEach((category, index) => {
+        const { priceFactor } = category;
+        const categoryPrice = flightSelected.precio * priceFactor;
+        total += categoryPrice * passengers[index]?.n || 0;
+      });
 
-    return total;
+      return total;
+    }
+    return 0;
   };
 
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     console.log("FLIGHTS", flights);
+    console.log("FLIGHTSELECTED:", flightSelected);
     if (isDetails) {
       const sumTOTAL = calculateTotal(flights, passengers);
       setTotal(sumTOTAL);
     }
   }, []);
+
+  const handleProceed = () => {
+    if (flightSelected) {
+      console.log("BEFORE CONTEXT FLIGH: ", flight);
+      flightSelected.passengers = passengers;
+      console.log("FLIGTH SELECTED SETFLIGHT: ", flightSelected);
+      // setFlight(flightSelected);
+
+      console.log("CONTEXT FLIGH: ", flight);
+
+      router.push({
+        pathname: "login",
+        query: {
+          flight: JSON.stringify(flightSelected),
+        },
+      });
+    }
+  };
+
   return (
     <div className=" relative flex justify-center items-center mb-20 ">
       <div className=" items-center  w-[75%] ">
@@ -99,7 +126,7 @@ const MainFlightSearch = ({
                     if (res.n > 0) {
                       return (
                         <div className="flex justify-between py-1">
-                          <p>{res.title} Total:</p>
+                          <p>{res.n} {res.title} Total:</p>
                           <p>
                             {" "}
                             {i === 0
@@ -116,16 +143,14 @@ const MainFlightSearch = ({
               </div>
             </div>
             <div>
-              <Link href={"/login"}>
-                <Button
-                  style={{ backgroundColor: "#ED6C02", color: "white" }}
-                  variant="contained"
-                  size="large"
-                  // onClick={handleSearch}
-                >
-                  CONTINUAR EL PAGO
-                </Button>
-              </Link>
+              <Button
+                style={{ backgroundColor: "#ED6C02", color: "white" }}
+                variant="contained"
+                size="large"
+                onClick={handleProceed}
+              >
+                PROCEED WITH PAYMENT
+              </Button>
             </div>
           </>
         )}

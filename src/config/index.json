@@ -16,10 +16,6 @@
     {
       "name": "Log In",
       "href": "pricing"
-    },
-    {
-      "name": "Sign Up",
-      "href": "about"
     }
   ],
   "callToAction": {

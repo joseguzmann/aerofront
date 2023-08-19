@@ -11,8 +11,15 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import { signOutUser, userLogin } from "../../lib/firestore/auth.service";
+import { useRouter } from "next/router";
+import { IFlights } from "../../interface/interface";
 
-const LoginAuth = () => {
+interface IProps {
+  flight?: IFlights;
+}
+
+const LoginAuth = ({ flight }: IProps) => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState<string>();
   const [email, setEmail] = useState<string>();
@@ -49,7 +56,14 @@ const LoginAuth = () => {
     try {
       if (email && password) {
         const user = await userLogin(email, password);
-        console.log("USER LOGIN:", user);
+        if (user) {
+          router.push({
+            pathname: "/passenger-details",
+            query: {
+              flight: JSON.stringify(flight),
+            },
+          });
+        }
         // console.log("USER:", user);
         // setUser(user);
       }

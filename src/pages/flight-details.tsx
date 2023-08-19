@@ -9,6 +9,7 @@ import config from "../config/index.json";
 const FlightDetails = () => {
   const { flight_details } = config;
 
+
   const router = useRouter();
   const { flights, passengers }: any = router.query; // Obtener los query params
   const parsedFlights = flights ? JSON.parse(flights) : null;

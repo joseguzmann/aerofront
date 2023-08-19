@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -6,6 +6,7 @@ import { Link } from "react-scroll";
 import LinkNext from "next/link";
 
 import config from "../../config/index.json";
+import UserContext from "../../contexts/userContext";
 
 // interface PropsI {
 //   booking: boolean;
@@ -15,10 +16,15 @@ interface PropsI {
   noSvg?: boolean;
 }
 const Menu = ({ propBoolean, noSvg }: PropsI) => {
+  const { user } = useContext(UserContext);
   const { navigation, company, callToAction } = config;
   const { name: companyName, logo } = company;
 
   const colorNavText = propBoolean ? "text-white " : "text-gray-500";
+
+  useEffect(() => {
+    console.log("USERNAV: ", user);
+  }, [user]);
 
   return (
     <>
@@ -78,19 +84,24 @@ const Menu = ({ propBoolean, noSvg }: PropsI) => {
             </div>
 
             <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  spy={true}
-                  active="active"
-                  smooth={true}
-                  duration={1000}
-                  key={item.name}
-                  to={item.href}
-                  className={`font-medium ${colorNavText}  hover:text-yellow-400`}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                if (item.name === "Log IN" && user) {
+                  return <p>{user.nombre}</p>;
+                }
+                return (
+                  <Link
+                    spy={true}
+                    active="active"
+                    smooth={true}
+                    duration={1000}
+                    key={item.name}
+                    to={item.href}
+                    className={`font-medium ${colorNavText}  hover:text-yellow-400`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               {!propBoolean && (
                 <Link href="/booking">
                   <a

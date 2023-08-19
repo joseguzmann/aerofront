@@ -1,29 +1,27 @@
 import React from "react";
-import Head from "next/head";
 import config from "../config/index.json";
+import Head from "next/head";
 import Header from "../components/other/Header";
-import LoginAuth from "../components/authentication/LoginAuth";
+import PassengersData from "../components/authentication/PassengersData";
+import { useRouter } from "next/router";
 import PrimaryHeading from "../components/other/PrimaryHeading";
 import Footer from "../components/other/Footer";
-import { useRouter } from "next/router";
 
-const LoginPage = () => {
+const PassengersDetails = () => {
   const router = useRouter();
   const { flight }: any = router.query;
-  const parsedFlight = flight ? JSON.parse(flight) : null;
-
+  const parsedFlights = flight ? JSON.parse(flight) : null;
   const { login } = config;
   return (
     <div>
       <Head>
         <title>{login.title}</title>
       </Head>
-      <Header noSvg={true} />
-
-      <LoginAuth flight={parsedFlight} />
+      <PrimaryHeading />
+      <PassengersData flight={parsedFlights} />
       <Footer />
     </div>
   );
 };
 
-export default LoginPage;
+export default PassengersDetails;

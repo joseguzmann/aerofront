@@ -17,7 +17,7 @@ export interface ICountry {
 export interface IFlights {
   disponibles: number;
   destino: ICountry;
-  duration?: string;
+  duracion?: string;
   fecha_regreso: iDate;
   fecha_salida: iDate;
   id: string;

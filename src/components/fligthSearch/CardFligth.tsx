@@ -57,7 +57,7 @@ const CardFligth = ({ flight, passengers }: IProps) => {
               <p className="text-4xl font-bold">{flight.fecha_salida.time}</p>
             </div>
             <div className="flex flex-col justify-center items-center ">
-              <p>{flight.duration}</p>
+              <p>{flight.duracion}</p>
               <img src={config.other.imgArrow} width={310} height={28} alt="" />
             </div>
             <div className="flex flex-col mx-9">

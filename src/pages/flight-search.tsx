@@ -7,16 +7,18 @@ import MainFlightSearch from "../components/fligthSearch/MainFlightSearch";
 import Footer from "../components/other/Footer";
 import NoMatchesFlight from "../components/fligthSearch/NoMatchesFlight";
 import { IFlights } from "../interface/interface";
+import RoundedFlightSearch from "../components/fligthSearch/RoundedFlightSearch";
 
 const FlightSearch = () => {
   const router = useRouter();
-  const { flights, passengers }: any = router.query; // Obtener los query params
+  const { flights, passengers, isRounded }: any = router.query; // Obtener los query params
   const parsedFlights: IFlights[] = flights ? JSON.parse(flights) : null;
   const parsedPassengers = passengers ? JSON.parse(passengers) : null;
 
   useEffect(() => {
-    console.log("PARSED FLLIGHTS: ", parsedFlights);
-    console.log("PARSED Passengers: ", parsedPassengers);
+    console.log("PARSED LFIGHTS: ", parsedFlights);
+    console.log("Passenger: ", parsedPassengers);
+    console.log("ROUNDED: ", isRounded);
   }, []);
 
   const { search } = config;
@@ -27,10 +29,17 @@ const FlightSearch = () => {
       </Head>
       <PrimaryHeading />
       {parsedFlights !== null ? (
-        <MainFlightSearch
-          flights={parsedFlights}
-          passengers={parsedPassengers}
-        />
+        isRounded ? (
+          <RoundedFlightSearch
+            FlightsRound={JSON.parse(flights)}
+            passengers={parsedPassengers}
+          />
+        ) : (
+          <MainFlightSearch
+            flights={parsedFlights}
+            passengers={parsedPassengers}
+          />
+        )
       ) : (
         <div className="relative">
           <NoMatchesFlight />

@@ -19,11 +19,6 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import utc from "dayjs/plugin/utc";
 import { countries } from "../../utils/constants";
 
-interface initialDate {
-  date: dayjs.Dayjs | null;
-  time: dayjs.Dayjs | null;
-}
-
 interface IErrors {
   value: boolean;
   msg?: string;
@@ -39,8 +34,8 @@ const ContainerEngineSearch = () => {
   const [valueRadio, setValueRadio] = useState("oneWay");
   const [origin, setOrigin] = useState<any>();
   const [destination, setDestination] = useState<any>();
-  const [initialDate, setInitialDate] = useState<initialDate>();
-  const [finallDate, setFinalDate] = useState<initialDate>();
+  const [initialDate, setInitialDate] = useState<dayjs.Dayjs>();
+  const [finalDate, setFinalDate] = useState<dayjs.Dayjs>();
   const [passengers, setPassengers] = useState<any>();
   const [error, setError] = useState<IErrors>({ value: false });
 
@@ -55,75 +50,73 @@ const ContainerEngineSearch = () => {
       ? "flex row px-20 py-5"
       : "flex flex-col px-20 py-5";
 
-  const formatDateTime = (date: initialDate) => {
-    if (date !== undefined && date.time !== null) {
-      const combinedDataTime = date.date
-        ?.set("hour", date.time?.hour())
-        .set("minute", date.time?.minute());
-
-      return combinedDataTime?.toDate();
+  const formatDateTime = (date: dayjs.Dayjs) => {
+    if (date !== undefined) {
+      return date.toDate();
     }
     return;
   };
 
   const handleSearch = async () => {
-    if (origin && destination && initialDate && passengers) {
-      const totalSumPassengers = passengers.reduce(
-        (total: any, section: any) => total + section.n,
-        0
-      );
+    // Validar que se hayan proporcionado todos los datos necesarios
+    if (!origin || !destination || !initialDate || !passengers) {
+      setError({
+        value: true,
+        msg: "Please complete all fields before searching for a flight.",
+      });
+      return;
+    }
 
-      if (origin.code === destination.code) {
-        setError({
-          value: true,
-          msg: "Please ensure that the destination and origin countries for the flight are not the same.",
-        });
-        return;
-      }
+    // Calcular el total de pasajeros
+    const totalSumPassengers = passengers.reduce(
+      (total: any, section: any) => total + section.n,
+      0
+    );
 
-      setError({ value: false });
-      let dateInitialAux;
-      let dateFinalAux;
-      let flightsQuery = null;
+    // Validar que el origen y el destino no sean iguales
+    if (origin.code === destination.code) {
+      setError({
+        value: true,
+        msg: "Please ensure that the destination and origin countries for the flight are not the same.",
+      });
+      return;
+    }
 
-      if (valueRadio === oneWay?.value && initialDate) {
-        dateInitialAux = formatDateTime(initialDate);
-      } else if (initialDate && finallDate) {
-        dateInitialAux = formatDateTime(initialDate);
-        dateFinalAux = formatDateTime(finallDate);
-      } else {
-        setError({ value: true, msg: "Please fill the data input" });
-        return;
-      }
+    setError({ value: false });
 
-      const searchParams = {
-        dateInitial: dateInitialAux,
-        dateFinal: dateFinalAux,
-        origin,
-        destination,
-        totalSumPassengers,
-      };
+    // Inicializar variables
+    let dateInitialAux,
+      dateFinalAux,
+      flightsQuery = null,
+      isRounded = null;
 
-      try {
-        const resultQuery = await getFlightByParams(searchParams);
-        const dateFields = ["fecha_salida", "fecha_regreso"];
-        const placeFields = ["origen", "destino"];
+    // Verificar el tipo de búsqueda (one-way o round-trip)
+    if (valueRadio === oneWay?.value) {
+      dateInitialAux = formatDateTime(initialDate);
+    } else if (initialDate && finalDate) {
+      dateInitialAux = formatDateTime(initialDate);
+      dateFinalAux = formatDateTime(finalDate);
+    } else {
+      setError({ value: true, msg: "Please fill the date input" });
+      return;
+    }
 
-        const modifiedResults = resultQuery.map((res: any) => {
-          if (res.fecha_salida && res.fecha_regreso) {
-            const departureDate = dayjs(res.fecha_salida.seconds * 1000);
-            const returnDate = dayjs(res.fecha_regreso.seconds * 1000);
-            const duration = dayjs.duration(returnDate.diff(departureDate));
-            let durationString = "";
+    const searchParams = {
+      dateInitial: dateInitialAux,
+      dateFinal: dateFinalAux,
+      origin,
+      destination,
+      totalSumPassengers,
+      type: valueRadio,
+    };
 
-            if (duration.days() > 0) {
-              durationString += `${duration.days()}d `;
-            }
+    try {
+      const resultQuery = await getFlightByParams(searchParams);
+      const dateFields = ["fecha_salida"];
+      const placeFields = ["origen", "destino"];
 
-            durationString += `${duration.hours()}h ${duration.minutes()}m`;
-            res.duration = durationString;
-          }
-
+      const processResults = (results: any) => {
+        return results.map((res: any) => {
           dateFields.forEach((field) => {
             if (res[field] && res[field].seconds) {
               const date = new Date(res[field].seconds * 1000);
@@ -132,6 +125,23 @@ const ContainerEngineSearch = () => {
                 formattedDate: dayjs(date).format("ddd, D MMMM YYYY"),
                 time: dayjs(date).format("HH:mm"),
               };
+
+              // Extraer horas y minutos de la duración
+              if (res.duracion) {
+                const [hoursStr, minutesStr] = res.duracion.split(":");
+                const hours = parseInt(hoursStr);
+                const minutes = parseInt(minutesStr);
+
+                // Calcular la fecha de regreso agregando horas y minutos a la fecha de salida
+                const returnDate = new Date(date);
+                returnDate.setUTCHours(returnDate.getUTCHours() + hours);
+                returnDate.setUTCMinutes(returnDate.getUTCMinutes() + minutes);
+
+                res.fecha_regreso = {
+                  formattedDate: dayjs(returnDate).format("ddd, D MMMM YYYY"),
+                  time: dayjs(returnDate).format("HH:mm"),
+                };
+              }
             }
           });
 
@@ -146,29 +156,45 @@ const ContainerEngineSearch = () => {
               };
             }
           });
-
           return res;
         });
+      };
 
+      if (valueRadio === oneWay?.value) {
+        // Procesar resultados de búsqueda de vuelo one-way
+        const modifiedResults = processResults(resultQuery);
         if (modifiedResults.length > 0) {
           flightsQuery = JSON.stringify(modifiedResults);
         }
+      } else {
+        // Procesar resultados de búsqueda de vuelo round-trip
+        const { flightDestiny, flightOrigin } = resultQuery;
+        const modifiedResultsOrigin = processResults(flightOrigin);
+        const modifiedResultsDestiny = processResults(flightDestiny);
 
-        router.push({
-          pathname: "/flight-search",
-          query: {
-            flights: flightsQuery,
-            passengers: JSON.stringify(passengers),
-          },
-        });
-      } catch (error) {
-        console.error("Error:", error);
+        if (
+          modifiedResultsOrigin.length > 0 &&
+          modifiedResultsDestiny.length > 0
+        ) {
+          flightsQuery = JSON.stringify({
+            flightOrigin: modifiedResultsOrigin,
+            flightDestiny: modifiedResultsDestiny,
+          });
+          isRounded = true;
+        }
       }
-    } else {
-      setError({
-        value: true,
-        msg: " Please complete all fields before searching for a flight.",
+
+      // Redireccionar a la página de resultados de búsqueda
+      router.push({
+        pathname: "/flight-search",
+        query: {
+          flights: flightsQuery,
+          passengers: JSON.stringify(passengers),
+          isRounded: isRounded,
+        },
       });
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -223,7 +249,7 @@ const ContainerEngineSearch = () => {
             setInitialDate={setInitialDate}
             initialDateValue={initialDate}
             setFinalDate={setFinalDate}
-            finalDateValue={finallDate}
+            finalDateValue={finalDate}
           />
         </div>
         {error.value && (

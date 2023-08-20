@@ -7,17 +7,13 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 import dayjs from "dayjs";
 
-interface initialDate {
-  date: dayjs.Dayjs | null;
-  time: dayjs.Dayjs | null;
-}
 interface Iprops {
   pLabel: any;
   valueRadio: string;
-  setInitialDate: React.Dispatch<React.SetStateAction<initialDate | undefined>>;
-  initialDateValue: initialDate | undefined;
-  setFinalDate: React.Dispatch<React.SetStateAction<initialDate | undefined>>;
-  finalDateValue: initialDate | undefined;
+  setInitialDate: React.Dispatch<React.SetStateAction<dayjs.Dayjs | undefined>>;
+  initialDateValue: dayjs.Dayjs | undefined;
+  setFinalDate: React.Dispatch<React.SetStateAction<dayjs.Dayjs | undefined>>;
+  finalDateValue: dayjs.Dayjs | undefined;
 }
 const DateBooking = ({
   pLabel,
@@ -35,9 +31,7 @@ const DateBooking = ({
   >();
   const [dateInitial, setDateInitial] = useState<dayjs.Dayjs | undefined>();
 
-  useEffect(() => {
-
-  }, [dateFinalRound, dateInitialRound]);
+  useEffect(() => {}, [dateFinalRound, dateInitialRound]);
 
   if (valueRadio === pLabel.items[0].value) {
     return (
@@ -51,12 +45,14 @@ const DateBooking = ({
                 defaultValue={dateInitial || undefined}
                 minDate={dateInitial ? dateInitial : dayjs()}
                 onChange={(value: dayjs.Dayjs | any) => {
+                  console.log("TIME: ", value);
                   setDateInitial(value);
-                  if (initialDateValue) {
-                    setInitialDate({ ...initialDateValue, date: value });
-                  } else {
-                    setInitialDate({ date: value, time: null });
-                  }
+                  setInitialDate(value);
+                  // if (initialDateValue) {
+                  //   setInitialDate({ ...initialDateValue, date: value });
+                  // } else {
+                  //   setInitialDate({ date: value, time: null });
+                  // }
                 }}
               />
             </LocalizationProvider>
@@ -71,10 +67,11 @@ const DateBooking = ({
               </button>
             )}
           </div>
-          <div>
+          {/* <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker
                 onChange={(value: dayjs.Dayjs | null) => {
+                  console.log("TIME: ", value);
                   if (initialDateValue) {
                     setInitialDate({ ...initialDateValue, time: value });
                   } else {
@@ -83,7 +80,7 @@ const DateBooking = ({
                 }}
               />
             </LocalizationProvider>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -101,12 +98,14 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
+                  console.log("FINAL: ", value);
                   setDateInitialRound(value);
-                  if (initialDateValue) {
-                    setInitialDate({ ...initialDateValue, date: value });
-                  } else {
-                    setInitialDate({ date: value, time: null });
-                  }
+                  setInitialDate(value);
+                  // if (initialDateValue) {
+                  //   setInitialDate({ ...initialDateValue, date: value });
+                  // } else {
+                  //   setInitialDate({ date: value, time: null });
+                  // }
                 }}
               />
             </LocalizationProvider>
@@ -122,7 +121,7 @@ const DateBooking = ({
               </button>
             )}
           </div>
-          <div className="my-5 mx">
+          {/* <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker
                 onChange={(value: dayjs.Dayjs | null) => {
@@ -134,7 +133,7 @@ const DateBooking = ({
                 }}
               />
             </LocalizationProvider>
-          </div>
+          </div> */}
         </div>
       </div>
       <div>
@@ -148,12 +147,14 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
+                  console.log("FINAL: ", value);
                   setDateFinalRound(value);
-                  if (finalDateValue) {
-                    setFinalDate({ ...finalDateValue, date: value });
-                  } else {
-                    setFinalDate({ date: value, time: null });
-                  }
+                  setFinalDate(value);
+                  // if (finalDateValue) {
+                  //   setFinalDate({ ...finalDateValue, date: value });
+                  // } else {
+                  //   setFinalDate({ date: value, time: null });
+                  // }
                 }}
               />
             </LocalizationProvider>
@@ -168,7 +169,7 @@ const DateBooking = ({
               </button>
             )}
           </div>
-          <div className="my-5 mx">
+          {/* <div className="my-5 mx">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker
                 onChange={(value: dayjs.Dayjs | null) => {
@@ -180,7 +181,7 @@ const DateBooking = ({
                 }}
               />
             </LocalizationProvider>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

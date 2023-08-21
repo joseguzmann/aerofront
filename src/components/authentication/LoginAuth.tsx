@@ -64,7 +64,7 @@ const LoginAuth = ({ flight }: IProps) => {
             },
           });
         }
-        // console.log("USER:", user);
+    
         // setUser(user);
       }
     } catch (error: any) {
@@ -138,11 +138,12 @@ const LoginAuth = ({ flight }: IProps) => {
               >
                 <p>{login.buttonLogin}</p>
               </Button>
-              <Button onClick={signOutUser}>LOG OUT</Button>
+              {/* <Button onClick={signOutUser}>LOG OUT</Button> */}
             </div>
             <div className="flex justify-center">
               <p>
-                {login.noAccount} <Link href={"/"}>{login.register}</Link>{" "}
+                {login.noAccount}{" "}
+                <Link href={"/register"}>{login.register}</Link>
               </p>
             </div>
           </div>

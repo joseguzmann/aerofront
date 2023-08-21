@@ -1,7 +1,7 @@
 interface CountryType {
   code: string;
   label: string;
-  phone: string;
+  phone?: string;
   suggested?: boolean;
   hide?: boolean;
 }
@@ -431,13 +431,23 @@ interface CountryType {
 //   { code: "ZW", label: "Zimbabwe", phone: "263" },
 // ];
 
+// export const countries: CountryType[] = [
+//   { code: "AD", label: "Andorra", phone: "376" },
+//   { code: "AR", label: "Argentina", phone: "54" },
+//   { code: "ES", label: "Spain", phone: "34" },
+//   { code: "EC", label: "Ecuador", phone: "593" },
+//   { code: "GB", label: "United Kingdom", phone: "44" },
+//   { code: "AU", label: "Australia", phone: "61" },
+//   { code: "FR", label: "France", phone: "33" },
+
+// ];
 export const countries: CountryType[] = [
-  { code: "AD", label: "Andorra", phone: "376" },
-  { code: "AR", label: "Argentina", phone: "54" },
-  { code: "ES", label: "Spain", phone: "34" },
-  { code: "EC", label: "Ecuador", phone: "593" },
-  { code: "GB", label: "United Kingdom", phone: "44" },
-  { code: "AU", label: "Australia", phone: "61" },
-  { code: "FR", label: "France", phone: "33" },
-  
+  { code: "AD", label: "Andorra A. (Andorra la Vella)" },
+  { code: "AR", label: "Ministro Pistarini International A. (Buenos Aires)" },
+  { code: "ES", label: "Adolfo Suárez Madrid-Barajas A. (Madrid)" },
+  { code: "EC", label: "Mariscal Sucre International A. (Quito)" },
+  { code: "GB", label: "Heathrow A. (London)" },
+  { code: "AU", label: "Kingsford Smith A. (Sydney)" },
+  { code: "FR", label: "Charles de Gaulle A. (Paris)" },
+  // ...
 ];

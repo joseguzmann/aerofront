@@ -26,7 +26,7 @@ const vueloRef = collection(db, "vuelo");
 
 export const getFlightByParams = async (params: any) => {
   const flights: any = [];
-  console.log("PARAMS:", params);
+  // console.log("PARAMS:", params);
 
   try {
     if (params.type !== "oneWay") {

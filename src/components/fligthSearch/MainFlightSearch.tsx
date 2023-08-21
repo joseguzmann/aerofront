@@ -51,8 +51,7 @@ const MainFlightSearch = ({
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    console.log("FLIGHTS", flights);
-    console.log("FLIGHTSELECTED:", flightSelected);
+
     if (isDetails) {
       const sumTOTAL = calculateTotal(flights, passengers);
       setTotal(sumTOTAL);
@@ -61,12 +60,9 @@ const MainFlightSearch = ({
 
   const handleProceed = () => {
     if (flightSelected) {
-      console.log("BEFORE CONTEXT FLIGH: ", flight);
       flightSelected.passengers = passengers;
-      console.log("FLIGTH SELECTED SETFLIGHT: ", flightSelected);
-      // setFlight(flightSelected);
+      setFlight(flightSelected);
 
-      console.log("CONTEXT FLIGH: ", flight);
 
       router.push({
         pathname: "login",
@@ -126,7 +122,9 @@ const MainFlightSearch = ({
                     if (res.n > 0) {
                       return (
                         <div className="flex justify-between py-1">
-                          <p>{res.n} {res.title} Total:</p>
+                          <p>
+                            {res.n} {res.title} Total:
+                          </p>
                           <p>
                             {" "}
                             {i === 0

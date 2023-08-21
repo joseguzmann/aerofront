@@ -23,7 +23,7 @@ const Menu = ({ propBoolean, noSvg }: PropsI) => {
   const colorNavText = propBoolean ? "text-white " : "text-gray-500";
 
   useEffect(() => {
-    console.log("USERNAV: ", user);
+
   }, [user]);
 
   return (

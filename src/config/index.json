@@ -298,5 +298,15 @@
     "buttonLogin": "Login Now",
     "noAccount": "Don't have an account",
     "register": "Register"
+  },
+  "register": {
+    "title": "Register",
+    "email": "E-Mail",
+    "password": "Password",
+    "re_pass": "Repeat Password",
+    "age": "Age",
+    "name": "Name",
+    "phone": "Number",
+    "buttonRegister": "Register Now"
   }
 }

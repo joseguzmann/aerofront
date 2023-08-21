@@ -8,7 +8,7 @@ interface IProps {
 
 const RoundedFlightSearch = ({ FlightsRound, passengers }: IProps) => {
   useEffect(() => {
-    console.log("FLIGHT ROUND PAGE: ", FlightsRound);
+
   }, []);
   return (
     <div className=" relative flex flex-col justify-center items-center mb-20 ">

@@ -10,9 +10,7 @@ interface IProps {
   flight: IFlights;
 }
 const PassengersData = ({ flight }: IProps) => {
-  useEffect(() => {
-    console.log("FLIGHT IN DATA: ", flight);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className=" relative flex justify-center items-center mb-20 ">
@@ -21,7 +19,7 @@ const PassengersData = ({ flight }: IProps) => {
           flight.passengers?.map((passenger) => {
             if (passenger.n > 0) {
               const passengerDetails = [];
-              console.log("Passsenger: ", passenger.n, passenger.title);
+
               for (let index = 0; index < passenger.n; index++) {
                 passengerDetails.push(
                   <div className="bg-[#ECECEC] pb-3 mt-[3rem]">

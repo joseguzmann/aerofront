@@ -45,7 +45,7 @@ const DateBooking = ({
                 defaultValue={dateInitial || undefined}
                 minDate={dateInitial ? dateInitial : dayjs()}
                 onChange={(value: dayjs.Dayjs | any) => {
-                  console.log("TIME: ", value);
+                 
                   setDateInitial(value);
                   setInitialDate(value);
                   // if (initialDateValue) {
@@ -98,7 +98,7 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
-                  console.log("FINAL: ", value);
+                 
                   setDateInitialRound(value);
                   setInitialDate(value);
                   // if (initialDateValue) {
@@ -147,7 +147,7 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
-                  console.log("FINAL: ", value);
+              
                   setDateFinalRound(value);
                   setFinalDate(value);
                   // if (finalDateValue) {

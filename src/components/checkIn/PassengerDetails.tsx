@@ -27,6 +27,8 @@ const PassengerDetails = ({
     };
 
     setPassengersInfo(updatedInfo);
+
+    console.log("UPDATE INFO: ", updatedInfo);
   };
 
   const inputLabel = ["name", "age", "email", "phone"];

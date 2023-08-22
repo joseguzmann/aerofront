@@ -7,6 +7,14 @@ export interface IPassenger {
   numero_telefonico: number;
 }
 
+export interface IPassengerInput {
+  name: string;
+  age: number;
+  email: string;
+  phone: string;
+  
+}
+
 //COUNTRY INTERFACE
 export interface ICountry {
   code: string;

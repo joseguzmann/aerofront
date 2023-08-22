@@ -1,23 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { IFlights } from "../../interface/interface";
+import { IFlights, IPassengerInput } from "../../interface/interface";
 import Button from "@mui/material/Button";
 import PassengerDetails from "./PassengerDetails";
 import { useField } from "@mui/x-date-pickers/internals";
 import { exit } from "process";
+import UserContext from "../../contexts/userContext";
+import { addFlightToBooking } from "../../lib/firestore/check.service";
 
 interface IProps {
   flight: IFlights;
 }
-interface Passenger {
-  name: string;
-  age: number;
-  email: string;
-  phone: string;
-  // ... otras propiedades si las tienes
-}
+
 interface PassengersObject {
-  [key: string]: Passenger[] | undefined;
+  [key: string]: IPassengerInput[] | undefined;
 }
 
 interface ErrorProps {
@@ -27,9 +23,12 @@ interface ErrorProps {
 const PassengersData = ({ flight }: IProps) => {
   const [passengersInfo, setPassengersInfo] = useState<any>();
   const [error, setError] = useState<ErrorProps>({ value: false });
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // if (flight && flight.passengers) {
+    console.log("FLight: ", flight);
+    console.log("USER: ", user);
     const passengersObjetValues = flight.passengers?.reduce((acc, res) => {
       if (res.n > 0) {
         acc[res.title] = [];
@@ -69,61 +68,17 @@ const PassengersData = ({ flight }: IProps) => {
     });
     return isValid;
   };
+
   const handleSaveData = () => {
-    console.log("VALID DATE: ", validateData());
     const isValid = validateData();
     setError({
       value: isValid,
       msg: !isValid ? "Please fill all inputs" : "",
     });
-
-    //RETORNA  TODOS LOS DATOS
-    // const passengersValidity = flight.passengers?.map((pass) => {
-    //   if (passengersInfo[pass.title] !== undefined) {
-    //     if (passengersInfo[pass.title].length === pass.n) {
-    //       const newPassenger: Passenger[] = passengersInfo[pass.title];
-    //       const passengerValidity = newPassenger.map((res) => {
-    //         const isAgeValid = !isNaN(res.age);
-    //         const isEmailValid = res.email !== "";
-    //         const isNameValid = res.name !== "";
-    //         const isPhoneValid = res.phone !== "";
-    //         const isPassengerValid =
-    //           isAgeValid && isEmailValid && isNameValid && isPhoneValid;
-    //         return {
-    //           ...res,
-    //           isAgeValid,
-    //           isEmailValid,
-    //           isNameValid,
-    //           isPhoneValid,
-    //           isPassengerValid,
-    //         };
-    //       });
-    //       return passengerValidity;
-    //     }
-    //   }
-    //   return [];
-    // });
-    // console.log("passengersValidity", passengersValidity);
-    // RETORNA UN ARRAY [true, false, true, false]
-    // const passengersValidity = flight.passengers?.map((pass) => {
-    //   if (!passengersInfo[pass.title]) {
-    //     return undefined;
-    //   }
-    //   if (passengersInfo[pass.title].length !== pass.n) {
-    //     return false;
-    //   }
-    //   const newPassenger: Passenger[] = passengersInfo[pass.title];
-    //   const passengerValidity = newPassenger.map((res) => {
-    //     const isAgeValid = !isNaN(res.age);
-    //     const isEmailValid = res.email !== "";
-    //     const isNameValid = res.name !== "";
-    //     const isPhoneValid = res.phone !== "";
-    //     const isPassengerValid =
-    //       isAgeValid && isEmailValid && isNameValid && isPhoneValid;
-    //     return isPassengerValid;
-    //   });
-    //   return passengerValidity.every((validity) => validity);
-    // });
+    console.log("DATA: ", passengersInfo);
+    if (user && isValid) {
+      addFlightToBooking(flight, user, passengersInfo);
+    }
   };
 
   return (

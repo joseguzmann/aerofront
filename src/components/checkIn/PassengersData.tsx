@@ -3,8 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IFlights, IPassengerInput } from "../../interface/interface";
 import Button from "@mui/material/Button";
 import PassengerDetails from "./PassengerDetails";
-import { useField } from "@mui/x-date-pickers/internals";
-import { exit } from "process";
+
 import UserContext from "../../contexts/userContext";
 import { addFlightToBooking } from "../../lib/firestore/check.service";
 

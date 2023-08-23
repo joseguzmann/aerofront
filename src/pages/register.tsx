@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import config from "../config/index.json";
 import Head from "next/head";
 import Header from "../components/other/Header";
@@ -8,9 +8,9 @@ import RegisterAuth from "../components/authentication/RegisterAuth";
 
 const Register = () => {
   const { register } = config;
-  const router = useRouter();
-  const { flight }: any = router.query;
-  const parsedFlight = flight ? JSON.parse(flight) : null;
+  // const router = useRouter();
+  // const { flight }: any = router.query;
+  // const parsedFlight = flight ? JSON.parse(flight) : null;
 
   return (
     <div>

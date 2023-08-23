@@ -1,7 +1,6 @@
 import React from "react";
 import config from "../config/index.json";
 import Head from "next/head";
-import Header from "../components/other/Header";
 import PassengersData from "../components/checkIn/PassengersData";
 import { useRouter } from "next/router";
 import PrimaryHeading from "../components/other/PrimaryHeading";

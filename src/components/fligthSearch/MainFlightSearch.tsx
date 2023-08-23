@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import config from "../../config/index.json";
 import CardFligth from "./CardFligth";
-import Link from "next/link";
+
 // import Image from "next/image";
 import Button from "@mui/material/Button";
 import { IFlights } from "../../interface/interface";
@@ -24,8 +24,8 @@ const MainFlightSearch = ({
   flightSelected,
 }: IProps) => {
   const { desc } = config.search;
-  const { flight_details } = config;
-  const { setFlight, flight } = useContext(FlightContext);
+
+  const { setFlight } = useContext(FlightContext);
   const router = useRouter();
 
   const calculateTotal = (passengers: any[]) => {

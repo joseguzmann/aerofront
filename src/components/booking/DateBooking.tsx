@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+// import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 import dayjs from "dayjs";
 
@@ -19,9 +19,7 @@ const DateBooking = ({
   pLabel,
   valueRadio,
   setInitialDate,
-  initialDateValue,
   setFinalDate,
-  finalDateValue,
 }: Iprops) => {
   const [dateInitialRound, setDateInitialRound] = useState<
     dayjs.Dayjs | undefined
@@ -45,7 +43,6 @@ const DateBooking = ({
                 defaultValue={dateInitial || undefined}
                 minDate={dateInitial ? dateInitial : dayjs()}
                 onChange={(value: dayjs.Dayjs | any) => {
-                 
                   setDateInitial(value);
                   setInitialDate(value);
                   // if (initialDateValue) {
@@ -98,7 +95,6 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
-                 
                   setDateInitialRound(value);
                   setInitialDate(value);
                   // if (initialDateValue) {
@@ -147,7 +143,6 @@ const DateBooking = ({
                 minDate={dateInitialRound ? dateInitialRound : dayjs()}
                 maxDate={dateFinalRound}
                 onChange={(value: dayjs.Dayjs | any) => {
-              
                   setDateFinalRound(value);
                   setFinalDate(value);
                   // if (finalDateValue) {

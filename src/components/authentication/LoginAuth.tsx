@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import config from "../../config/index.json";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -10,7 +10,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "next/link";
-import { signOutUser, userLogin } from "../../lib/firestore/auth.service";
+import { userLogin } from "../../lib/firestore/auth.service";
 import { useRouter } from "next/router";
 import { IFlights } from "../../interface/interface";
 
@@ -64,7 +64,7 @@ const LoginAuth = ({ flight }: IProps) => {
             },
           });
         }
-    
+
         // setUser(user);
       }
     } catch (error: any) {

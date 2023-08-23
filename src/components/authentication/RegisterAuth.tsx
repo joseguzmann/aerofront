@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+
 import TextField from "@mui/material/TextField";
 import config from "../../config/index.json";
 import Button from "@mui/material/Button";
@@ -14,9 +14,9 @@ import Visibility from "@mui/icons-material/Visibility";
 const RegisterAuth = () => {
   const { register } = config;
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+
   const [password, setPassword] = useState<string>();
-  const [email, setEmail] = useState<string>();
+  //const [email, setEmail] = useState<string>();
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,7 +41,7 @@ const RegisterAuth = () => {
 
   const handleEmailChange = (event: any) => {
     const newEmail = event.target.value;
-    setEmail(newEmail);
+    //setEmail(newEmail);
     setIsValidEmail(validateEmail(newEmail));
   };
   const handlePasswordChange = (event: any) => {

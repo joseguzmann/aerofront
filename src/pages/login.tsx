@@ -3,7 +3,6 @@ import Head from "next/head";
 import config from "../config/index.json";
 import Header from "../components/other/Header";
 import LoginAuth from "../components/authentication/LoginAuth";
-import PrimaryHeading from "../components/other/PrimaryHeading";
 import Footer from "../components/other/Footer";
 import { useRouter } from "next/router";
 

@@ -3,12 +3,10 @@ import {
   query,
   where,
   Timestamp,
-  onSnapshot,
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
-import firebase from "firebase/app";
 const vueloRef = collection(db, "vuelo");
 
 // export const getFlightsByParams = (params, fSnapshot) => {

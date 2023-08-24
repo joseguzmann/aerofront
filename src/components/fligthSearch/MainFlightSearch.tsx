@@ -9,6 +9,7 @@ import FlightContext from "../../contexts/flightContext";
 import { useRouter } from "next/router";
 import DescriptionTotal from "./DescriptionTotal";
 import PassengersTotalDetails from "./PassengersTotalDetails";
+import NoTaxes from "./NoTaxes";
 
 interface IProps {
   flights?: IFlights[] | null;
@@ -25,6 +26,7 @@ const MainFlightSearch = ({
 }: IProps) => {
   const { desc } = config.search;
 
+  const { flight_details } = config;
   const { setFlight } = useContext(FlightContext);
   const router = useRouter();
 
@@ -90,7 +92,8 @@ const MainFlightSearch = ({
               passengers={passengers}
             />
 
-            <DescriptionTotal total={total} />
+            <NoTaxes />
+
             {/* <div className="flex justify-center items-center my-10">
               <div className="flex flex-col bg-gray-300 p-3">
                 <p>
@@ -122,6 +125,7 @@ const MainFlightSearch = ({
             <PassengersTotalDetails
               passengers={passengers}
               flight={flightSelected}
+              total={total}
             />
             <div>
               <Button

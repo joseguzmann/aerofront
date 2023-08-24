@@ -281,13 +281,17 @@
     "svgCheck": "/assets/images/Check.svg",
     "imgNoFligh": "/assets/images/NoFlights.jpg",
     "imgSeatFlight": "/assets/images/SeatFlight.png",
+    "imgSeniorCitizens": "/assets/images/OldMan.png",
+    "imgAdult": "/assets/images/Adult.png",
+    "imgChildrens": "/assets/images/Children.png",
+    "imgInfants": "/assets/images/Infant.png",
     "svgBackpack": "/assets/images/BackPack.svg"
   },
   "flight_details": {
     "title": "Flight Details",
     "label1": "No Surprises",
     "label2": "All taxes are included in the final price",
-    "labelTotal": "TOTAL of your booking:"
+    "labelTotal": "TOTAL of your booking: "
   },
   "login": {
     "title": "Login",

@@ -1,5 +1,7 @@
 import TextField from "@mui/material/TextField";
-import React from "react";
+import React, { useState } from "react";
+import BackPackManager from "./BackpackManager";
+import SeatsManager from "./SeatsManager";
 
 interface IProps {
   title: string;
@@ -14,12 +16,21 @@ const PassengerDetails = ({
   passengersInfo,
   setPassengersInfo,
 }: IProps) => {
+  const [isValidEmail, setIsValidEmail] = useState(true);
+
   const capitalizeFirstLetter = (inputString: string) => {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
   };
 
+  const validateEmail = (input: any) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(input);
+  };
+
   const handleInputChange = (type: any, index: any, field: any, value: any) => {
-    if (field === "age") parseInt(value);
+    if (field === "email") {
+      setIsValidEmail(validateEmail(value));
+    }
     const updatedInfo: any = { ...passengersInfo };
     updatedInfo[type][index] = {
       ...updatedInfo[type][index],
@@ -36,26 +47,54 @@ const PassengerDetails = ({
   return (
     <div className="bg-[#ECECEC] pb-3 mt-[3rem]">
       <div className="bg-yellow-500 pl-[3rem]">
-        <p className="font-bold text-xl p-2">
-          {title}
-          {index + 1} Details
+        <p className=" text-xl p-2">
+          <b>Passenger {title} </b>
+          Nº: {index + 1}
         </p>
       </div>
-      <div className="pl-[3rem] my-[2rem] ">
-        {inputLabel.map((res) => {
-          return (
-            <div className="mb-5 flex items-center justify-around w-[50%]">
-              <TextField
-                type={res === "age" ? "number" : "text"}
-                key={`inp_${res}`}
-                onChange={(e) => {
-                  handleInputChange(title, index, res, e.target.value);
-                }}
-                label={capitalizeFirstLetter(res)}
-              />
-            </div>
-          );
-        })}
+      <div className=" flex  pl-[3rem] my-[2rem] ">
+        <div className=" w-[60%]">
+          <p className="my-5">Please fill all the inputs </p>
+          {inputLabel.map((res, index) => {
+            return (
+              <div
+                key={`${res}+${index}`}
+                className="mb-5  flex flex-col items-center justify-around  "
+              >
+                <TextField
+                  className="w-[80%]"
+                  error={res === "email" ? !isValidEmail : false}
+                  type={
+                    res === "age"
+                      ? "number"
+                      : res === "phone"
+                      ? "number"
+                      : "text"
+                  }
+                  key={`inp_${res}`}
+                  onChange={(e) => {
+                    handleInputChange(title, index, res, e.target.value);
+                  }}
+                  label={capitalizeFirstLetter(res)}
+                />
+                {!isValidEmail && res === "email" && (
+                  <p className="pt-5 ">Enter a correct input</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className=" flex flex-col justify-center items-center  ">
+          <BackPackManager
+            passengersInfo={passengersInfo}
+            setPassengersInfo={setPassengersInfo}
+          />
+          <SeatsManager
+            passengersInfo={passengersInfo}
+            setPassengersInfo={setPassengersInfo}
+          />
+        </div>
       </div>
     </div>
   );

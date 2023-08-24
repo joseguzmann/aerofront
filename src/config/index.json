@@ -279,7 +279,9 @@
     "svgPlus": "/assets/images/Plus.svg",
     "svgLess": "/assets/images/Less.svg",
     "svgCheck": "/assets/images/Check.svg",
-    "imgNoFligh": "/assets/images/NoFlights.jpg"
+    "imgNoFligh": "/assets/images/NoFlights.jpg",
+    "imgSeatFlight": "/assets/images/SeatFlight.png",
+    "svgBackpack": "/assets/images/BackPack.svg"
   },
   "flight_details": {
     "title": "Flight Details",

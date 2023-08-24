@@ -1,26 +1,25 @@
 import React from "react";
-import config from "../config/index.json";
-import Head from "next/head";
-import PassengersData from "../components/checkIn/PassengersData";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import PrimaryHeading from "../components/other/PrimaryHeading";
 import Footer from "../components/other/Footer";
+import PaymentDetails from "../components/checkIn/PaymentDetails";
 
-const PassengersDetails = () => {
+const CheckIn = () => {
   const router = useRouter();
   const { flight }: any = router.query;
   const parsedFlights = flight ? JSON.parse(flight) : null;
-  const { login } = config;
+
   return (
     <div>
       <Head>
-        <title>Passengers Data</title>
+        <title>Check In</title>
       </Head>
       <PrimaryHeading />
-      <PassengersData flight={parsedFlights} />
+      <PaymentDetails flight={parsedFlights} />
       <Footer />
     </div>
   );
 };
 
-export default PassengersDetails;
+export default CheckIn;

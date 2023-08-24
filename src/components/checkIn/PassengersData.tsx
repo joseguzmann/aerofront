@@ -6,6 +6,8 @@ import PassengerDetails from "./PassengerDetails";
 
 import UserContext from "../../contexts/userContext";
 import { addFlightToBooking } from "../../lib/firestore/check.service";
+import { useRouter } from "next/router";
+import SeatsFlightPicker from "./SeatsFlightPicker";
 
 interface IProps {
   flight: IFlights;
@@ -23,6 +25,7 @@ const PassengersData = ({ flight }: IProps) => {
   const [passengersInfo, setPassengersInfo] = useState<any>();
   const [error, setError] = useState<ErrorProps>({ value: false });
   const { user } = useContext(UserContext);
+  const router = useRouter();
 
   useEffect(() => {
     // if (flight && flight.passengers) {
@@ -68,15 +71,26 @@ const PassengersData = ({ flight }: IProps) => {
     return isValid;
   };
 
-  const handleSaveData = () => {
+  const handleSaveData = async () => {
     const isValid = validateData();
     setError({
       value: isValid,
       msg: !isValid ? "Please fill all inputs" : "",
     });
-    console.log("DATA: ", passengersInfo);
-    if (user && isValid) {
-      addFlightToBooking(flight, user, passengersInfo);
+    console.log("DATA: ", flight);
+    try {
+      if (user && isValid) {
+        await addFlightToBooking(flight, user, passengersInfo);
+
+        router.push({
+          pathname: "/passenger-confirmation",
+          query: {
+            flight: JSON.stringify(flight),
+          },
+        });
+      }
+    } catch (error) {
+      console.error("ERROR: ", error);
     }
   };
 
@@ -117,6 +131,8 @@ const PassengersData = ({ flight }: IProps) => {
           </Button>
           {/* </Link> */}
         </div>
+
+        <SeatsFlightPicker />
       </div>
     </div>
   );

@@ -46,7 +46,6 @@ const LoginAuth = ({ flight }: IProps) => {
     setPassword(event.target.value);
   };
   const validateEmail = (input: any) => {
-    // Expresión regular para validar el formato del email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(input);
   };

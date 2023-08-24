@@ -43,7 +43,9 @@ const MainFlightSearch = ({
     if (flightSelected) {
       categories.forEach((category, index) => {
         const { priceFactor } = category;
-        const categoryPrice = flightSelected.precio * priceFactor;
+        const categoryPrice = parseFloat(
+          (flightSelected.precio * priceFactor).toFixed(2)
+        );
         total += categoryPrice * passengers[index]?.n || 0;
       });
 
@@ -57,7 +59,7 @@ const MainFlightSearch = ({
   useEffect(() => {
     if (isDetails) {
       const sumTOTAL = calculateTotal(passengers);
-      setTotal(sumTOTAL);
+      setTotal(parseFloat(sumTOTAL.toFixed(2)));
     }
   }, []);
 

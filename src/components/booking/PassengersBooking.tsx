@@ -96,7 +96,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         <div className=" flex items-center justify-center my-5">
           {totalSum > 0 && (
             <Button
-              disabled={totalSum === 9 ? true : false}
+              disabled={totalSum > 9 ? true : false}
               style={{
                 backgroundColor: "#ED6C02",
                 color: "white",
@@ -110,7 +110,7 @@ function SimpleDialog(props: SimpleDialogProps) {
             </Button>
           )}
         </div>
-        {totalSum === 9 && (
+        {totalSum >=   9 && (
           <div className="flex justify-center">
             <p>No puede añadir mas de 9 pasajeros</p>
           </div>

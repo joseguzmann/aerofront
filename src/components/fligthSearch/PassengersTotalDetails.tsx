@@ -18,6 +18,7 @@ const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
         </p>
         {passengers &&
           passengers.map((res: any, i: number) => {
+            const seniorPrice = flight.precio / 2;
             const srcString =
               res.title === "Senior Citizens"
                 ? "imgSeniorCitizens"
@@ -40,16 +41,34 @@ const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
                         height={25}
                         alt={`img_${res.title}`}
                       />
-                      <p>{res.title}</p>
+                      <p>
+                        {i === 0 ? (
+                          <div className="flex">
+                            <p>{res.title}</p>
+                            <p className=" ml-1 text-red-400 font-bold text-[13px]">
+                              50% Discount
+                            </p>
+                          </div>
+                        ) : i === 3 ? (
+                          <div className="flex">
+                            <p>{res.title}</p>
+                            <p className=" ml-1 text-red-400 font-bold text-[13px]">
+                              100% Discount
+                            </p>
+                          </div>
+                        ) : (
+                          res.title
+                        )}
+                      </p>
                       <p className="ml-3">
                         ($
                         {i === 0
-                          ? flight.precio / 2
+                          ? parseFloat(seniorPrice.toFixed(2))
                           : i === 3
                           ? 0
                           : flight.precio}
                       </p>
-                      <p>x</p>
+                      <p className="px-1">x</p>
                       <p>{res.n})</p>
                     </div>
 
@@ -57,7 +76,9 @@ const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
                       <b>
                         $
                         {i === 0
-                          ? (flight.precio / 2) * res.n
+                          ? (
+                              parseFloat(seniorPrice.toFixed(2)) * res.n
+                            ).toFixed(2)
                           : i === 3
                           ? 0
                           : flight.precio * res.n}

@@ -22,43 +22,50 @@ interface ErrorProps {
   msg?: string;
 }
 const PassengersData = ({ flight }: IProps) => {
-  const [passengersInfo, setPassengersInfo] = useState<any>();
+  const [passengersInfo, setPassengersInfo] = useState<any>({ backpack: 1 });
   const [error, setError] = useState<ErrorProps>({ value: false });
   const { user } = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
-    // if (flight && flight.passengers) {
-    console.log("FLight: ", flight);
-    console.log("USER: ", user);
-    const passengersObjetValues = flight.passengers?.reduce((acc, res) => {
-      if (res.n > 0) {
-        acc[res.title] = [];
-      }
-      return acc;
-    }, {} as PassengersObject); // Indica el tipo del objeto aquí
+    if (flight) {
+      const passengersObjetValues = flight.passengers?.reduce((acc, res) => {
+        if (res.n > 0) {
+          acc[res.title] = Array.from({ length: res.n }, () => ({
+            backpack: 1,
+          }));
+        }
+        return acc;
+      }, {} as PassengersObject);
+      console.log("passengersObjetValues", passengersObjetValues);
+      setPassengersInfo(passengersObjetValues);
+      console.log("INFOPAS", flight.passengers);
+    }
 
-    // console.log("passengersObjetValues", passengersObjetValues);
-    setPassengersInfo(passengersObjetValues);
-    console.log("INFOPAS", passengersInfo);
     // }
-  }, []);
+  }, [flight]);
 
   const validateData = () => {
     let isValid = true;
+    let auxIndex: number = 0;
 
     flight.passengers?.forEach((pass) => {
       const passengerArray = passengersInfo[pass.title];
+      console.log("PASSN: ", pass.n);
+      auxIndex += pass.n;
 
       if (passengerArray !== undefined) {
         if (passengerArray.length === pass.n) {
           if (
             !passengerArray.every(
-              (res: any) =>
+              (res: IPassengerInput) =>
+                res.age !== undefined &&
                 !isNaN(res.age) &&
                 res.email !== "" &&
                 res.name !== "" &&
-                res.phone !== ""
+                res.phone !== "" &&
+                res.seat !== undefined &&
+                res.seat !== ""
             )
           ) {
             isValid = false;
@@ -68,6 +75,8 @@ const PassengersData = ({ flight }: IProps) => {
         }
       }
     });
+    flight.totalPassenger = auxIndex;
+
     return isValid;
   };
 
@@ -77,11 +86,10 @@ const PassengersData = ({ flight }: IProps) => {
       value: isValid,
       msg: !isValid ? "Please fill all inputs" : "",
     });
-    console.log("DATA: ", flight);
+
     try {
       if (user && isValid) {
         await addFlightToBooking(flight, user, passengersInfo);
-
         router.push({
           pathname: "/passenger-confirmation",
           query: {
@@ -131,8 +139,6 @@ const PassengersData = ({ flight }: IProps) => {
           </Button>
           {/* </Link> */}
         </div>
-
-        <SeatsFlightPicker />
       </div>
     </div>
   );

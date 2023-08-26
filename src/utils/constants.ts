@@ -441,6 +441,7 @@ interface CountryType {
 //   { code: "FR", label: "France", phone: "33" },
 
 // ];
+
 export const countries: CountryType[] = [
   { code: "AD", label: "Andorra A. (Andorra la Vella)" },
   { code: "AR", label: "Ministro Pistarini International A. (Buenos Aires)" },
@@ -450,4 +451,38 @@ export const countries: CountryType[] = [
   { code: "AU", label: "Kingsford Smith A. (Sydney)" },
   { code: "FR", label: "Charles de Gaulle A. (Paris)" },
   // ...
+];
+
+//Format FlightSeats
+export const flightSeats = [
+  { row: "A", col: 1, id: "A1", status: 0 },
+  { row: "A", col: 2, id: "A2", status: 1 },
+  { row: "A", col: 3, id: "A3", status: 0 },
+  { row: "A", col: 4, id: "A4", status: 1 },
+  { row: "A", col: 5, id: "A5", status: 0 },
+  { row: "A", col: 6, id: "A6", status: 1 },
+  { row: "B", col: 1, id: "B1", status: 0 },
+  { row: "B", col: 2, id: "B2", status: 0 },
+  { row: "B", col: 3, id: "B3", status: 0 },
+  { row: "B", col: 4, id: "B4", status: 0 },
+  { row: "B", col: 5, id: "B5", status: 0 },
+  { row: "B", col: 6, id: "B6", status: 0 },
+  { row: "C", col: 1, id: "C1", status: 0 },
+  { row: "C", col: 2, id: "C2", status: 0 },
+  { row: "C", col: 3, id: "C3", status: 0 },
+  { row: "C", col: 4, id: "C4", status: 0 },
+  { row: "C", col: 5, id: "C5", status: 0 },
+  { row: "C", col: 6, id: "C6", status: 0 },
+  { row: "D", col: 1, id: "D1", status: 0 },
+  { row: "D", col: 2, id: "D2", status: 1 },
+  { row: "D", col: 3, id: "D3", status: 0 },
+  { row: "D", col: 4, id: "D4", status: 1 },
+  { row: "D", col: 5, id: "D5", status: 0 },
+  { row: "D", col: 6, id: "D6", status: 1 },
+  { row: "E", col: 1, id: "E1", status: 0 },
+  { row: "E", col: 2, id: "E2", status: 1 },
+  { row: "E", col: 3, id: "E3", status: 0 },
+  { row: "E", col: 4, id: "E4", status: 1 },
+  { row: "E", col: 5, id: "E5", status: 0 },
+  { row: "E", col: 6, id: "E6", status: 1 },
 ];

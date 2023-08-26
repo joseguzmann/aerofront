@@ -4,11 +4,41 @@ import config from "../../config/index.json";
 interface IProps {
   passengersInfo: any;
   setPassengersInfo: any;
+  title: any;
+  index: number;
 }
 
-const BackPackManager = ({ passengersInfo, setPassengersInfo }: IProps) => {
+const BackPackManager = ({
+  passengersInfo,
+  setPassengersInfo,
+  title,
+  index,
+}: IProps) => {
   const [backpack, setBackpack] = useState(1);
-  console.log(passengersInfo);
+
+  const handleInteraction = (action: string) => {
+    if (action === "increase") {
+      if (backpack !== 3) {
+        setBackpack(backpack + 1);
+        const updateBackpack: any = { ...passengersInfo };
+        updateBackpack[title][index] = {
+          ...updateBackpack[title][index],
+          backpack: backpack + 1,
+        };
+        setPassengersInfo(updateBackpack);
+      }
+    } else {
+      if (backpack > 1) {
+        setBackpack(backpack - 1);
+        const updateBackpack: any = { ...passengersInfo };
+        updateBackpack[title][index] = {
+          ...updateBackpack[title][index],
+          backpack: backpack - 1,
+        };
+        setPassengersInfo(updateBackpack);
+      }
+    }
+  };
 
   return (
     <div className="my-9 flex items-center">
@@ -28,9 +58,7 @@ const BackPackManager = ({ passengersInfo, setPassengersInfo }: IProps) => {
         height={30}
         alt="Less"
         onClick={() => {
-          if (backpack > 1) {
-            setBackpack(backpack - 1);
-          }
+          handleInteraction("decrease");
         }}
       />
       <p className="text-xl mx-4"> {backpack} </p>
@@ -43,9 +71,7 @@ const BackPackManager = ({ passengersInfo, setPassengersInfo }: IProps) => {
         height={30}
         alt="Plus"
         onClick={() => {
-          if (backpack !== 3) {
-            setBackpack(backpack + 1);
-          }
+          handleInteraction("increase");
         }}
       />
       <p className="text-xl">

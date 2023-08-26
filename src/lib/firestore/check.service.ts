@@ -1,4 +1,15 @@
-import { Timestamp, collection, doc, setDoc, addDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  doc,
+  setDoc,
+  addDoc,
+  DocumentData,
+  onSnapshot,
+  getDocs,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../config/firebase";
 import {
   IFlights,
@@ -18,12 +29,14 @@ export const addFlightToBooking = async (
   passengers: PassengersObject
 ) => {
   const idBooking: string = uuid().substring(0, 8);
+  const newTotalDisponible: number =
+    flight.disponibles - (flight.totalPassenger ? flight.totalPassenger : 0);
 
   try {
     await setDoc(doc(db, "reserva", idBooking), {
       correo_electronico: user.correo_electronico,
       destino: flight.destino.code,
-      disponible: flight.disponibles,
+      disponible: newTotalDisponible,
       duracion: flight.duracion,
       edad: user.edad,
       fecha_salida: Timestamp.fromDate(
@@ -39,6 +52,7 @@ export const addFlightToBooking = async (
     });
     console.log("SUCCES BOOKING");
     addPassengersToBooking(idBooking, passengers);
+    updateFlightAvailable(flight.id, newTotalDisponible);
   } catch (e) {
     console.error("Error al guardar los datos:", e);
   }
@@ -55,12 +69,16 @@ const addPassengersToBooking = async (
       if (passengers) {
         passengers.forEach(async (passenger) => {
           try {
-            const { name, age, email, phone } = passenger;
+            const { name, age, email, phone, backpack, seat, favoriteSeat } =
+              passenger;
             const passengerData = {
               nombre: name,
               edad: age,
               correo_electronico: email,
               numero_telefonico: phone,
+              mochilas: backpack,
+              asiento: seat,
+              asientoFavorito: favoriteSeat,
             };
             await addDoc(
               collection(db, "reserva", idBooking, "passengers"),
@@ -74,4 +92,49 @@ const addPassengersToBooking = async (
       }
     }
   }
+};
+const updateFlightAvailable = async (
+  idFlight: string,
+  totalPassenger: number
+) => {
+  return await updateDoc(doc(db, "vuelo", idFlight), {
+    disponible: totalPassenger,
+  });
+};
+
+//UPLOAD
+export const uploadSeatsToFlight = (
+  idFlight: string,
+  objSeats: { row: string; col: number; id: string; status: number }[]
+) => {
+  try {
+    objSeats.forEach(async (res) => {
+      await setDoc(
+        doc(db, "seatsFormat", idFlight, "seatsFlight", res.id),
+        res
+      );
+    });
+
+    console.log("DONE:");
+  } catch (error) {
+    console.log("ERROR: ", error);
+  }
+};
+
+export const getSeatsFlightById = (
+  id: string,
+  fSnapshot: (snapshot: DocumentData) => void
+) => {
+  const q = query(collection(db, "vuelo", id, "seatsFlight"));
+  return onSnapshot(q, fSnapshot);
+};
+
+export const updateFlightSeatStatus = async (
+  idFlight: string,
+  status: number,
+  idSeat: string
+) => {
+  return await updateDoc(doc(db, "vuelo", idFlight, "seatsFlight", idSeat), {
+    status: status,
+  });
 };

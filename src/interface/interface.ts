@@ -8,11 +8,13 @@ export interface IPassenger {
 }
 
 export interface IPassengerInput {
-  name: string;
-  age: number;
-  email: string;
-  phone: string;
-  
+  name?: string;
+  age?: number;
+  email?: string;
+  phone?: string;
+  backpack: number;
+  seat?: string;
+  favoriteSeat?: boolean;
 }
 
 //COUNTRY INTERFACE
@@ -32,6 +34,7 @@ export interface IFlights {
   origen: ICountry;
   precio: number;
   passengers?: IPassengersFlight[];
+  totalPassenger?: number;
 }
 
 interface IPassengersFlight {

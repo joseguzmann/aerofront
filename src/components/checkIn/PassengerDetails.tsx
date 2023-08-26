@@ -8,6 +8,7 @@ interface IProps {
   index: number;
   passengersInfo: any;
   setPassengersInfo: any;
+  
 }
 
 const PassengerDetails = ({
@@ -15,6 +16,7 @@ const PassengerDetails = ({
   index,
   passengersInfo,
   setPassengersInfo,
+  
 }: IProps) => {
   const [isValidEmail, setIsValidEmail] = useState(true);
 
@@ -39,7 +41,7 @@ const PassengerDetails = ({
 
     setPassengersInfo(updatedInfo);
 
-    console.log("UPDATE INFO: ", updatedInfo);
+    // console.log("UPDATE INFO: ", updatedInfo);
   };
 
   const inputLabel = ["name", "age", "email", "phone"];
@@ -55,10 +57,10 @@ const PassengerDetails = ({
       <div className=" flex  pl-[3rem] my-[2rem] ">
         <div className=" w-[60%]">
           <p className="my-5">Please fill all the inputs </p>
-          {inputLabel.map((res, index) => {
+          {inputLabel.map((res, i) => {
             return (
               <div
-                key={`${res}+${index}`}
+                key={`${res}+${i}`}
                 className="mb-5  flex flex-col items-center justify-around  "
               >
                 <TextField
@@ -89,10 +91,15 @@ const PassengerDetails = ({
           <BackPackManager
             passengersInfo={passengersInfo}
             setPassengersInfo={setPassengersInfo}
+            title={title}
+            index={index}
           />
           <SeatsManager
             passengersInfo={passengersInfo}
             setPassengersInfo={setPassengersInfo}
+            title={title}
+            index={index}
+         
           />
         </div>
       </div>

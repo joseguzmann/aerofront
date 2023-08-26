@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IFlights } from "../../interface/interface";
 import config from "../../config/index.json";
 import Divider from "@mui/material/Divider";
@@ -7,9 +7,44 @@ import DescriptionTotal from "./DescriptionTotal";
 interface IProps {
   passengers: any;
   flight: IFlights;
-  total: number;
+  total?: number;
+  isCheckIn?: boolean;
+  setTicketTotal?: any;
 }
-const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
+const PassengersTotalDetails = ({
+  passengers,
+  flight,
+  total,
+  isCheckIn,
+  setTicketTotal,
+}: IProps) => {
+  useEffect(() => {
+    const calculateTotal = () => {
+      const categories = [
+        { key: "senior", priceFactor: 0.5 },
+        { key: "adult", priceFactor: 1 },
+        { key: "children", priceFactor: 1 },
+        // Agregar más categorías según sea necesario
+      ];
+
+      let total = 0;
+
+      if (flight) {
+        categories.forEach((category, index) => {
+          const { priceFactor } = category;
+          const categoryPrice = parseFloat(
+            (flight.precio * priceFactor).toFixed(2)
+          );
+          total += categoryPrice * passengers[index]?.n || 0;
+        });
+
+        return total;
+      }
+      return 0;
+    };
+    setTicketTotal(calculateTotal());
+  }, []);
+
   return (
     <div className="flex justify-center items-center my-10">
       <div className="flex flex-col bg-gray-300 p-6 rounded-xl w-[60%]">
@@ -23,7 +58,7 @@ const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
               res.title === "Senior Citizens"
                 ? "imgSeniorCitizens"
                 : `img${res.title}`;
-            console.log("STRING: ", srcString);
+
             if (res.n > 0) {
               return (
                 <div key={i} className="py-2">
@@ -91,7 +126,7 @@ const PassengersTotalDetails = ({ passengers, flight, total }: IProps) => {
             }
             return;
           })}
-        <DescriptionTotal total={total} />
+        {!isCheckIn && <DescriptionTotal total={total ? total : 0} />}
       </div>
     </div>
   );

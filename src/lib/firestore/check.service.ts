@@ -42,6 +42,9 @@ export const addFlightToBooking = async (
       fecha_salida: Timestamp.fromDate(
         dayjs(flight.fecha_salida.formattedDate, "ddd, DD MMMM YYYY").toDate()
       ),
+      // fecha_regreso: Timestamp.fromDate(
+      //   dayjs(flight.fecha_regreso.formattedDate, "ddd, DD MMMM YYYY").toDate()
+      // ),
       id: idBooking,
       id_pasajero: user.id,
       id_vuelo_: flight.id,
@@ -50,11 +53,13 @@ export const addFlightToBooking = async (
       origen: flight.origen.code,
       precio: flight.precio,
     });
-    console.log("SUCCES BOOKING");
+
     addPassengersToBooking(idBooking, passengers);
     updateFlightAvailable(flight.id, newTotalDisponible);
+    return idBooking;
   } catch (e) {
     console.error("Error al guardar los datos:", e);
+    return e;
   }
 };
 

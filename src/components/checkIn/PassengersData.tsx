@@ -89,13 +89,18 @@ const PassengersData = ({ flight }: IProps) => {
 
     try {
       if (user && isValid) {
-        await addFlightToBooking(flight, user, passengersInfo);
-        router.push({
-          pathname: "/passenger-confirmation",
-          query: {
-            flight: JSON.stringify(flight),
-          },
-        });
+        const response = await addFlightToBooking(flight, user, passengersInfo);
+
+        if (response) {
+          router.push({
+            pathname: "/passenger-confirmation",
+            query: {
+              bookingId: JSON.stringify(response),
+              flight: JSON.stringify(flight),
+              passengersInfo: JSON.stringify(passengersInfo),
+            },
+          });
+        }
       }
     } catch (error) {
       console.error("ERROR: ", error);

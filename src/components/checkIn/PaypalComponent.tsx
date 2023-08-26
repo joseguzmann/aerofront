@@ -1,7 +1,10 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from "react";
 
-const PaypalComponent = () => {
+interface IProps {
+  value: number;
+}
+const PaypalComponent = ({ value }: IProps) => {
   return (
     <PayPalScriptProvider
       options={{
@@ -19,7 +22,7 @@ const PaypalComponent = () => {
                   value:
                     //SandBox
                     // (subTotal.current - discount).toString(),
-                    "0.01",
+                    value.toString(),
                   //LIVE
                   // "0.01",
                 },
@@ -44,7 +47,8 @@ const PaypalComponent = () => {
           layout: "horizontal",
           shape: "pill",
           color: "gold",
-          tagline: false,
+
+          height: 55,
         }}
         onCancel={(data) => {
           console.log("ERROR PAYPAL: ");

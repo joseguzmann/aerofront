@@ -62,7 +62,7 @@ export const FlightSearchRounded = ({ flight, setRadioSelected }: IProps) => {
         <div className="flex ">
           <FormControlLabel
             onChange={(event: any) => {
-              console.log("Value: ", event.target.value);
+            
               setRadioSelected(event.target.value);
             }}
             value={flight.id}

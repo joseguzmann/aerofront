@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import config from "../../config/index.json";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,12 +13,15 @@ import Link from "next/link";
 import { userLogin } from "../../lib/firestore/auth.service";
 import { useRouter } from "next/router";
 import { IFlights } from "../../interface/interface";
+import FlightContext from "../../contexts/flightContext";
 
 interface IProps {
   flight?: IFlights;
+  isRounded?: boolean;
+  flightRounded: any;
 }
 
-const LoginAuth = ({ flight }: IProps) => {
+const LoginAuth = ({ flight, isRounded, flightRounded }: IProps) => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState<string>();
@@ -26,10 +29,12 @@ const LoginAuth = ({ flight }: IProps) => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
+  const { flight: myFlight } = useContext(FlightContext);
   useEffect(() => {
     if (password) {
       setIsValidPassword(password.length >= 6);
     }
+  
   }, [password]);
 
   const handleMouseDownPassword = (
@@ -58,9 +63,14 @@ const LoginAuth = ({ flight }: IProps) => {
         if (user) {
           router.push({
             pathname: "/passenger-details",
-            query: {
-              flight: JSON.stringify(flight),
-            },
+            query: isRounded
+              ? {
+                  isRounded: isRounded,
+                  flightRounded: JSON.stringify(flightRounded),
+                }
+              : {
+                  flight: JSON.stringify(flight),
+                },
           });
         }
 

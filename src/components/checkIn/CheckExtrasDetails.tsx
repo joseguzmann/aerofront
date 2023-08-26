@@ -24,6 +24,9 @@ const CheckExtrasDetails = ({ passengersInfo, setExtrastotal }: IProps) => {
           if (elemntRes.favoriteSeat) {
             aditionalTotal += 12;
           }
+          if (elemntRes.favoriteSeatRound) {
+            aditionalTotal += 12;
+          }
           return acc + aditionalTotal;
         }, 0)
       );
@@ -45,10 +48,14 @@ const CheckExtrasDetails = ({ passengersInfo, setExtrastotal }: IProps) => {
               res === "Senior Citizens" ? "imgSeniorCitizens" : `img${res}`;
 
             const elementArray = passengersInfo[res];
+          
             return elementArray.map((elemntRes: any, index: number) => {
               let aditionalTotal = 0;
               aditionalTotal += elemntRes.backpack * 10;
               if (elemntRes.favoriteSeat) {
+                aditionalTotal += 12;
+              }
+              if (elemntRes.favoriteSeatRound) {
                 aditionalTotal += 12;
               }
 
@@ -79,6 +86,18 @@ const CheckExtrasDetails = ({ passengersInfo, setExtrastotal }: IProps) => {
                         {elemntRes.backpack} (${elemntRes.backpack * 10})
                       </p>
                       {elemntRes.favoriteSeat && (
+                        <>
+                          <img
+                            className="mx-3"
+                            src={config.other.imgSeatFlight}
+                            width={25}
+                            height={25}
+                            alt={`img_${res}_seatFlight`}
+                          />
+                          <p>Favorite seat (${12})</p>
+                        </>
+                      )}
+                      {elemntRes.favoriteSeatRound && (
                         <>
                           <img
                             className="mx-3"

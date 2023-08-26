@@ -18,7 +18,7 @@ const FlightDetails = () => {
     ? JSON.parse(flightsRounded)
     : null;
 
-  console.log("PARSED FLIGHTS: ", parsedFlights);
+
   return (
     <div>
       <Head>

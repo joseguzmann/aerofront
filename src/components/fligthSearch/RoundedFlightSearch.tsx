@@ -15,13 +15,10 @@ const RoundedFlightSearch = ({ FlightsRound, passengers }: IProps) => {
   const [radioOrigin, setRadioOrigin] = useState();
   const [radioDestiny, setRadioDestiny] = useState();
 
-  // useEffect(() => {
-  //   console.log("RADIO Origin: ", radioOrigin);
-  //   console.log("RADIO DESTINYU: ", radioDestiny);
-  // }, [radioOrigin, radioDestiny]);
+
 
   const handleContinue = () => {
-    console.log("FLIghtrsRound: ", FlightsRound);
+  
     const flightOriginSelected = FlightsRound.flightOrigin.find(
       (flight: any) => flight.id === radioOrigin
     );
@@ -29,19 +26,18 @@ const RoundedFlightSearch = ({ FlightsRound, passengers }: IProps) => {
     const flightDestinySelected = FlightsRound.flightDestiny.find(
       (flight: any) => flight.id === radioDestiny
     );
-    console.log("RADIO Origin: ", flightOriginSelected);
-    console.log("RADIO DESTINYU: ", flightDestinySelected);
+
 
     // FlightsRound["flightOrigin"] = flightOriginSelected;
     // FlightsRound["flightDestiny"] = flightDestinySelected;
-    console.log("NORMAL FlightsRound: ", FlightsRound);
+  
 
     const updatedFlightsRound = {
       flightOrigin: flightOriginSelected,
       flightDestiny: flightDestinySelected,
     };
 
-    console.log("Updated FlightsRound: ", updatedFlightsRound);
+   
 
     router.push({
       pathname: "/flight-details",

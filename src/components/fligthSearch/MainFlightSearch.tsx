@@ -26,7 +26,7 @@ const MainFlightSearch = ({
 }: IProps) => {
   const { desc } = config.search;
 
-  const { flight_details } = config;
+
   const { setFlight } = useContext(FlightContext);
   const router = useRouter();
 

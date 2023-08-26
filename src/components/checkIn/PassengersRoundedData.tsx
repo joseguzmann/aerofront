@@ -1,37 +1,39 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import { IFlights, IPassengerInput } from "../../interface/interface";
-import Button from "@mui/material/Button";
-import PassengerDetails from "./PassengerDetails";
-
 import UserContext from "../../contexts/userContext";
-import { addFlightToBooking } from "../../lib/firestore/check.service";
-import { useRouter } from "next/router";
-import SeatsFlightPicker from "./SeatsFlightPicker";
 
-interface IProps {
-  flight: IFlights;
+import {
+  IFlights,
+  IPassengerInput,
+  IPassengersFlight,
+  IRoundFlight,
+} from "../../interface/interface";
+import PassengerDetails from "./PassengerDetails";
+import Button from "@mui/material/Button";
+import { addRoundedFlightToBooking } from "../../lib/firestore/check.service";
+
+import { useRouter } from "next/router";
+
+interface ErrorProps {
+  value: boolean;
+  msg?: string;
 }
 
 interface PassengersObject {
   [key: string]: IPassengerInput[] | undefined;
 }
 
-interface ErrorProps {
-  value: boolean;
-  msg?: string;
+interface IProps {
+  flight: IRoundFlight;
 }
-const PassengersData = ({ flight }: IProps) => {
+const PassengersRoundedData = ({ flight }: IProps) => {
   const [passengersInfo, setPassengersInfo] = useState<any>({ backpack: 1 });
   const [error, setError] = useState<ErrorProps>({ value: false });
   const { user } = useContext(UserContext);
   const router = useRouter();
-
+  // const { flight } = useContext(FlightContext);
   useEffect(() => {
-    console.log("FLIGHT?", flight);
-
     if (flight) {
-      const passengersObjetValues = flight.passengers?.reduce((acc, res) => {
+      const passengersObjetValues = flight.passengers.reduce((acc, res) => {
         if (res.n > 0) {
           acc[res.title] = Array.from({ length: res.n }, () => ({
             backpack: 1,
@@ -39,8 +41,9 @@ const PassengersData = ({ flight }: IProps) => {
         }
         return acc;
       }, {} as PassengersObject);
-
+   
       setPassengersInfo(passengersObjetValues);
+   
     }
 
     // }
@@ -50,33 +53,38 @@ const PassengersData = ({ flight }: IProps) => {
     let isValid = true;
     let auxIndex: number = 0;
 
-    flight.passengers?.forEach((pass) => {
-      const passengerArray = passengersInfo[pass.title];
+    if (flight) {
+      flight.passengers?.forEach((pass) => {
+        const passengerArray = passengersInfo[pass.title];
+       
+        auxIndex += pass.n;
 
-      auxIndex += pass.n;
-
-      if (passengerArray !== undefined) {
-        if (passengerArray.length === pass.n) {
-          if (
-            !passengerArray.every(
-              (res: IPassengerInput) =>
-                res.age !== undefined &&
-                !isNaN(res.age) &&
-                res.email !== "" &&
-                res.name !== "" &&
-                res.phone !== "" &&
-                res.seat !== undefined &&
-                res.seat !== ""
-            )
-          ) {
+        if (passengerArray !== undefined) {
+          if (passengerArray.length === pass.n) {
+            if (
+              !passengerArray.every(
+                (res: IPassengerInput) =>
+                  res.age !== undefined &&
+                  !isNaN(res.age) &&
+                  res.email !== "" &&
+                  res.name !== "" &&
+                  res.phone !== "" &&
+                  res.seat !== undefined &&
+                  res.seat !== "" &&
+                  res.seatRound !== undefined &&
+                  res.seatRound !== ""
+              )
+            ) {
+              isValid = false;
+            }
+          } else {
             isValid = false;
           }
-        } else {
-          isValid = false;
         }
-      }
-    });
-    flight.totalPassenger = auxIndex;
+      });
+
+      flight.totalPassenger = auxIndex;
+    }
 
     return isValid;
   };
@@ -90,14 +98,17 @@ const PassengersData = ({ flight }: IProps) => {
 
     try {
       if (user && isValid) {
-        const response = await addFlightToBooking(flight, user, passengersInfo);
-
+        const response = await addRoundedFlightToBooking(
+          flight,
+          user,
+          passengersInfo
+        );
         if (response) {
           router.push({
             pathname: "/passenger-confirmation",
             query: {
               bookingId: JSON.stringify(response),
-              flight: JSON.stringify(flight),
+              flightRound: JSON.stringify(flight),
               passengersInfo: JSON.stringify(passengersInfo),
             },
           });
@@ -110,7 +121,7 @@ const PassengersData = ({ flight }: IProps) => {
 
   return (
     <div className=" relative flex justify-center items-center mb-20 ">
-      <div className=" items-center  w-[75%]   ">
+      <div className=" items-center  w-[75%]">
         {flight &&
           flight.passengers?.map((passenger) => {
             if (passenger.n > 0) {
@@ -121,19 +132,18 @@ const PassengersData = ({ flight }: IProps) => {
                   index={index}
                   passengersInfo={passengersInfo}
                   setPassengersInfo={setPassengersInfo}
-                  flightOne={flight}
+                  isRounded={true}
+                  flightRounded={flight}
                 />
               ));
             }
             return null;
           })}
-
         {!error.value && (
           <div className="mt-5">
             <p className="font-bold text-2xl text-red-500">{error.msg}</p>
           </div>
         )}
-
         <div className="flex justify-center my-9">
           {/* <Link href={"/flight-search"}> */}
           <Button
@@ -151,4 +161,4 @@ const PassengersData = ({ flight }: IProps) => {
   );
 };
 
-export default PassengersData;
+export default PassengersRoundedData;

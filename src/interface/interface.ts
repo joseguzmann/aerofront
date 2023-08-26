@@ -15,6 +15,8 @@ export interface IPassengerInput {
   backpack: number;
   seat?: string;
   favoriteSeat?: boolean;
+  favoriteSeatRound?: boolean;
+  seatRound?: string;
 }
 
 //COUNTRY INTERFACE
@@ -36,8 +38,13 @@ export interface IFlights {
   passengers?: IPassengersFlight[];
   totalPassenger?: number;
 }
-
-interface IPassengersFlight {
+export interface IRoundFlight {
+  flightOrigin: IFlights;
+  flightDestiny: IFlights;
+  passengers: IPassengersFlight[];
+  totalPassenger?: number;
+}
+export interface IPassengersFlight {
   title: string;
   desc: string;
   n: number;

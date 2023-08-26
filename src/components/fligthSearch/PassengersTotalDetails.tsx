@@ -18,31 +18,34 @@ const PassengersTotalDetails = ({
   isCheckIn,
   setTicketTotal,
 }: IProps) => {
+  const calculateTotal = () => {
+    const categories = [
+      { key: "senior", priceFactor: 0.5 },
+      { key: "adult", priceFactor: 1 },
+      { key: "children", priceFactor: 1 },
+      // Agregar más categorías según sea necesario
+    ];
+
+    let total = 0;
+
+    if (flight) {
+      categories.forEach((category, index) => {
+        const { priceFactor } = category;
+        const categoryPrice = parseFloat(
+          (flight.precio * priceFactor).toFixed(2)
+        );
+        total += categoryPrice * passengers[index]?.n || 0;
+      });
+
+      return total;
+    }
+    return 0;
+  };
   useEffect(() => {
-    const calculateTotal = () => {
-      const categories = [
-        { key: "senior", priceFactor: 0.5 },
-        { key: "adult", priceFactor: 1 },
-        { key: "children", priceFactor: 1 },
-        // Agregar más categorías según sea necesario
-      ];
-
-      let total = 0;
-
-      if (flight) {
-        categories.forEach((category, index) => {
-          const { priceFactor } = category;
-          const categoryPrice = parseFloat(
-            (flight.precio * priceFactor).toFixed(2)
-          );
-          total += categoryPrice * passengers[index]?.n || 0;
-        });
-
-        return total;
-      }
-      return 0;
-    };
-    setTicketTotal(calculateTotal());
+    
+    if (setTicketTotal) {
+      setTicketTotal(calculateTotal());
+    }
   }, []);
 
   return (
@@ -126,7 +129,7 @@ const PassengersTotalDetails = ({
             }
             return;
           })}
-        {!isCheckIn && <DescriptionTotal total={total ? total : 0} />}
+        {!isCheckIn && <DescriptionTotal total={calculateTotal()} />}
       </div>
     </div>
   );

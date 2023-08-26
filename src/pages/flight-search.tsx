@@ -15,11 +15,7 @@ const FlightSearch = () => {
   const parsedFlights: IFlights[] = flights ? JSON.parse(flights) : null;
   const parsedPassengers = passengers ? JSON.parse(passengers) : null;
 
-  useEffect(() => {
-    // console.log("PARSED LFIGHTS: ", parsedFlights);
-    // console.log("Passenger: ", parsedPassengers);
-    // console.log("ROUNDED: ", isRounded);
-  }, []);
+  
 
   const { search } = config;
   return (

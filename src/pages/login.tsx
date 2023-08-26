@@ -8,10 +8,13 @@ import { useRouter } from "next/router";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { flight }: any = router.query;
+  const { flight, isRounded, flightRounded }: any = router.query;
   const parsedFlight = flight ? JSON.parse(flight) : null;
+  const parsedFlightsRounded = flightRounded ? JSON.parse(flightRounded) : null;
 
   const { login } = config;
+
+
   return (
     <div>
       <Head>
@@ -19,7 +22,11 @@ const LoginPage = () => {
       </Head>
       <Header noSvg={true} />
 
-      <LoginAuth flight={parsedFlight} />
+      <LoginAuth
+        flight={parsedFlight}
+        isRounded={isRounded}
+        flightRounded={parsedFlightsRounded}
+      />
       <Footer />
     </div>
   );

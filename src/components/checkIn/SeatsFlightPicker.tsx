@@ -68,7 +68,7 @@ const SelectSeatModal = (props: SeatProps) => {
                           }   flex flex-col items-center bg-gray-300 rounded-lg p-2 m-1`}
                           onClick={() => {
                             if (seat.status === 0) {
-                              console.log("SELECTED: ", seat.id);
+                          
                               setIsSelected(seat.id);
                             }
                           }}
@@ -146,6 +146,8 @@ interface IProps {
   setPassengersInfo: any;
   title: any;
   index: number;
+  flightId: string;
+  isDestiny?: boolean;
 }
 
 const SeatsFlightPicker = ({
@@ -155,23 +157,25 @@ const SeatsFlightPicker = ({
   setPassengersInfo,
   title,
   index,
+  flightId,
+  isDestiny,
 }: IProps) => {
   // const [open, setOpen] = useState(false);
-  const { flight } = useContext(FlightContext);
+  // const { flight } = useContext(FlightContext);
   const [seatsFlight, setSeatsFlight] = useState<
     { row: string; col: number; id: string; status: number }[] | null
   >();
   const handleClose = (value: any) => {
-    if (flight) {
-      updateFlightSeatStatus(flight.id, 1, value);
+    if (flightId) {
+      updateFlightSeatStatus(flightId, 1, value);
     }
 
     setOpen(false);
     const updateSeat: any = { ...passengersInfo };
     updateSeat[title][index] = {
       ...updateSeat[title][index],
-      seat: value,
-      favoriteSeat: true,
+      [isDestiny ? "seatRound" : "seat"]: value,
+      [isDestiny ? "favoriteSeat" : "favoriteSeatRound"]: true,
     };
     setPassengersInfo(updateSeat);
   };
@@ -182,8 +186,8 @@ const SeatsFlightPicker = ({
 
       setSeatsFlight(flightsData);
     };
-    if (flight) {
-      getSeatsFlightById(flight.id, getSeatsFlightSnapshot);
+    if (flightId) {
+      getSeatsFlightById(flightId, getSeatsFlightSnapshot);
     }
   }, []);
   return (

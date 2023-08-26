@@ -2,13 +2,22 @@ import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import BackPackManager from "./BackpackManager";
 import SeatsManager from "./SeatsManager";
+import SeatsManagerRounded from "./SeatsManagerRounded";
+import { IFlights, IPassengersFlight } from "../../interface/interface";
 
 interface IProps {
   title: string;
   index: number;
   passengersInfo: any;
   setPassengersInfo: any;
-  
+  isRounded?: boolean;
+  flightRounded?: {
+    flightOrigin: IFlights;
+    flightDestiny: IFlights;
+    passengers: IPassengersFlight[];
+    totalPassenger?: number;
+  };
+  flightOne?: IFlights;
 }
 
 const PassengerDetails = ({
@@ -16,7 +25,9 @@ const PassengerDetails = ({
   index,
   passengersInfo,
   setPassengersInfo,
-  
+  isRounded,
+  flightRounded,
+  flightOne,
 }: IProps) => {
   const [isValidEmail, setIsValidEmail] = useState(true);
 
@@ -94,13 +105,24 @@ const PassengerDetails = ({
             title={title}
             index={index}
           />
-          <SeatsManager
-            passengersInfo={passengersInfo}
-            setPassengersInfo={setPassengersInfo}
-            title={title}
-            index={index}
-         
-          />
+          {isRounded ? (
+            <SeatsManagerRounded
+              flightRounded={flightRounded ? flightRounded : null}
+              passengersInfo={passengersInfo}
+              setPassengersInfo={setPassengersInfo}
+              title={title}
+              index={index}
+            />
+          ) : (
+            <SeatsManager
+              passengersInfo={passengersInfo}
+              setPassengersInfo={setPassengersInfo}
+              title={title}
+              index={index}
+              flightOne={flightOne}
+            />
+          
+          )}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { IFlights } from "../../interface/interface";
 import FlightContext from "../../contexts/flightContext";
 import { useRouter } from "next/router";
-import DescriptionTotal from "./DescriptionTotal";
+
 import PassengersTotalDetails from "./PassengersTotalDetails";
 import NoTaxes from "./NoTaxes";
 

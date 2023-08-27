@@ -67,7 +67,7 @@ export const registerWithEmail = async (
     })
     .catch((error) => {
       const errorCode = error.code;
-      const errorMessage = error.message;
+     
       // console.log("Bak", errorCode, errorMessage);
       throw new Error(errorCode);
     });

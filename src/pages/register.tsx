@@ -5,14 +5,14 @@ import Head from "next/head";
 import Header from "../components/other/Header";
 import Footer from "../components/other/Footer";
 import RegisterAuth from "../components/authentication/RegisterAuth";
-import { useRouter } from "next/router";
+//import { useRouter } from "next/router";
 
 const Register = () => {
-  const router = useRouter();
+  //const router = useRouter();
   const { register } = config;
-  const { flight, isRounded, flightRounded }: any = router.query;
-  const parsedFlights = flight ? JSON.parse(flight) : null;
-  const parsedFlightsRounded = flightRounded ? JSON.parse(flightRounded) : null;
+  //const { flight, isRounded, flightRounded }: any = router.query;
+  // const parsedFlights = flight ? JSON.parse(flight) : null;
+  // const parsedFlightsRounded = flightRounded ? JSON.parse(flightRounded) : null;
 
   return (
     <div>

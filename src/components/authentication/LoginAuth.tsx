@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import config from "../../config/index.json";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,11 +9,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Link from "next/link";
+
 import { userLogin } from "../../lib/firestore/auth.service";
 import { useRouter } from "next/router";
 import { IFlights } from "../../interface/interface";
-import FlightContext from "../../contexts/flightContext";
+
 
 interface IProps {
   flight?: IFlights;
@@ -29,7 +29,7 @@ const LoginAuth = ({ flight, isRounded, flightRounded }: IProps) => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
-  const { flight: myFlight } = useContext(FlightContext);
+  
   useEffect(() => {
     if (password) {
       setIsValidPassword(password.length >= 6);

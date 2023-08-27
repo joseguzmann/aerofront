@@ -14,7 +14,6 @@ interface IProps {
 const PassengersTotalDetails = ({
   passengers,
   flight,
-  total,
   isCheckIn,
   setTicketTotal,
 }: IProps) => {

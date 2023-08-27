@@ -6,7 +6,7 @@ import {
   addDoc,
   DocumentData,
   onSnapshot,
-  getDocs,
+  
   query,
   updateDoc,
 } from "firebase/firestore";

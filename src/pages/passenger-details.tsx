@@ -1,5 +1,5 @@
 import React from "react";
-import config from "../config/index.json";
+
 import Head from "next/head";
 import PassengersData from "../components/checkIn/PassengersData";
 import { useRouter } from "next/router";

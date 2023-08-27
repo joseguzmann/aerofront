@@ -15,6 +15,7 @@ const PaypalComponent = ({ value }: IProps) => {
     >
       <PayPalButtons
         createOrder={(data, actions) => {
+          console.log("Data:", data);
           return actions.order.create({
             purchase_units: [
               {
@@ -31,6 +32,7 @@ const PaypalComponent = ({ value }: IProps) => {
           });
         }}
         onApprove={(data, actions: any) => {
+          console.log("Data:", data);
           return actions.order.capture().then((details: any) => {
             if (details.status === "COMPLETED") {
               // handleBuyProducts(true);
@@ -51,6 +53,7 @@ const PaypalComponent = ({ value }: IProps) => {
           height: 55,
         }}
         onCancel={(data) => {
+          console.log("Data:", data);
           console.log("ERROR PAYPAL: ");
         }}
       />

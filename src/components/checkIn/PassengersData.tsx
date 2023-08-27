@@ -7,7 +7,7 @@ import PassengerDetails from "./PassengerDetails";
 import UserContext from "../../contexts/userContext";
 import { addFlightToBooking } from "../../lib/firestore/check.service";
 import { useRouter } from "next/router";
-import SeatsFlightPicker from "./SeatsFlightPicker";
+
 
 interface IProps {
   flight: IFlights;
@@ -28,7 +28,7 @@ const PassengersData = ({ flight }: IProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("FLIGHT?", flight);
+   
 
     if (flight) {
       const passengersObjetValues = flight.passengers?.reduce((acc, res) => {

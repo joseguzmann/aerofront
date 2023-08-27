@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/userContext";
 
-import {
-  IFlights,
-  IPassengerInput,
-  IPassengersFlight,
-  IRoundFlight,
-} from "../../interface/interface";
+import { IPassengerInput, IRoundFlight } from "../../interface/interface";
 import PassengerDetails from "./PassengerDetails";
 import Button from "@mui/material/Button";
 import { addRoundedFlightToBooking } from "../../lib/firestore/check.service";
@@ -41,9 +36,8 @@ const PassengersRoundedData = ({ flight }: IProps) => {
         }
         return acc;
       }, {} as PassengersObject);
-   
+
       setPassengersInfo(passengersObjetValues);
-   
     }
 
     // }
@@ -56,7 +50,7 @@ const PassengersRoundedData = ({ flight }: IProps) => {
     if (flight) {
       flight.passengers?.forEach((pass) => {
         const passengerArray = passengersInfo[pass.title];
-       
+
         auxIndex += pass.n;
 
         if (passengerArray !== undefined) {

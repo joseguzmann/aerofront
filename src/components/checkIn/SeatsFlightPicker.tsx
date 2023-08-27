@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 //import SeatPicker from "react-seat-picker";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
@@ -7,10 +7,10 @@ import Dialog from "@mui/material/Dialog";
 import {
   getSeatsFlightById,
   updateFlightSeatStatus,
-  uploadSeatsToFlight,
+  
 } from "../../lib/firestore/check.service";
 import { DocumentData } from "firebase/firestore";
-import FlightContext from "../../contexts/flightContext";
+
 
 export interface SeatProps {
   open: boolean;
@@ -22,7 +22,7 @@ export interface SeatProps {
 
 const SelectSeatModal = (props: SeatProps) => {
   const [isSelected, setIsSelected] = useState<string | null>();
-  const { onClose, open, seatsFlight, passengerObjData } = props;
+  const { onClose, open, seatsFlight } = props;
   const uniqueRows = seatsFlight.reduce((rows, seat) => {
     if (!rows.includes(seat.row)) {
       rows.push(seat.row);
@@ -52,7 +52,7 @@ const SelectSeatModal = (props: SeatProps) => {
                 {seatsFlight
                   .filter((seat) => seat.row === row)
                   .map((seat) => {
-                    const isAisle = seat.col === 3 || seat.col === 4;
+                   
 
                     return (
                       <div key={seat.id} className=" flex  row  m-1 ">

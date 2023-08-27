@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import config from "../../config/index.json";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SeatsFlightPicker from "./SeatsFlightPicker";
-import FlightContext from "../../contexts/flightContext";
+
 import {
   getSeatsFlightById,
   updateFlightSeatStatus,
@@ -37,14 +37,7 @@ const SeatsManager = ({
   //   setFlight(flight);
   // }
 
-  useEffect(() => {
-    console.log("PAssengerInfo: ", passengersInfo);
-    console.log("title: ", title);
-    console.log("index: ", index);
-    console.log("flightRounded: ", flightRounded);
-    console.log("isDestiny: ", isDestiny);
-    console.log("flightOne: ", flightOne);
-  }, []);
+
 
   const [seatsFlight, setSeatsFlight] = useState<
     { row: string; col: number; id: string; status: number }[] | null
@@ -144,7 +137,7 @@ const SeatsManager = ({
   };
 
   const handleFavoriteSeat = () => {
-    console.log("FAVORITE SEAT?");
+    
     cleanSeatSelection();
     setOpen(true);
   };

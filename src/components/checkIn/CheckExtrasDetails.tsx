@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IFlights } from "../../interface/interface";
+
 import config from "../../config/index.json";
 import Divider from "@mui/material/Divider";
 

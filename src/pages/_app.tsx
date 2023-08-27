@@ -12,10 +12,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const [flight, setFlight] = useState<IFlights | null>(null);
 
   useEffect(() => {
+    const script = document.createElement("script");
+    script.id;
 
     const getUserByUidSnapshot = (snapshot: any) => {
       const user = snapshot.data();
-
 
       setUser(user);
     };
@@ -28,13 +29,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       }
     };
     getCurrentUser(getCurrentUserSnapshot);
-
-
   }, [flight]);
   return (
     <>
       <UserContextProvider value={{ user, setUser }}>
         <FlightContextProvider value={{ flight, setFlight }}>
+          <script
+            id="yubox-ask-my-web"
+            data-jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzA5ODE2MywidHlwZSI6ImFjY2VzcyIsIm5iZiI6MTY5MzA5ODE2Mywic3ViIjoiMiIsImV4cCI6MTY5MzcwMjk2MywiZG9tYWlucyI6WyJodHRwczovL2Flcm9iYWNrLWUwNDAzLndlYi5hcHAvIl19.sVPrZxCwY1IbpwalLF3KzYRb10QvyJHlP-pLiq5c3ek"
+            src="http://3.129.44.255:8000/js/aichat.js"
+          ></script>
           <Component {...pageProps} />
         </FlightContextProvider>
       </UserContextProvider>

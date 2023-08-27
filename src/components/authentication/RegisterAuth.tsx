@@ -10,13 +10,19 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { registerWithEmail } from "../../lib/firestore/auth.service";
+import { useRouter } from "next/router";
 
 const RegisterAuth = () => {
+  const router = useRouter();
   const { register } = config;
   const [showPassword, setShowPassword] = useState(false);
 
-  const [password, setPassword] = useState<string>();
-  //const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [last, setLast] = useState<string>("");
+  const [age, setAge] = useState<number>(0);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,22 +47,47 @@ const RegisterAuth = () => {
 
   const handleEmailChange = (event: any) => {
     const newEmail = event.target.value;
-    //setEmail(newEmail);
+    setEmail(newEmail);
     setIsValidEmail(validateEmail(newEmail));
+  };
+  const handleNameChange = (event: any) => {
+    setName(event.target.value);
+  };
+  const handleLastNameChange = (event: any) => {
+    setLast(event.target.value);
+  };
+  const handleAgeChange = (event: any) => {
+    setAge(event.target.value);
   };
   const handlePasswordChange = (event: any) => {
     setPassword(event.target.value);
   };
 
+  const handleOnSubmit = async () => {
+    await registerWithEmail(email, password, name, last, age);
+    router.back();
+  };
+
   return (
     <div className=" flex flex-col   justify-center items-center  h-screen ">
       <div>
+        <div className="my-6 ">
+          <p className="text-2xl font-bold">REGISTER</p>
+        </div>
         <div className="my-6">
           <TextField
             fullWidth
             // error={!isValidEmail}
             label={register.name}
-            // onChange={handleEmailChange}
+            onChange={handleNameChange}
+          />
+        </div>
+        <div className="my-6">
+          <TextField
+            fullWidth
+            // error={!isValidEmail}
+            label={"Last Name"}
+            onChange={handleLastNameChange}
           />
         </div>
         <div className="my-6">
@@ -64,13 +95,13 @@ const RegisterAuth = () => {
             fullWidth
             // error={!isValidEmail}
             label={register.age}
-            // onChange={handleEmailChange}
+            onChange={handleAgeChange}
           />
         </div>
         <div className="my-6">
           <TextField
             fullWidth
-            // error={!isValidEmail}
+            error={!isValidEmail}
             label={register.email}
             onChange={handleEmailChange}
           />
@@ -101,14 +132,40 @@ const RegisterAuth = () => {
             />
           </FormControl>
         </div>
-        <div className="my-6">
+        {/* <div className="my-6">
+          <FormControl className="w-[100%]" variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              {register.re_pass}
+            </InputLabel>
+            <OutlinedInput
+              onChange={handlePasswordChange}
+              error={!isValidPassword}
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+        </div> */}
+        {/* <div className="my-6">
           <TextField
             fullWidth
             // error={!isValidEmail}
             label={register.re_pass}
             // onChange={handleEmailChange}
           />
-        </div>
+        </div> */}
         <div>
           <Button
             // disabled={email && password ? false : true}
@@ -122,7 +179,7 @@ const RegisterAuth = () => {
               marginBottom: "25px",
             }}
             variant="contained"
-            // onClick={handleOnSubmit}
+            onClick={handleOnSubmit}
           >
             <p>{register.buttonRegister}</p>
           </Button>

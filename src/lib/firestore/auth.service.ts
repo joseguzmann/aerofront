@@ -1,6 +1,7 @@
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import {
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
@@ -48,4 +49,51 @@ export const getCurrentUser = (fSnapshot: (snapshot: any) => void) => {
 
 export const signOutUser = () => {
   return signOut(auth);
+};
+
+export const registerWithEmail = async (
+  email: string,
+  password: string,
+  name: string,
+  lastName: string,
+  age: number
+) => {
+  await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      //Save user in database
+      saveUserToFireBase(user.uid, name, lastName, email, age);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // console.log("Bak", errorCode, errorMessage);
+      throw new Error(errorCode);
+    });
+};
+
+export const saveUserToFireBase = async (
+  uid: string,
+  name: string | null,
+  lastName: string | null,
+  email: string | null,
+  age: number
+) => {
+  // const userRef = ref(db, "users/" + uid);
+  // set(userRef, {
+  //   name: name,
+  //   lastName: lastName,
+  //   email: email,
+  // }).then(() => {
+  //   console.log("User saved");
+  // });
+
+  return await setDoc(doc(db, "pasajero", uid), {
+    nombre: name ? name : "",
+    apellido: lastName ? lastName : "",
+    correo_electronico: email ? email : "",
+    id: uid,
+    edad: age,
+  });
 };

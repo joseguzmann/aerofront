@@ -34,7 +34,6 @@ const LoginAuth = ({ flight, isRounded, flightRounded }: IProps) => {
     if (password) {
       setIsValidPassword(password.length >= 6);
     }
-  
   }, [password]);
 
   const handleMouseDownPassword = (
@@ -152,7 +151,24 @@ const LoginAuth = ({ flight, isRounded, flightRounded }: IProps) => {
             <div className="flex justify-center">
               <p>
                 {login.noAccount}{" "}
-                <Link href={"/register"}>{login.register}</Link>
+                <button
+                  onClick={() => {
+                    router.push({
+                      pathname: "/register",
+                      query: isRounded
+                        ? {
+                            isRounded: isRounded,
+                            flightRounded: JSON.stringify(flightRounded),
+                          }
+                        : {
+                            flight: JSON.stringify(flight),
+                          },
+                    });
+                  }}
+                >
+                  {login.register}
+                </button>
+                {/* <Link href={"/register"}></Link> */}
               </p>
             </div>
           </div>

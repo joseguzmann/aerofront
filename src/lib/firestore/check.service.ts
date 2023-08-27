@@ -6,7 +6,6 @@ import {
   addDoc,
   DocumentData,
   onSnapshot,
-  
   query,
   updateDoc,
 } from "firebase/firestore";
@@ -50,7 +49,7 @@ export const addFlightToBooking = async (
       id_pasajero: user.id,
       id_vuelo_: flight.id,
       nombre: user.nombre,
-      numero_telefonico: user.numero_telefonico,
+      numero_telefonico: user.numero_telefonico ? user.numero_telefonico : 0,
       origen: flight.origen.code,
       precio: flight.precio,
     });
@@ -179,12 +178,9 @@ export const uploadSeatsToFlight = (
   objSeats: { row: string; col: number; id: string; status: number }[]
 ) => {
   try {
-   
     objSeats.forEach(async (res) => {
       await setDoc(doc(db, "vuelo", idFlight, "seatsFlight", res.id), res);
     });
-
- 
   } catch (error) {
     console.log("ERROR: ", error);
   }

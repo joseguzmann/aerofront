@@ -29,7 +29,7 @@ const LoginAuth = ({ flight, isRounded, flightRounded }: IProps) => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
-  
+
   useEffect(() => {
     if (password) {
       setIsValidPassword(password.length >= 6);

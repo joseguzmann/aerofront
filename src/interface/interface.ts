@@ -4,6 +4,7 @@ export interface IPassenger {
   edad: number;
   id: string;
   nombre: string;
+  apellido: string;
   numero_telefonico: number;
 }
 

@@ -1,10 +1,38 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import React from "react";
+import React, { useEffect } from "react";
+import { IFlights, IPassenger, IRoundFlight } from "../../interface/interface";
+import { gmailSendEmail, gmailSendEmailRound } from "../gmail/GmailComponent";
 
 interface IProps {
+  detailsFlightBuy?: {
+    flight: IFlights;
+    passengersInfo: any[];
+    user: IPassenger;
+    bookingId: string;
+    princing: {
+      ticketTotal: number;
+      extrasTotal: number;
+      total: number;
+    };
+  };
+  detailsFlightBuyRound?: {
+    flight: IRoundFlight;
+    passengersInfo: any[];
+    user: IPassenger;
+    bookingId: string;
+    princing: {
+      ticketTotal: number;
+      extrasTotal: number;
+      total: number;
+    };
+  };
   value: number;
 }
-const PaypalComponent = ({ value }: IProps) => {
+const PaypalComponent = ({
+  value,
+  detailsFlightBuy,
+  detailsFlightBuyRound,
+}: IProps) => {
   return (
     <PayPalScriptProvider
       options={{
@@ -35,13 +63,26 @@ const PaypalComponent = ({ value }: IProps) => {
           console.log("Data:", data);
           return actions.order.capture().then((details: any) => {
             if (details.status === "COMPLETED") {
-              // handleBuyProducts(true);
-              console.log("COMPLETED");
-            }
-            if (details.payer.name) {
-              const name = details.payer.name.given_name;
-              // alert(`Transaction completed by ${name}`);
-              console.log(`Transaction completed by ${name}`);
+              if (details.payer.name) {
+                const name = details.payer.name.given_name;
+                if (detailsFlightBuy) {
+                  gmailSendEmail(name, detailsFlightBuy);
+                }
+                if (detailsFlightBuyRound) {
+                  gmailSendEmailRound(name, detailsFlightBuyRound);
+                }
+
+                // console.log(`Transaction completed by ${name}`);
+              } else {
+                console.log("SENDINGMAIL NO NAME");
+                if (detailsFlightBuy) {
+                  gmailSendEmail(null, detailsFlightBuy);
+                }
+                if (detailsFlightBuyRound) {
+                  gmailSendEmailRound(null, detailsFlightBuyRound);
+                }
+              }
+              //  console.log("COMPLETED");
             }
           });
         }}

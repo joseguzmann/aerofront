@@ -9,9 +9,9 @@ import PaymentRoundDetails from "../components/checkIn/PaymentRoundDetails";
 
 const PassengerConfirmation = () => {
   const router = useRouter();
-  //const {bookingId}:any = router.query;
+  const { bookingId }: any = router.query;
   const { flight, passengersInfo, flightRound }: any = router.query;
-  // const parsedBooking = bookingId ? JSON.parse(bookingId) : null;
+  const parsedBooking = bookingId ? JSON.parse(bookingId) : null;
   const parsedFlight = flight ? JSON.parse(flight) : null;
   const parsedFlightRound = flightRound ? JSON.parse(flightRound) : null;
   const parsedPassengersInfo = passengersInfo
@@ -27,12 +27,14 @@ const PassengerConfirmation = () => {
 
       {parsedFlight && (
         <PaymentDetails
+          bookingId={parsedBooking}
           passengersInfo={parsedPassengersInfo}
           flight={parsedFlight}
         />
       )}
       {parsedFlightRound && (
         <PaymentRoundDetails
+          bookingId={parsedBooking}
           flightRound={parsedFlightRound}
           passengersInfo={parsedPassengersInfo}
         />

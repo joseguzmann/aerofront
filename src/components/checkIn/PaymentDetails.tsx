@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { IFlights } from "../../interface/interface";
+import React, { useContext, useEffect, useState } from "react";
+import { IFlights, IPassenger } from "../../interface/interface";
 import CardFligth from "../fligthSearch/CardFligth";
 import PaypalComponent from "./PaypalComponent";
 import PassengersTotalDetails from "../fligthSearch/PassengersTotalDetails";
 import CheckExtrasDetails from "./CheckExtrasDetails";
+import UserContext from "../../contexts/userContext";
 
 interface IProps {
   flight: IFlights;
   passengersInfo: any;
+  bookingId: any;
 }
 
-const PaymentDetails = ({ flight, passengersInfo }: IProps) => {
+const PaymentDetails = ({ flight, passengersInfo, bookingId }: IProps) => {
   const [ticketTotal, setTicketTotal] = useState<number>(0);
   const [extrasTotal, setExtrastotal] = useState<number>(0);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
-   
-  }, []);
+
+  }, [user]);
   return (
     <div className=" relative flex justify-center items-center mb-20 ">
       <div className=" items-center  w-[75%]    ">
@@ -57,9 +60,30 @@ const PaymentDetails = ({ flight, passengersInfo }: IProps) => {
               </p>
             </div>
           </div>
-          <div className=" w-[50%]">
-            <PaypalComponent value={ticketTotal + extrasTotal} />
-          </div>
+          {user && (
+            <div className=" w-[50%]">
+              <PaypalComponent
+                value={ticketTotal + extrasTotal}
+                detailsFlightBuy={{
+                  flight: {
+                    ...flight,
+                  },
+                  passengersInfo: {
+                    ...passengersInfo,
+                  },
+                  user: {
+                    ...user,
+                  },
+                  bookingId: bookingId,
+                  princing: {
+                    ticketTotal: ticketTotal,
+                    extrasTotal: extrasTotal,
+                    total: ticketTotal + extrasTotal,
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { IFlights, IPassenger } from "../../interface/interface";
+import { IFlights } from "../../interface/interface";
 import CardFligth from "../fligthSearch/CardFligth";
 import PaypalComponent from "./PaypalComponent";
 import PassengersTotalDetails from "../fligthSearch/PassengersTotalDetails";

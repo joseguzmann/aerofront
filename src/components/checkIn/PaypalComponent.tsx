@@ -1,5 +1,5 @@
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import React, { useEffect } from "react";
+import React from "react";
 import { IFlights, IPassenger, IRoundFlight } from "../../interface/interface";
 import { gmailSendEmail, gmailSendEmailRound } from "../gmail/GmailComponent";
 

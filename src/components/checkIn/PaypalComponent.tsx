@@ -49,7 +49,6 @@ const PaypalComponent = ({
       progress: undefined,
       theme: "dark",
       onClose: () => {
-        console.log("END TOAS");
         router.push({ pathname: "/" });
       },
     });
@@ -108,9 +107,7 @@ const PaypalComponent = ({
                     gmailSendEmailRound(name, detailsFlightBuyRound);
                   }
 
-                  console.log("NOTIFY");
                   SuccesToast();
-                  // console.log(`Transaction completed by ${name}`);
                 } else {
                   console.log("SENDINGMAIL NO NAME");
                   if (detailsFlightBuy) {

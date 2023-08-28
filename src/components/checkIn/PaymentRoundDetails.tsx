@@ -22,8 +22,6 @@ const PaymentRoundDetails = ({
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    console.log("USER?:_ ", user);
-    console.log("ROUNDFLIGHT: ", flightRound);
   }, [user]);
   return (
     <div className=" relative flex justify-center items-center mb-20 ">

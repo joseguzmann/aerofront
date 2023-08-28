@@ -4,5 +4,5 @@ Run project
 
 pip install firebase-admin
 
-python generate_flights.py
+python generateFlightsAeroFly.py
 

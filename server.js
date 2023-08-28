@@ -112,7 +112,7 @@ router.post("/contact", (req, res) => {
             ${
               duracionRound
                 ? ` <p><span class="bold larger-text">Duration Round-trip:</span> ${duracionRound}</p>`
-                : null
+                : ""
             }
             <p><span class="bold larger-text">Departure Date:</span> ${fecha_salida}</p>
 
@@ -120,12 +120,12 @@ router.post("/contact", (req, res) => {
             ${
               fecha_salidaRound
                 ? ` <p><span class="bold larger-text">Departure Date Round-trip:</span> ${fecha_salidaRound}</p>`
-                : null
+                : ""
             }
               ${
                 fecha_regresoRound
                   ? ` <p><span class="bold larger-text">Arival Date Round-trip:</span> ${fecha_regresoRound}</p>`
-                  : null
+                  : ""
               }
             <p><span class="bold larger-text">Number of passengers :</span> ${num_pasajeros}</p>
           </div>

@@ -27,8 +27,6 @@ export const gmailSendEmail = async (
   name: string | null,
   details: IProps | undefined
 ) => {
-  console.log("name");
-  console.log("gmailSendEmail", details);
   if (details) {
     let mailData = {
       namePaypal: name
@@ -47,7 +45,8 @@ export const gmailSendEmail = async (
       extrasToal: details.princing.extrasTotal,
       total: details.princing.total,
     };
-    let response = await fetch("http://18.222.162.61:5000/contact", {
+     let response = await fetch("http://18.222.162.61:5000/contact", {
+    //let response = await fetch("http://localhost:5000/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -63,8 +62,7 @@ export const gmailSendEmailRound = async (
   name: string | null,
   details: IPropsround | undefined
 ) => {
-  console.log("name");
-  console.log("ROUNDED: EMAIL", details);
+
   if (details) {
     let mailData = {
       rounded: true,
